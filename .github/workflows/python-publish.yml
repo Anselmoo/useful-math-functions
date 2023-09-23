@@ -1,0 +1,80 @@
+# This workflow will upload a Python Package using Twine when a release is created
+# For more information see: https://help.github.com/en/actions/language-and-framework-guides/using-python-with-github-actions#publishing-to-package-registries
+
+name: Upload Python Package
+
+on:
+  release:
+    types: [created]
+
+jobs:
+
+  deploy:
+    name: Publish on PyPi
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.10"
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install build
+      - name: Build package
+        run: python -m build
+      - name: Publish package
+        uses: pypa/gh-action-pypi-publish@b7f401de30cb6434a1e19f805ff006643653240e
+        with:
+          user: __token__
+          password: ${{ secrets.TWINE_TOKEN }}
+
+  docs:
+      if: ${{ contains(github.event.release.prerelease, false) }}
+      name: Build Documentation from main'
+      needs: deploy
+      runs-on: ubuntu-latest
+      steps:
+        - uses: actions/checkout@v4
+          with:
+            fetch-depth: 0
+        - uses: actions/setup-python@v4
+          with:
+            python-version: "3.10"
+        - name: Install Poetry and dependencies with doc-dependencies
+          run: |
+            python -m pip install --upgrade pip
+            pip install poetry
+            poetry config virtualenvs.create true
+            poetry config virtualenvs.in-project true
+            poetry config virtualenvs.path .venv
+            poetry install --no-interaction --with docs --all-extras
+        - name: Install library
+          run: poetry install --no-interaction --with docs --all-extras
+        - name: Set git config
+          run: |
+            git config --local user.email "action@github.com"
+            git config --local user.name "GitHub Action"
+        - name: Fetch tags
+          run: git fetch --tags --prune
+        - name: Determine previous release
+          id: previous_release
+          run: echo "::set-output name=previous_tag::$(git describe --tags $(git rev-list --tags --skip=1 --max-count=1) --abbrev=0)"
+        - name: Determine current release
+          id: current_release
+          run: echo "::set-output name=current_tag::$(git describe --tags --abbrev=0)"
+        - name: Check if minor release
+          id: is_minor_release
+          run: |
+            previous_tag=$(/bin/echo ${{ steps.previous_release.outputs.previous_tag }})
+            current_tag=$(/bin/echo ${{ steps.current_release.outputs.current_tag }})
+            previous_version=$(echo $previous_tag | cut -d '.' -f 1,2)
+            current_version=$(echo $current_tag | cut -d '.' -f 1,2)
+            if [[ "$previous_version" == "$current_version" ]]; then
+              poetry run mike delete ${{ steps.previous_release.outputs.previous_tag }}
+            fi
+        - name: Deploy documentation develops
+          run: |
+            poetry run mike deploy --push --rebase --update-aliases ${{ github.event.release.tag_name }} latest --message "Release ${{ github.event.release.tag_name }}"
+            poetry run mike set-default --push --rebase lates

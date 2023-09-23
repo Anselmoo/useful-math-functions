@@ -1,0 +1,249 @@
+site_name: Useful Math Functions
+site_url: https://anselmoo.github.io/useful-math-functions/
+site_author: Anselm Hahn
+site_description: >-
+  "Useful Math Functions for Optimization, Benchmarking, Visualizing, and more ..."
+# Repository
+repo_name: Anselmoo/useful-math-functions
+repo_url: https://github.com/Anselmoo/useful-math-functions/
+edit_uri: https://github.com/Anselmoo/useful-math-functions/tree/main/docs
+
+# Copyright
+copyright: Copyright &copy; 2023 - Anselm Hahn
+
+# Configuration
+theme:
+  name: material
+  static_templates:
+    - 404.html
+  include_search_page: true
+  search_index_only: true
+  language: en
+  features:
+    - header.autohide
+    - content.code.annotate
+    - content.tabs.link
+    - content.action.view
+    - content.action.copy
+    - content.code.copy
+    - content.code.annotations
+    - navigation.expand
+    - navigation.expand
+    - navigation.indexes
+    - navigation.instant
+    - navigation.sections
+    - navigation.tabs
+    - navigation.tabs.sticky
+    - navigation.top
+    - navigation.tracking
+    - search.highlight
+    - search.share
+    - search.suggest
+    - toc.integrate
+    - toc.follow
+  palette:
+    # Palette toggle for automatic mode
+    - media: "(prefers-color-scheme)"
+      toggle:
+        icon: material/brightness-auto
+        name: Switch to light mode
+    # Palette toggle for light mode
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    # Palette toggle for dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/brightness-4
+        name: Switch to system preference
+  font:
+    text: Open Sans
+    code: Open Sans Mono
+  icon:
+    repo: material/github
+#  logo: images/logo.svg
+# favicon: images/logo.svg
+
+# Plugins
+plugins:
+  - search
+  - mkdocstrings:
+      handlers:
+        python:
+          options:
+            docstring_style: google
+  - autorefs
+  - section-index
+  - table-reader
+  # - literate-nav:
+  #     nav_file: SUMMARY.md
+  - minify:
+      minify_html: true
+      minify_css: true
+
+# Customization
+extra:
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/Anselmoo
+    - icon: fontawesome/brands/python
+      link: https://pypi.org/project/useful-math-functions/
+  version:
+    provider: mike
+    default: latest
+
+# Extensions
+markdown_extensions:
+  - admonition:
+  - abbr:
+  - attr_list:
+  - def_list:
+  - footnotes:
+  - meta:
+  - md_in_html:
+  - tables:
+  - toc:
+      permalink: true
+  - pymdownx.arithmatex:
+      generic: true
+      #block_tag: "pre"
+  - pymdownx.betterem:
+      smart_enable: all
+  - pymdownx.caret:
+  - pymdownx.critic:
+  - pymdownx.details:
+  - pymdownx.emoji:
+      emoji_index: !!python/name:materialx.emoji.twemoji
+      emoji_generator: !!python/name:materialx.emoji.to_svg
+  - pymdownx.escapeall:
+      hardbreak: True
+      nbsp: True
+  - pymdownx.tasklist:
+      custom_checkbox: true
+  - pymdownx.progressbar:
+  - pymdownx.highlight:
+      use_pygments: true
+      pygments_lang_class: true
+      auto_title: true
+      linenums: true
+      linenums_style: pymdownx-inline
+      anchor_linenums: true
+      guess_lang: true
+      extend_pygments_lang:
+        - name: pycon3
+          lang: pycon
+          options:
+            python3: true
+  - pymdownx.inlinehilite:
+      custom_inline:
+        - name: math
+          class: arithmatex
+          format:
+            !!python/object/apply:pymdownx.arithmatex.arithmatex_inline_format {
+              kwds: { mode: generic },
+            }
+  - pymdownx.keys:
+  - pymdownx.magiclink:
+      hide_protocol: true
+      repo_url_shortener: true
+      social_url_shortener: true
+      repo_url_shorthand: true
+      social_url_shorthand: true
+      normalize_issue_symbols: true
+      provider: github
+      user: Anselmoo
+      repo: useful-math-functions
+  - pymdownx.mark:
+  - pymdownx.smartsymbols:
+  - pymdownx.superfences:
+      preserve_tabs: true
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+        - name: math
+          class: arithmatex
+          format: !!python/name:pymdownx.arithmatex.fence_mathjax_format
+  - pymdownx.snippets:
+      check_paths: true
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.tasklist:
+      custom_checkbox: true
+  - pymdownx.tilde:
+  - pymdownx.blocks.admonition:
+  - pymdownx.blocks.details:
+  - pymdownx.blocks.html:
+  - pymdownx.blocks.definition:
+  - pymdownx.blocks.tab:
+      alternate_style: True
+      combine_header_slug: True
+      slugify:
+        !!python/object/apply:pymdownx.slugs.slugify { kwds: { case: lower } }
+
+extra_css:
+  - assets/stylesheets/css/extras.css
+
+extra_javascript:
+  - assets/stylesheets/js/config.js
+  - assets/stylesheets/js/katex.js
+  - https://polyfill.io/v3/polyfill.min.js?features=es6
+  - https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js
+
+# Page tree
+nav:
+  - Home: index.md
+  - Functions:
+      - modules/functions/index.md
+      - Continuous Distribution:
+          - 2𝛑 Interval: modules/functions/distributions/continuous_2pi_interval.md
+          - Bounded Interval: modules/functions/distributions/continuous_bounded_interval.md
+          - Semi Infinite Interval: modules/functions/distributions/continuous_semi_infinite_interval.md
+          - Variable Support: modules/functions/distributions/continuous_variable_support.md
+          - Whole Line Support: modules/functions/distributions/continuous_whole_line_support.md
+      - Discrete Distribution:
+          - Finite Support: modules/functions/distributions/discrete_finite_support.md
+          - Infinite Support: modules/functions/distributions/discrete_infinite_support.md
+      - Mixed Distribution: modules/functions/distributions/mixed_discrete_continuous.md
+      - Optimization:
+          - Bowl Shaped: modules/functions/optimization/bowl_shaped.md
+          - Drops Steps: modules/functions/optimization/drops_steps.md
+          - Many Local Minima: modules/functions/optimization/many_local_minima.md
+          - Plate Shaped: modules/functions/optimization/plate_shaped.md
+          - Special: modules/functions/optimization/special.md
+          - Valley Shaped: modules/functions/optimization/valley_shaped.md
+      - Others:
+          - Supporting Functions: modules/functions/others/support_functions.md
+  - Exporting:
+      - modules/export/index.md
+      - Visualization:
+          - 2D and 3D Plots: modules/export/2d_and_3d_plots.md
+          - GIFs: modules/export/gifs.md
+      - Dataset:
+          - Dataset Generation: modules/export/dataset_generation.md
+  - API:
+      - Functions:
+          - Data Generation:
+              - Modules: modules/api/data_generation.md
+          - Distributions:
+              - Modules: modules/api/distributions.md
+          - Meta Models & Patterns:
+              - Modules: modules/api/meta_models_and_patterns.md
+          - Optimization:
+              - Modules: modules/api/optimization.md
+          - Plots:
+              - Modules: modules/api/plots.md
+  - Further Readings:
+      - docs/index.md
+  - Extras:
+      - License: home/license.md
+      - Changelog: home/changelog.md
+      - Code of Conduct: home/code_of_conduct.md
+      - Contributing: home/contributing.md

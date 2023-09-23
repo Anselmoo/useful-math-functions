@@ -1,0 +1,76 @@
+# This workflow will install Python dependencies, run tests and lint with a variety of Python versions
+# For more information see: https://help.github.com/actions/language-and-framework-guides/using-python-with-github-actions
+
+name: Python package
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.10", "3.11"]
+
+    steps:
+    - uses: actions/checkout@v4
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v4
+      with:
+        python-version: ${{ matrix.python-version }}
+    - name: Install poetry
+      run: |
+        python -m pip install --upgrade pip
+        python -m pip install poetry
+        poetry config virtualenvs.create true
+        poetry config virtualenvs.in-project true
+        poetry config virtualenvs.path .venv
+    - name: Install dependencies
+      run: |
+        poetry install --all-extras --with=dev,check
+    - name: Test with pytest
+      run: |
+        poetry run pytest
+    - name: Codecov
+      uses: codecov/codecov-action@v3.1.4
+      with:
+        token: ${{ secrets.CODECOV_TOKEN }}
+        env_vars: OS,PYTHON
+
+  docs:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+    - name: Set up Python 3.10
+      uses: actions/setup-python@v4
+      with:
+        python-version: "3.10"
+    - name: Install poetry
+      run: |
+        python -m pip install --upgrade pip
+        python -m pip install poetry
+        poetry config virtualenvs.create true
+        poetry config virtualenvs.in-project true
+        poetry config virtualenvs.path .venv
+    - name: Install dependencies
+      run: |
+        poetry install --all-extras --with=docs
+    - name: Set git config
+      run: |
+        git config --local user.email "action@github.com"
+        git config --local user.name "GitHub Action"
+    - name: Build documentation
+      if: ${{ !contains(github.ref, 'refs/heads/main')}}
+      run: poetry run mkdocs build --clean
+    - name: Deploy documentation develops
+      if: contains(github.ref, 'refs/heads/main')
+      run: poetry run mike deploy --push --rebase --update-aliases develop

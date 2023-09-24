@@ -45,9 +45,9 @@
         heading_level: 0
         members: None
 
-|                          Probability Density Function                           |                            Cumulative Distribution Function                             |
-| :-----------------------------------------------------------------------------: | :-------------------------------------------------------------------------------------: |
-| ![SkewGaussianDistribution](../../../extra/images/SkewGaussianDistribution.png) | ![SkewGaussianDistribution-CML](../../../extra/images/SkewGaussianDistribution-cml.png) |
+|                          Probability Density Function                           |
+| :-----------------------------------------------------------------------------: |
+| ![SkewGaussianDistribution](../../../extra/images/SkewGaussianDistribution.png) |
 
 ## Laplace Distribution
 

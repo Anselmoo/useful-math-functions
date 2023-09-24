@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "useful-math-functions-functions"
+name = "useful-math-functions"
 version = "0.1.1"
 description = "useful-math-functions for Optimization, Benchmarking, Visualizing, and more ..."
 authors = ["Anselm Hahn <anselm.hahn@gmail.com>"]

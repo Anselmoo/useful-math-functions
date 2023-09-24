@@ -1,3 +1,5 @@
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.8373435.svg)](https://doi.org/10.5281/zenodo.8373435)
+
 # useful-math-functions
 
 `useful-math-functions` is a collection of useful mathematical functions with a

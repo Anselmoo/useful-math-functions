@@ -32,7 +32,7 @@
 | :-----------------------------------------------------------------: |
 | ![PearsonTypeVII](../../../extra/images/PearsonVIIDistribution.png) |
 
-## Asymmetric Random Lineshape Distribution
+## Asymmetric Raman Lineshape Distribution
 
 <!-- prettier-ignore -->
 ::: umf.functions.distributions.mixed_discrete_continuous.AsymmetricRamanLineshape

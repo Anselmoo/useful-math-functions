@@ -8,7 +8,7 @@ from __future__ import annotations
 # Distribution functions
 from umf.functions.distributions.continuous_2pi_interval import *  # noqa: F403
 from umf.functions.distributions.continuous_bounded_interval import *  # noqa: F403
-from umf.functions.distributions.continuous_semi_infinite_interval import *  # noqa: F403, E501
+from umf.functions.distributions.continuous_semi_infinite_interval import *  # noqa: F403
 from umf.functions.distributions.continuous_variable_support import *  # noqa: F403
 from umf.functions.distributions.continuous_whole_line_support import *  # noqa: F403
 from umf.functions.distributions.discrete_finite_support import *  # noqa: F403

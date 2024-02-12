@@ -21,10 +21,10 @@ import numpy as np
 from numpy.typing import NDArray
 
 
-UniversalArray = NDArray[np.int_ | np.float_ | np.complex_]
+UniversalArray = NDArray[np.int_ | np.float64 | np.complex128]
 UniversalArrayTuple = tuple[UniversalArray, ...]
 UniversalFloatTuple = tuple[float, ...]
-MeshArray = list[NDArray[np.float_]]
+MeshArray = list[NDArray[np.float64]]
 PlotlyScatterParameters = dict[
     str,
     UniversalArray | str | dict[str, UniversalArray | str | int],

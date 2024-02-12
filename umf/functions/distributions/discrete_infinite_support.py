@@ -327,8 +327,8 @@ class GausKuzminDistribution(DiscretePure):
     def __summary__(self) -> SummaryStatisticsAPI:
         """Summary statistics of the Gaus-Kuzmin distribution."""
         return SummaryStatisticsAPI(
-            mean=np.infty,
-            variance=np.infty,
+            mean=np.inf,
+            variance=np.inf,
             mode=1,
             doc=self.__doc__,
         )

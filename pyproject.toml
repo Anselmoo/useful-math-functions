@@ -21,7 +21,7 @@ pre-commit = "^2.20.0"
 pytest = "^7.2.0"
 pytest-cov = "^4.0.0"
 pytest-sugar = "^0.9.4"
-ruff = "^0.0.284"
+ruff = "^0.0.291"
 
 [tool.poetry.group.check.dependencies]
 scipy = "^1.11.2"

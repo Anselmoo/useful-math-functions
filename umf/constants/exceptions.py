@@ -1,4 +1,5 @@
 """Exceptions for the umf package."""
+
 from __future__ import annotations
 
 
@@ -23,12 +24,7 @@ class OutOfDimensionError(Exception):
     supported by the function.
     """
 
-    def __init__(
-        self,
-        *,
-        function_name: str,
-        dimension: int,
-    ) -> None:
+    def __init__(self, *, function_name: str, dimension: int) -> None:
         """Initialize the exception.
 
         Args:
@@ -62,6 +58,18 @@ class TooHighDimensionError(Exception):
             f"The maximum dimension of the function is '{max_dimension}', but the "
             f"input data has a dimension of '{current_dimension}'.",
         )
+
+
+class ExcessiveExponentError(Exception):
+    """Exception raised when the exponent in an operation is excessively large."""
+
+    def __init__(self, *, max_exponent: float, current_exponent: float) -> None:
+        """Initialize the exception."""
+        self.message = (
+            f"(n={current_exponent}) is too large."
+            f" The maximum exponent is {max_exponent}."
+        )
+        super().__init__(self.message)
 
 
 class TooLowDimensionError(Exception):
@@ -259,4 +267,40 @@ class NotLargerThanAnyError(Exception):
         super().__init__(
             f"The number '{number}' of variable '{var_number}' is not larger than "
             f"the required minimum '{minimum}'.",
+        )
+
+
+class NotSmallerThanAnyError(Exception):
+    """Exception raised when a number is not smaller than zero."""
+
+    def __init__(self, var_number: str, number: float, maximum: float) -> None:
+        """Initialize the exception.
+
+        Args:
+            var_number (str): The variable name of the number.
+            number (float): The number that is not smaller than zero.
+            maximum (float): The maximum value.
+        """
+        super().__init__(
+            f"The number '{number}' of variable '{var_number}' is not smaller than "
+            f"the required maximum '{maximum}'.",
+        )
+
+
+class NotInRangesError(Exception):
+    """Exception raised when a number is not in the required ranges."""
+
+    def __init__(
+        self, var_number: str, number: float, ranges: tuple[float, float],
+    ) -> None:
+        """Initialize the exception.
+
+        Args:
+            var_number (str): The variable name of the number.
+            number (float): The number that is not in the required ranges.
+            ranges (tuple[float, float]): The required ranges.
+        """
+        super().__init__(
+            f"The number '{number}' of variable '{var_number}' is not in the required "
+            f"ranges '{ranges}'.",
         )

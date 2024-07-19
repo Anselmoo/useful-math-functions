@@ -219,6 +219,8 @@ nav:
           - Plate Shaped: modules/functions/optimization/plate_shaped.md
           - Special: modules/functions/optimization/special.md
           - Valley Shaped: modules/functions/optimization/valley_shaped.md
+      - Theory:
+          - Pathological: modules/functions/theory/pathological.md
       - Others:
           - Supporting Functions: modules/functions/others/support_functions.md
   - Exporting:
@@ -230,14 +232,17 @@ nav:
           - Dataset Generation: modules/export/dataset_generation.md
   - API:
       - Functions:
-          - Data Generation:
-              - Modules: modules/api/data_generation.md
           - Distributions:
               - Modules: modules/api/distributions.md
-          - Meta Models & Patterns:
-              - Modules: modules/api/meta_models_and_patterns.md
           - Optimization:
               - Modules: modules/api/optimization.md
+          - Theory:
+              - Modules: modules/api/theory.md
+        - Others:
+          - Data Generation:
+              - Modules: modules/api/data_generation.md
+          - Meta Models & Patterns:
+              - Modules: modules/api/meta_models_and_patterns.md
           - Plots:
               - Modules: modules/api/plots.md
   - Further Readings:

@@ -1,4 +1,5 @@
 """API for function classes."""
+
 from __future__ import annotations
 
 from pydantic import BaseModel
@@ -100,4 +101,20 @@ class ResultsDistributionAPI(BaseModel):
         ...,
         description="Summary statistics of the data.",
     )
+    doc: str | None = Field(..., description="Function documentation string.")
+
+
+class ResultsPathologicalAPI(BaseModel):
+    """Results API for pathological functions."""
+
+    model_config = ConfigDict(arbitrary_types_allowed=True)
+    x: UniversalArrayTuple = Field(
+        ...,
+        description="Input data, which can be one, two, three, or higher dimensional.",
+    )
+    result: UniversalArray | MeshArray = Field(
+        ...,
+        description="Function value as numpy array or numpy mesh grid array.",
+    )
+
     doc: str | None = Field(..., description="Function documentation string.")

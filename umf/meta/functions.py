@@ -1,4 +1,5 @@
 """Reference class for functions to generate data for benchmarking."""
+
 from __future__ import annotations
 
 from abc import ABC
@@ -9,6 +10,7 @@ from typing import TYPE_CHECKING
 import numpy as np
 
 from umf.constants.dimensions import __1d__
+from umf.constants.exceptions import ExcessiveExponentError
 from umf.constants.exceptions import MissingXError
 from umf.constants.exceptions import NoCumulativeError
 from umf.constants.exceptions import NotAPositiveNumberError
@@ -16,6 +18,7 @@ from umf.constants.exceptions import OutOfDimensionError
 from umf.constants.exceptions import OutOfRangeError
 from umf.meta.api import ResultsDistributionAPI
 from umf.meta.api import ResultsFunctionAPI
+from umf.meta.api import ResultsPathologicalAPI
 
 
 if TYPE_CHECKING:
@@ -52,7 +55,7 @@ class OptFunction(ABC, metaclass=CoreElements):
 
     def __init__(self, *x: UniversalArray) -> None:
         """Initialize the function."""
-        if x is None:
+        if x[0] is None:
             raise MissingXError
 
         self._x: tuple[UniversalArray, ...] = x
@@ -83,6 +86,117 @@ class OptFunction(ABC, metaclass=CoreElements):
         )
 
 
+class PathologicalBase(ABC, metaclass=CoreElements):
+    """Base class for pathological functions.
+
+    This class serves as a template for creating objects that represent pathological
+    functions. These functions are defined over a specific interval and are
+    characterized by their shape parameters. The class provides the structure
+    for handling input data, defining the interval of interest, and specifying
+    the shape parameters of the function.
+
+    Args:
+        x (UniversalArray): Input data, which currently must be one-dimensional.
+        n_0 (int): Start of the interval. Defaults to 0.
+        n_1 (int): End of the interval. Defaults to 100.
+        max_safe_exponent (int | float): Maximum safe exponent. Defaults to 200.
+
+    Raises:
+        MissingXError: If no input data (x) is specified. This error is raised to ensure
+            that the function has the necessary data to operate on.
+        OutOfDimensionError: If the input data (x) has more than one dimension.
+            This error is raised because the function is designed to work with
+            one-dimensional data only.
+    """
+
+    def __init__(
+        self,
+        *x: UniversalArray,
+        n_0: int = 0,
+        n_1: int = 100,
+        max_safe_exponent: float = 200,
+    ) -> None:
+        """Initialize the function."""
+        if x[0] is None:
+            raise MissingXError
+
+        if len(x) != __1d__:
+            raise OutOfDimensionError(
+                function_name=self.__class__.__name__,
+                dimension=__1d__,
+            )
+        if np.abs(n_1) > max_safe_exponent:
+            raise ExcessiveExponentError(
+                max_exponent=max_safe_exponent,
+                current_exponent=n_1,
+            )
+
+        self._x = x[0]
+        self.n_0 = n_0
+        self.n_1 = n_1
+
+    @property
+    def __input__(self) -> UniversalArrayTuple:
+        """Return the input data."""
+        return (np.array(self._x),)
+
+    @property
+    @abstractmethod
+    def __eval__(self) -> UniversalArray:
+        """Evaluate the function."""
+
+    def __call__(self) -> ResultsPathologicalAPI:
+        """Return the results of the function."""
+        return ResultsPathologicalAPI(
+            x=self.__input__,
+            result=self.__eval__,
+            doc=self.__doc__,
+        )
+
+
+class PathologicalPure(PathologicalBase):
+    """Base class for pathological functions with a standard deviation.
+
+    Args:
+        x (UniversalArray): Input data, which currently must be one-dimensional.
+        n_0 (int): Start of the interval. Defaults to 0.
+        n_1 (int): End of the interval. Defaults to 100.
+    """
+
+    def __init__(
+        self,
+        *x: UniversalArray,
+        n_0: int = 0,
+        n_1: int = 100,
+    ) -> None:
+        """Initialize the function."""
+        super().__init__(*x, n_0=n_0, n_1=n_1)
+
+
+class PathologicalWithCoefficients(PathologicalBase):
+    """Base class for pathological functions with coefficients.
+
+    Args:
+        x (UniversalArray): Input data, which currently must be one-dimensional.
+        n_1 (int): End of the interval. Defaults to 100.
+        a (float): First shape parameter of the function.
+        b (float): Second shape parameter of the function.
+    """
+
+    def __init__(
+        self,
+        *x: UniversalArray,
+        n_0: int = 0,
+        n_1: int = 100,
+        a: float,
+        b: float,
+    ) -> None:
+        """Initialize the function."""
+        super().__init__(*x, n_0=n_0, n_1=n_1)
+        self.a = a
+        self.b = b
+
+
 class ContinuousDistributionBase(ABC, metaclass=CoreElements):
     """Base class for distributions with a standard deviation and beta parameter.
 
@@ -105,7 +219,7 @@ class ContinuousDistributionBase(ABC, metaclass=CoreElements):
         cumulative: bool = False,
     ) -> None:
         """Initialize the function."""
-        if x is None:
+        if x[0] is None:
             raise MissingXError
 
         if len(x) != __1d__:
@@ -180,8 +294,7 @@ class ContinuousWBeta(ContinuousDistributionBase):
             Defaults to False.
 
     Raises:
-        MissingXError: If no input data is specified.
-        OutOfDimensionError: If the input data has more than one dimension.
+        NotAPositiveNumberError: If the beta parameter is not a positive number.
     """
 
     def __init__(
@@ -194,7 +307,7 @@ class ContinuousWBeta(ContinuousDistributionBase):
         """Initialize the function."""
         super().__init__(*x, mu=mu, cumulative=cumulative)
         if beta <= 0:
-            raise NotAPositiveNumberError(number="beta")
+            raise NotAPositiveNumberError(var_number="beta", number=beta)
         self.beta = beta
 
 
@@ -280,7 +393,7 @@ class ContinuousWLambda(ContinuousDistributionBase):
         """Initialize the function."""
         super().__init__(*x, cumulative=cumulative)
         if lambda_ <= 0:
-            raise NotAPositiveNumberError(number=lambda_)
+            raise NotAPositiveNumberError(var_number="lambda_", number=lambda_)
         self.lambda_ = lambda_
 
 
@@ -397,10 +510,10 @@ class SemiContinuousWBeta(ContinuousDistributionBase):
     ) -> None:
         """Initialize the function."""
         if (min_x := np.min(x)) < 0:
-            raise NotAPositiveNumberError(number=float(min_x))
+            raise NotAPositiveNumberError(var_number="*x", number=float(min_x))
         super().__init__(*x, mu=mu, cumulative=cumulative)
         if beta <= 0:
-            raise NotAPositiveNumberError(number=beta)
+            raise NotAPositiveNumberError(var_number="beta", number=beta)
         self.beta = beta
 
 

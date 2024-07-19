@@ -11,7 +11,9 @@
         heading_level: 0
         members: None
 
-![BealeFunction](../../../extra/images/BealeFunction.png)
+|                                                           |
+| :-------------------------------------------------------: |
+| ![BealeFunction](../../../extra/images/BealeFunction.png) |
 
 ## Branin Function
 
@@ -26,7 +28,9 @@
         heading_level: 0
         members: None
 
-![BraninFunction](../../../extra/images/BraninFunction.png)
+|                                                             |
+| :---------------------------------------------------------: |
+| ![BraninFunction](../../../extra/images/BraninFunction.png) |
 
 ## Styblinski-Tang Function
 

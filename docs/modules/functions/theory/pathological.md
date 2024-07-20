@@ -1,7 +1,7 @@
 ## Weierstrass Function
 
 <!-- prettier-ignore -->
-::: umf.functions.optimization.theory.WeierstrassFunction
+::: umf.functions.theory.pathological.WeierstrassFunction
     options:
         show_bases: false
         show_source: true
@@ -18,7 +18,7 @@
 ## Riemann Function
 
 <!-- prettier-ignore -->
-::: umf.functions.optimization.theory.RiemannFunction
+::: umf.functions.theory.pathological.RiemannFunction
     options:
         show_bases: false
         show_source: true
@@ -34,7 +34,7 @@
 ## Takagi Function
 
 <!-- prettier-ignore -->
-::: umf.functions.optimization.theory.TakagiFunction
+::: umf.functions.theory.pathological.TakagiFunction
     options:
         show_bases: false
         show_source: true
@@ -51,7 +51,7 @@
 ## Mandelbrot's Fractal Function
 
 <!-- prettier-ignore -->
-::: umf.functions.optimization.theory.MandelbrotsFractalFunction
+::: umf.functions.theory.pathological.MandelbrotsFractalFunction
     options:
         show_bases: false
         show_source: true
@@ -68,7 +68,7 @@
 ## Besicovitch Function
 
 <!-- prettier-ignore -->
-::: umf.functions.optimization.theory.BesicovitchFunction
+::: umf.functions.theory.pathological.BesicovitchFunction
     options:
         show_bases: false
         show_source: true

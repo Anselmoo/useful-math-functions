@@ -2294,4 +2294,4 @@ plotly = ["kaleido", "plotly"]
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.10,<3.12"
-content-hash = "e765a636335366130e687bc2741ef15f8633304f263f950f20560e6c5dd21e95"
+content-hash = "b4793da2393d3e7f71dd64e868ad5d37406af306988327ca2fed13aabeb55393"

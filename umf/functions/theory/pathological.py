@@ -42,10 +42,12 @@ class WeierstrassFunction(PathologicalWithCoefficients):
         >>> (ax_return,) = ax.plot(x, wf.result)
         >>> def update(frame: int) -> tuple:
         ...     zoom_factor = frame / 25.0
-        ...     ax.set_xlim(-3 + zoom_factor, 3 - zoom_factor)
+        ...     ax.set_xlim(
+        ...             -3 + zoom_factor / 1.3, 3 - zoom_factor/ 1.3
+        ...         )
         ...     ax.set_ylim(
-        ...     -2.5 + zoom_factor / 2.5, 2.5 - zoom_factor / 5
-        ...     )
+        ...             -2.5 + zoom_factor / 2.5, 2.5 - zoom_factor / 5
+        ...         )
         ...     return (ax_return,)
         >>> ani = FuncAnimation(fig, update, frames=np.arange(0, 100), blit=True)
         >>> ani.save('WeierstrassFunction.gif', writer='imagemagick', fps=10)
@@ -129,10 +131,12 @@ class RiemannFunction(PathologicalPure):
         >>> (ax_return,) = ax.plot(x, rf.result)
         >>> def update(frame: int) -> tuple:
         ...     zoom_factor = frame / 25.0
-        ...     ax.set_xlim(-3 + zoom_factor, 3 - zoom_factor)
+        ...     ax.set_xlim(
+        ...         -3 + zoom_factor / 1.3, 3 - zoom_factor / 1.3
+        ...         )
         ...     ax.set_ylim(
-        ...     -2.5 + zoom_factor / 5, 2.5 - zoom_factor / 5
-        ...     )
+        ...             -2.5 + zoom_factor / 5, 2.5 - zoom_factor / 5
+        ...         )
         ...     return (ax_return,)
         >>> ani = FuncAnimation(fig, update, frames=np.arange(0, 100), blit=True)
         >>> ani.save('RiemannFunction.gif', writer='imagemagick', fps=10)
@@ -189,10 +193,12 @@ class TakagiFunction(PathologicalPure):
         >>> (ax_return,) = ax.plot(x, tf.result)
         >>> def update(frame: int) -> tuple:
         ...     zoom_factor = frame / 25.0
-        ...     ax.set_xlim(-1.5 + zoom_factor/2, 1.5 - zoom_factor/2)
+        ...     ax.set_xlim(
+        ...             -1.5 + zoom_factor / 2.5, 1.5 - zoom_factor / 2.5
+        ...         )
         ...     ax.set_ylim(
-        ...     0 + zoom_factor / 25, 0.6 - zoom_factor / 25
-        ...     )
+        ...          0 + zoom_factor / 25, 0.6 - zoom_factor / 25
+        ...         )
         ...     return (ax_return,)
         >>> ani = FuncAnimation(fig, update, frames=np.arange(0, 100), blit=True)
         >>> ani.save('TakagiFunction.gif', writer='imagemagick', fps=10)

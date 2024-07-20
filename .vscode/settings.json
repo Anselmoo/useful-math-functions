@@ -17,5 +17,8 @@
   "python.defaultInterpreterPath": "python",
   "python.analysis.importFormat": "absolute",
   "python.analysis.enablePytestExtra": true,
-  "python.analysis.enableSyncServer": true
+  "python.analysis.enableSyncServer": true,
+  "python.analysis.extraPaths": [
+    "umf"
+  ]
 }

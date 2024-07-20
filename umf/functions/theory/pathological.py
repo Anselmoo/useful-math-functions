@@ -30,7 +30,7 @@ class WeierstrassFunction(PathologicalWithCoefficients):
     continuous everywhere but differentiable nowhere. It is defined by an infinite
     series that oscillates too wildly to settle down to a smooth curve.
 
-    Example:
+    Examples:
         >>> import matplotlib.pyplot as plt
         >>> from matplotlib.animation import FuncAnimation
         >>> import numpy as np
@@ -117,7 +117,7 @@ class RiemannFunction(PathologicalPure):
     a series of terms. Each term in the series is calculated using the
     Riemann zeta function and the sine function.
 
-    Example:
+    Examples:
         >>> import matplotlib.pyplot as plt
         >>> from matplotlib.animation import FuncAnimation
         >>> import numpy as np
@@ -177,7 +177,7 @@ class TakagiFunction(PathologicalPure):
     The Takagi function is a fractal-like continuous function defined on the real line.
     It is also known as the Takagi-Landsberg function or the Blancmange function.
 
-    Example:
+    Examples:
         >>> import matplotlib.pyplot as plt
         >>> from matplotlib.animation import FuncAnimation
         >>> import numpy as np
@@ -252,7 +252,7 @@ class MandelbrotsFractalFunction(PathologicalPure):
     complex and boundary-defining structure, which reveals an infinitely detailed and
     varied pattern upon magnification.
 
-    Example:
+    Examples:
         >>> import matplotlib.pyplot as plt
         >>> from matplotlib.animation import FuncAnimation
         >>> import numpy as np
@@ -339,7 +339,7 @@ class BesicovitchFunction(PathologicalPure):
     The Besicovitch function is a fractal-like continuous function defined on the
     real line. It is also known as the Besicovitch-Eggleston function.
 
-    Example:
+    Examples:
         >>> import matplotlib.pyplot as plt
         >>> from matplotlib.animation import FuncAnimation
         >>> import numpy as np

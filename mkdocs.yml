@@ -238,7 +238,7 @@ nav:
               - Modules: modules/api/optimization.md
           - Theory:
               - Modules: modules/api/theory.md
-        - Others:
+      - Others:
           - Data Generation:
               - Modules: modules/api/data_generation.md
           - Meta Models & Patterns:

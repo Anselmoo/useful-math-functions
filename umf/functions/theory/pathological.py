@@ -212,7 +212,7 @@ class TakagiFunction(PathologicalPure):
         T(x) = \sum_{n=0}^{\infty} \frac{\phi(2^n x)}{2^n}
         $$
 
-        where $\(\phi(x)\)$ is the distance from $\(x\)$ to the nearest integer.
+        where $(\phi(x))$ is the distance from $(x)$ to the nearest integer.
 
         > Reference: https://en.wikipedia.org/wiki/Takagi_function
 
@@ -291,7 +291,7 @@ class MandelbrotsFractalFunction(PathologicalPure):
         M = \{c \in \mathbb{C} : \lim_{n \to \infty} |z_n| \leq 2\}
         $$
 
-        where \(z_{n+1} = z_n^2 + c\) and \(z_0 = 0\).
+        where $(z_{n+1} = z_n^2 + c)$ and $(z_0 = 0)$.
 
         > Reference: https://en.wikipedia.org/wiki/Mandelbrot_set
 

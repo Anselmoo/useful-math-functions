@@ -17,20 +17,20 @@ scipy = "^1.11.2"
 imagemagic = { version = "^0.2.1", optional = true }
 
 [tool.poetry.group.dev.dependencies]
-mypy = "^0.991"
-pre-commit = "^2.20.0"
-pytest = "^7.2.0"
-pytest-cov = "^4.0.0"
-pytest-sugar = "^0.9.4"
+mypy = "^1.0.0"
+pytest-sugar = "^1.0.0"
+pytest = "^8.0.0"
+pre-commit = "^3.0.0"
+pytest-cov = "^5.0.0"
 ruff = "^0.5.0"
 
 [tool.poetry.group.check.dependencies]
 scipy = "^1.11.2"
 
 [tool.poetry.group.docs.dependencies]
-mkdocs-glightbox = "^0.3.4"
+mkdocs-glightbox = "^0.4.0"
 mkdocs-material = "^9.1.21"
-mkdocs-minify-plugin = "^0.7.1"
+mkdocs-minify-plugin = "^0.8.0"
 mkdocs-git-revision-date-localized-plugin = "^1.2.0"
 mkdocstrings = { extras = ["python"], version = "^0.25.0" }
 mathjax = "^0.1.2"

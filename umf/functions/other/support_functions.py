@@ -1,4 +1,5 @@
 """Support functions for the umf.functions.other module."""
+
 from __future__ import annotations
 
 import math

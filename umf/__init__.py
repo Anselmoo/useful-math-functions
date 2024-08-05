@@ -1,4 +1,5 @@
 """The useful math functions package."""
+
 from __future__ import annotations
 
 

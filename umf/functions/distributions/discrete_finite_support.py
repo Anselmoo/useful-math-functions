@@ -1,4 +1,5 @@
 """Discrete distributions with finite support for the umf package."""
+
 from __future__ import annotations
 
 import math
@@ -175,9 +176,7 @@ class BinomialDistribution(DiscreteP):
     def probability_mass_function(self) -> UniversalArray:
         """Probability mass function of the Binomial distribution."""
         return (
-            combinations(self.n, self.k)
-            * self.p**self.k
-            * self.q ** (self.n - self.k)
+            combinations(self.n, self.k) * self.p**self.k * self.q ** (self.n - self.k)
         )
 
     def cumulative_distribution_function(self) -> UniversalArray:

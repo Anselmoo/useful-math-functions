@@ -151,7 +151,7 @@ class GeneralizedNormalDistribution(ContinuousWBeta):
         return (
             self.beta
             / (2 * self.alpha * gamma(1.0 / self.beta))
-            * np.exp(-np.abs((self._x - self.mu) / self.alpha) ** self.beta)
+            * np.exp(-(np.abs((self._x - self.mu) / self.alpha) ** self.beta))
         )
 
     def cumulative_distribution_function(self) -> UniversalArray:

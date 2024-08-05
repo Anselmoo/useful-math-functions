@@ -1,4 +1,5 @@
 """Discrete distributions with infinite support."""
+
 from __future__ import annotations
 
 from typing import TYPE_CHECKING
@@ -231,14 +232,14 @@ class MaxwellBoltzmannDistribution(DiscretePure):
         return (
             np.sqrt(2 / np.pi)
             * (self._x**2 / self.a**3)
-            * np.exp(-self._x**2 / (2 * self.a**2))
+            * np.exp(-(self._x**2) / (2 * self.a**2))
         )
 
     def cumulative_distribution_function(self) -> UniversalArray:
         """Cumulative distribution function of the Maxwell-Boltzmann distribution."""
         return erf(self._x / (np.sqrt(2) * self.a)) - np.sqrt(
             2 / np.pi,
-        ) * self._x / self.a * np.exp(-self._x**2 / (2 * self.a**2))
+        ) * self._x / self.a * np.exp(-(self._x**2) / (2 * self.a**2))
 
     @property
     def __summary__(self) -> SummaryStatisticsAPI:

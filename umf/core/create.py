@@ -1,4 +1,5 @@
 """Create math function and plot it."""
+
 from __future__ import annotations
 
 import json

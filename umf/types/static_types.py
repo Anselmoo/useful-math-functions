@@ -14,6 +14,7 @@
     - `PlotlyScatterParameters`: A dictionary of parameters used for plotting
         functions that take in two or more inputs.
 """
+
 from __future__ import annotations
 
 import numpy as np

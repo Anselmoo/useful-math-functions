@@ -1,4 +1,5 @@
 r"""Continuous distributions on the interval $[0, 2\pi]$."""
+
 from __future__ import annotations
 
 from typing import TYPE_CHECKING

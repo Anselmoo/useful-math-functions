@@ -68,19 +68,19 @@ class SummaryStatisticsAPI(BaseModel):
 
     model_config = ConfigDict(arbitrary_types_allowed=True)
     mean: float | None = Field(
-        ...,
+        default=...,
         description="Mean value of the data.",
     )
     variance: float | None = Field(
-        ...,
+        default=...,
         description="Variance of the data.",
     )
     mode: float | UniversalFloatTuple | None = Field(
-        ...,
+        default=...,
         description="Mode or modes of the data.",
     )
     doc: str | None = Field(
-        ...,
+        default=...,
         description="Documentation string for the summary statistics.",
     )
 
@@ -118,3 +118,25 @@ class ResultsPathologicalAPI(BaseModel):
     )
 
     doc: str | None = Field(..., description="Function documentation string.")
+
+
+class ResultsChaoticOscillatorAPI(BaseModel):
+    """Results API for chaotic oscillator functions."""
+
+    model_config = ConfigDict(arbitrary_types_allowed=True)
+    t: UniversalArrayTuple = Field(
+        ...,
+        description="Time array for the chaotic oscillator.",
+    )
+    initial_state: dict[str, UniversalArray] = Field(
+        default=...,
+        description="Initial conditions for the chaotic pendulum.",
+    )
+    result: UniversalArray = Field(
+        default=...,
+        description="Result of the chaotic oscillator.",
+    )
+    doc: str | None = Field(
+        default=...,
+        description="Function documentation string.",
+    )

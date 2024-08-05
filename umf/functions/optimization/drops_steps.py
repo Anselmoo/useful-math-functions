@@ -1,4 +1,5 @@
 """Drop steps functions for the useful-math-functions library."""
+
 from __future__ import annotations
 
 from typing import TYPE_CHECKING

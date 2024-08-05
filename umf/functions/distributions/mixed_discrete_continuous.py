@@ -1,4 +1,5 @@
 """Mixed discrete-continuous distributions for the for the umf package."""
+
 from __future__ import annotations
 
 from typing import TYPE_CHECKING
@@ -161,9 +162,7 @@ class CrystalBallDistribution(ContinuousWSigma):
         if self.n == 1:
             _n = self.n
         else:
-            _c = (
-                self.n / abs(self.alpha) / (self.n - 1) * np.exp(-(self.alpha**2) / 2)
-            )
+            _c = self.n / abs(self.alpha) / (self.n - 1) * np.exp(-(self.alpha**2) / 2)
             _d = np.sqrt(np.pi / 2) * (1 + erf(x=abs(self.alpha) / np.sqrt(2)))
             _n = 1 / (self.sigma * (_c + _d))
         return np.where(

@@ -729,7 +729,7 @@ class ContinuousBoundedInterval(ContinuousDistributionBase):
         super().__init__(*x, cumulative=cumulative)
 
 
-class OscillatorsFunc(ABC, metaclass=CoreElements):
+class OscillatorsFuncBase(ABC, metaclass=CoreElements):
     """Base class for chaotic oscillators.
 
     Args:
@@ -838,3 +838,35 @@ class OscillatorsFunc(ABC, metaclass=CoreElements):
             initial_state=self.__initial_configuration__,
             doc=self.__doc__,
         )
+
+
+class OscillatorsFunc2D(OscillatorsFuncBase):
+    """Base class for two-dimensional chaotic oscillators."""
+
+    @property
+    def to_position(self) -> UniversalArrayTuple:
+        """Return the position of the oscillator."""
+        y = self.solve()
+        return y[:, 0], y[:, 2]
+
+    @property
+    def to_velocity(self) -> UniversalArrayTuple:
+        """Return the velocity of the oscillator."""
+        y = self.solve()
+        return y[:, 1], y[:, 3]
+
+
+class OscillatorsFunc3D(OscillatorsFuncBase):
+    """Base class for three-dimensional chaotic oscillators."""
+
+    @property
+    def to_position(self) -> UniversalArrayTuple:
+        """Return the position of the oscillator."""
+        y = self.solve()
+        return y[:, 0], y[:, 1], y[:, 2]
+
+    @property
+    def to_velocity(self) -> UniversalArrayTuple:
+        """Return the velocity of the oscillator."""
+        y = self.solve()
+        return y[:, 3], y[:, 4], y[:, 5]

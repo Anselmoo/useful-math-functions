@@ -313,7 +313,9 @@ class TimeFormatError(Exception):
     """Exception raised when the time format is not recognized."""
 
     def __init__(
-        self, time_format: str, valid_formats: list[str] | None = None,
+        self,
+        time_format: str,
+        valid_formats: list[str] | None = None,
     ) -> None:
         """Initialize the exception.
 

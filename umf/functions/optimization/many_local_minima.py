@@ -649,7 +649,7 @@ class LangermannFunction(OptFunction):
     def __init__(
         self,
         *x: UniversalArray,
-        A: UniversalArray = None,  # noqa: N803
+        A: UniversalArray = None,
         c: UniversalArray = None,
         m: int = 5,
     ) -> None:

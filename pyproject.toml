@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "useful-math-functions"
-version = "0.1.2"
+version = "0.1.3"
 description = "useful-math-functions for Optimization, Benchmarking, Visualizing, and more ..."
 authors = ["Anselm Hahn <anselm.hahn@gmail.com>"]
 readme = "README.md"
@@ -57,29 +57,30 @@ show_missing = true
 [tool.ruff]
 line-length = 88
 target-version = "py310"
-select = ["ALL"]
 fix = true
 
-ignore = ["ANN101"] # annotations for self
+lint.select = ["ALL", "W291"]
+lint.ignore = ["ANN101", "ISC001", "COM812", "N803"] # annotations for self
 src = ["umf"]
 
-[tool.ruff.per-file-ignores]
+[tool.ruff.lint.per-file-ignores]
 "umf/**/test_*.py" = [
     "PLR2004", # magic value comparison
     "S101",    # use of assert detected
     "TCH002",  # third party import (for pytest)
 ]
 
-[tool.ruff.pydocstyle]
+[tool.ruff.lint.pydocstyle]
 convention = "google"
 
-[tool.ruff.isort]
+[tool.ruff.lint.isort]
 known-first-party = ["umf"]
 force-single-line = true
 lines-between-types = 1
 lines-after-imports = 2
 known-third-party = ["poetry.core"]
 required-imports = ["from __future__ import annotations"]
+
 
 [tool.mypy]
 plugins = "pydantic.mypy"

@@ -1,4 +1,5 @@
 """Chaotic Oscillators functions."""
+
 from __future__ import annotations
 
 from collections import OrderedDict
@@ -73,7 +74,7 @@ class DoublePendulum(OscillatorsFuncBase):
         \end{align*}
         $$
 
-        with $\dot{\theta_1} &= z_1 \\$ and $\dot{\theta_2} &= z_2$.
+        with $\dot{\theta_1} = z_1 \\$ and $\dot{\theta_2} = z_2$.
 
     Args:
         *time_points (UniversalArray): The array of time points at which the
@@ -162,7 +163,7 @@ class DoublePendulum(OscillatorsFuncBase):
     def equation_of_motion(
         self,
         initial_state: list[float],
-        t: UniversalArray, # noqa: ARG002
+        t: UniversalArray,  # noqa: ARG002
     ) -> tuple[float, float, float, float]:
         """Return the equation of motion of the double pendulum.
 
@@ -285,9 +286,9 @@ class MagneticPendulum(OscillatorsFuncBase):
         \end{align*}
         $$
 
-        with $\frac{d\theta}{dt} &= \omega_\theta$ and
-        $\frac{d\phi}{dt} &= \omega_\phi$, while components of the magnetic force
-        $\((f_{mx}, f_{my}, f_{mz})\)$ are calculated as follows:
+        with $\frac{d\theta}{dt} = \omega_\theta$ and
+        $\frac{d\phi}{dt} = \omega_\phi$, while components of the magnetic force
+        $((f_{mx}, f_{my}, f_{mz}))$ are calculated as follows:
 
         $$
         \begin{align*}
@@ -629,14 +630,13 @@ class LorenzAttractor(OscillatorsFunc3D):
         \end{align*}
         $$
 
-        with:
+        with the parameters of the system are as follows: $ \sigma$ is the Prandtl
+        number, which describes the ratio of momentum diffusivity to thermal
+        diffusivity, while  \rho $ is the Rayleigh number, which describes
+        the difference in temperature between the top and bottom of the fluid layer.
+        Finally, the $ \beta $ is a geometric factor related to the physical dimensions
+        of the system.
 
-            - $( \sigma )$ is the Prandtl number, which describes the ratio of momentum
-                diffusivity to thermal diffusivity.
-            - $( \rho )$ is the Rayleigh number, which describes the difference in
-                temperature between the top and bottom of the fluid layer.
-            - $( \beta )$ is a geometric factor related to the physical dimensions of
-                the system.
 
     Args:
         *time_points (UniversalArray): The array of time points at which the

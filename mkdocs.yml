@@ -221,6 +221,8 @@ nav:
           - Valley Shaped: modules/functions/optimization/valley_shaped.md
       - Theory:
           - Pathological: modules/functions/theory/pathological.md
+      - Chaotic Systems:
+          - Oscillators: modules/functions/chaotic/oscillators.md
       - Others:
           - Supporting Functions: modules/functions/others/support_functions.md
   - Exporting:
@@ -238,6 +240,8 @@ nav:
               - Modules: modules/api/optimization.md
           - Theory:
               - Modules: modules/api/theory.md
+          - Chaotic Systems:
+              - Modules: modules/api/chaotic_systems.md
       - Others:
           - Data Generation:
               - Modules: modules/api/data_generation.md

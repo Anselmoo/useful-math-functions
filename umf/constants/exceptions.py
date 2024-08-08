@@ -291,7 +291,10 @@ class NotInRangesError(Exception):
     """Exception raised when a number is not in the required ranges."""
 
     def __init__(
-        self, var_number: str, number: float, ranges: tuple[float, float],
+        self,
+        var_number: str,
+        number: float,
+        ranges: tuple[float, float],
     ) -> None:
         """Initialize the exception.
 
@@ -304,3 +307,35 @@ class NotInRangesError(Exception):
             f"The number '{number}' of variable '{var_number}' is not in the required "
             f"ranges '{ranges}'.",
         )
+
+
+class TimeFormatError(Exception):
+    """Exception raised when the time format is not recognized."""
+
+    def __init__(
+        self,
+        time_format: str,
+        valid_formats: list[str] | None = None,
+    ) -> None:
+        """Initialize the exception.
+
+        Args:
+            time_format (str): The time format that is not recognized.
+            valid_formats (list[str], optional): A list of valid time formats. Defaults
+                to None.
+        """
+        self.time_format = time_format
+        self.valid_formats = valid_formats or ["seconds", "minutes", "hours", "days"]
+        super().__init__(self._generate_message())
+
+    def _generate_message(self) -> str:
+        """Generate the exception message."""
+        valid_formats_str = ", ".join(self.valid_formats)
+        return (
+            f"The time format '{self.time_format}' is not recognized. "
+            f"Valid formats are: {valid_formats_str}."
+        )
+
+    def __str__(self) -> str:
+        """Return the string representation of the exception."""
+        return self._generate_message()

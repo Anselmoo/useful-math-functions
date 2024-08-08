@@ -1,4 +1,5 @@
 """Bowl shaped functions for the useful-math-functions library."""
+
 from __future__ import annotations
 
 from typing import TYPE_CHECKING
@@ -739,10 +740,7 @@ class BohachevskyFunctionType3(OptFunction):
         x_1 = self._x[0]
         x_2 = self._x[1]
         return (
-            x_1**2
-            + 2 * x_2**2
-            - 0.3 * np.cos(3 * np.pi * x_1 + 4 * np.pi * x_2)
-            + 0.3
+            x_1**2 + 2 * x_2**2 - 0.3 * np.cos(3 * np.pi * x_1 + 4 * np.pi * x_2) + 0.3
         )
 
     @property

@@ -1,4 +1,5 @@
 """Constants for umf for avoiding magic numbers."""
+
 from __future__ import annotations
 
 

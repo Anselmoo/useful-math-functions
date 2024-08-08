@@ -1,4 +1,5 @@
 """Continuous variable support distributions for the umf module."""
+
 from __future__ import annotations
 
 from typing import TYPE_CHECKING
@@ -388,9 +389,11 @@ class GeneralizedParetoDistribution(ContinuousMixed):
         """Summary statistics of the generalized Pareto distribution."""
         SummaryStatisticsAPI(
             mean=self.mu + self.sigma / (1 - self.zeta) if self.zeta < 1 else np.inf,
-            variance=self.sigma**2 / (1 - self.zeta) ** 2 / (1 - 2 * self.zeta)
-            if self.zeta < 0.5  # noqa: PLR2004
-            else np.inf,
+            variance=(
+                self.sigma**2 / (1 - self.zeta) ** 2 / (1 - 2 * self.zeta)
+                if self.zeta < 0.5  # noqa: PLR2004
+                else np.inf
+            ),
             mode=self.mu,
             doc=self.__doc__,
         )

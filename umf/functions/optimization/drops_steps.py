@@ -1,4 +1,5 @@
 """Drop steps functions for the useful-math-functions library."""
+
 from __future__ import annotations
 
 from typing import TYPE_CHECKING
@@ -75,7 +76,7 @@ class DeJongN5Function(OptFunction):
     def __init__(
         self,
         *x: UniversalArray,
-        A: UniversalArray | None = None,  # noqa: N803
+        A: UniversalArray | None = None,
     ) -> None:
         """Initialize the function."""
         if len(x) != __2d__:

@@ -1,4 +1,5 @@
 """Continuous bounded interval distributions for the umf package."""
+
 from __future__ import annotations
 
 from typing import TYPE_CHECKING

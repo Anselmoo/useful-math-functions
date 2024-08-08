@@ -12,6 +12,7 @@
         contour, surface, and dashboard formats, as well as animating the plot. It also
         defines abstract methods for showing and saving the plot.
 """
+
 from __future__ import annotations
 
 from abc import ABC
@@ -85,6 +86,23 @@ class GIFSettings(NamedTuple):
     azim: int = 5
     frames: int = 72
     interval: int = 50
+
+
+class AnimationSettings(NamedTuple):
+    """A named tuple representing the settings for the animation of a 2D and 3D plot.
+
+    Args:
+        frames (int, optional): The number of frames in the animation. Defaults to 40.
+        interval (int, optional): The delay between frames in milliseconds. Defaults
+            to 30.
+        dpi (int, optional): The resolution of the output animation in dots per inch.
+            Defaults to 100.
+    """
+
+    frames: int = 40
+    interval: int = 30
+    dpi: int = 100
+    steps: int = 100
 
 
 class Plot(ABC):

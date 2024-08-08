@@ -1,4 +1,5 @@
 """Many local minima functions for the useful-math-functions library."""
+
 from __future__ import annotations
 
 from typing import TYPE_CHECKING
@@ -648,7 +649,7 @@ class LangermannFunction(OptFunction):
     def __init__(
         self,
         *x: UniversalArray,
-        A: UniversalArray = None,  # noqa: N803
+        A: UniversalArray = None,
         c: UniversalArray = None,
         m: int = 5,
     ) -> None:

@@ -1,0 +1,1 @@
+::: umf.functions.chaotic.oscillators

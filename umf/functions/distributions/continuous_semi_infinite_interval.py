@@ -1,4 +1,5 @@
 """Continuous distributions with support for semi-infinite intervals for the umf."""
+
 from __future__ import annotations
 
 from typing import TYPE_CHECKING
@@ -111,9 +112,7 @@ class RayleighDistribution(SemiContinuousWSigma):
 
     def probability_density_function(self) -> UniversalArray:
         """Return the probability density function."""
-        return (
-            self._x / self.sigma**2 * np.exp(-(self._x**2) / (2 * self.sigma**2))
-        )
+        return self._x / self.sigma**2 * np.exp(-(self._x**2) / (2 * self.sigma**2))
 
     def cumulative_distribution_function(self) -> UniversalArray:
         """Return the cumulative distribution function."""
@@ -357,8 +356,7 @@ class LogNormalDistribution(SemiContinuousWSigma):
         """Return the summary statistics."""
         return SummaryStatisticsAPI(
             mean=np.exp(self.mu + self.sigma**2 / 2),
-            variance=(np.exp(self.sigma**2) - 1)
-            * np.exp(2 * self.mu + self.sigma**2),
+            variance=(np.exp(self.sigma**2) - 1) * np.exp(2 * self.mu + self.sigma**2),
             mode=np.exp(self.mu - self.sigma**2),
             doc=self.__doc__,
         )

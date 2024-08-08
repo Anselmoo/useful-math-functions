@@ -6,8 +6,11 @@ from abc import ABC
 from abc import ABCMeta
 from abc import abstractmethod
 from typing import TYPE_CHECKING
+from typing import Any
 
 import numpy as np
+
+from scipy.integrate import odeint
 
 from umf.constants.dimensions import __1d__
 from umf.constants.exceptions import ExcessiveExponentError
@@ -16,6 +19,8 @@ from umf.constants.exceptions import NoCumulativeError
 from umf.constants.exceptions import NotAPositiveNumberError
 from umf.constants.exceptions import OutOfDimensionError
 from umf.constants.exceptions import OutOfRangeError
+from umf.constants.exceptions import TimeFormatError
+from umf.meta.api import ResultsChaoticOscillatorAPI
 from umf.meta.api import ResultsDistributionAPI
 from umf.meta.api import ResultsFunctionAPI
 from umf.meta.api import ResultsPathologicalAPI
@@ -722,3 +727,146 @@ class ContinuousBoundedInterval(ContinuousDistributionBase):
                 end_range=end,
             )
         super().__init__(*x, cumulative=cumulative)
+
+
+class OscillatorsFuncBase(ABC, metaclass=CoreElements):
+    """Base class for chaotic oscillators.
+
+    Args:
+        *time_points (UniversalArray): The array of time points at which the
+            oscillator's state is evaluated.
+        time_format (str): The format of the time data. Defaults to "seconds".
+        velocity (bool): Whether to return the velocity of the oscillator.
+            Defaults to False.
+
+    Raises:
+        MissingXError: If no input data is specified.
+        OutOfDimensionError: If the input data has more than one dimension.
+        TimeFormatError: If the time format is not valid.
+    """
+
+    def __init__(
+        self,
+        *t: UniversalArray,
+        time_format: str = "seconds",
+        velocity: bool = False,
+    ) -> None:
+        """Initialize the function."""
+        if t[0] is None:
+            raise MissingXError
+
+        if len(t) != __1d__:
+            raise OutOfDimensionError(
+                function_name=self.__class__.__name__,
+                dimension=__1d__,
+            )
+
+        self.time_format = time_format
+        self.t = self.convert2sec(t[0])
+        self.velocity = velocity
+
+    def convert2sec(self, t: UniversalArray) -> UniversalArray:
+        """Convert the time data to seconds.
+
+        Args:
+            t (UniversalArray): The initial time data as input.
+
+        Returns:
+            UniversalArray: The time data converted to seconds.
+        """
+        conversion_factors = {"seconds": 1, "minutes": 60, "hours": 3600, "days": 86400}
+
+        if self.time_format in conversion_factors:
+            return t * conversion_factors[self.time_format]
+        raise TimeFormatError(
+            time_format=self.time_format,
+            valid_formats=list(conversion_factors.keys()),
+        )
+
+    @property
+    def __input__(self) -> UniversalArrayTuple:
+        """Return the input data."""
+        return (self.t,)
+
+    def setup_initial_state(self) -> UniversalArray:
+        """Setup the initial state of the oscillator."""
+        raise NotImplementedError
+
+    @property
+    @abstractmethod
+    def __initial_configuration__(self) -> dict[str, UniversalArray]:
+        """Initialize the state of the oscillator."""
+
+    @property
+    @abstractmethod
+    def initial_state(self) -> list[float]:
+        """Return the initial state of the oscillator."""
+
+    @abstractmethod
+    def equation_of_motion(self, initial_state: list[float], t: float) -> tuple:
+        """Return the equation of motion of the oscillator."""
+
+    def solve(self, **kwargs: dict[str, Any]) -> UniversalArrayTuple:
+        """Solve the equation of motion of the oscillator."""
+        return odeint(
+            func=self.equation_of_motion,
+            y0=self.initial_state,
+            t=self.t,
+            **kwargs,
+        )
+
+    @property
+    @abstractmethod
+    def to_position(self) -> UniversalArray:
+        """Return the position of the oscillator."""
+
+    @property
+    @abstractmethod
+    def to_velocity(self) -> UniversalArray:
+        """Return the velocity of the oscillator."""
+
+    @property
+    def __eval__(self) -> UniversalArray:
+        """Evaluate the function."""
+        return self.to_velocity if self.velocity else self.to_position
+
+    def __call__(self) -> ResultsChaoticOscillatorAPI:
+        """Return the results of the function."""
+        return ResultsChaoticOscillatorAPI(
+            t=self.__input__,
+            result=self.__eval__,
+            initial_state=self.__initial_configuration__,
+            doc=self.__doc__,
+        )
+
+
+class OscillatorsFunc2D(OscillatorsFuncBase):
+    """Base class for two-dimensional chaotic oscillators."""
+
+    @property
+    def to_position(self) -> UniversalArrayTuple:
+        """Return the position of the oscillator."""
+        y = self.solve()
+        return y[:, 0], y[:, 2]
+
+    @property
+    def to_velocity(self) -> UniversalArrayTuple:
+        """Return the velocity of the oscillator."""
+        y = self.solve()
+        return y[:, 1], y[:, 3]
+
+
+class OscillatorsFunc3D(OscillatorsFuncBase):
+    """Base class for three-dimensional chaotic oscillators."""
+
+    @property
+    def to_position(self) -> UniversalArrayTuple:
+        """Return the position of the oscillator."""
+        y = self.solve()
+        return y[:, 0], y[:, 1], y[:, 2]
+
+    @property
+    def to_velocity(self) -> UniversalArrayTuple:
+        """Return the velocity of the oscillator."""
+        y = self.solve()
+        return y[:, 3], y[:, 4], y[:, 5]

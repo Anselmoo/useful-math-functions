@@ -702,7 +702,7 @@ class RoesslerAttractor(OscillatorsFunc3D):
     r"""Roessler Attractor differential equation.
 
     The Roessler attractor is a set of differential equations that exhibit chaotic
-    behavior. The Rossler attractor consists of three coupled differential equations
+    behavior. The Roessler attractor consists of three coupled differential equations
     that describe the motion of a system in a simplified model of atmospheric
     convection.
 
@@ -738,10 +738,10 @@ class RoesslerAttractor(OscillatorsFunc3D):
         ...     _ = ax.set_title(f"t = {t[frame]:.2f} seconds")
         ...     return line, point
         >>> ani = FuncAnimation(fig, update, frames=len(t), interval=10, blit=False)
-        >>> ani.save('RosslerAttractor.gif', writer='imagemagick', fps=10)
+        >>> ani.save('RoesslerAttractor.gif', writer='imagemagick', fps=10)
 
     Notes:
-        The Rossler attractor differential equation is defined as:
+        The Roessler attractor differential equation is defined as:
 
         $$
         \begin{align*}
@@ -754,10 +754,10 @@ class RoesslerAttractor(OscillatorsFunc3D):
         *time_points (UniversalArray): The array of time points at which the
             oscillator's state is evaluated.
         time_format (str, optional): The time format. Defaults to "seconds".
-        a (float, optional): The a parameter of the Rossler attractor. Defaults to 0.2.
-        b (float, optional): The b parameter of the Rossler attractor. Defaults to 0.2.
-        c (float, optional): The c parameter of the Rossler attractor. Defaults to 5.7.
-        velocity (bool, optional): Whether to return the velocity of the Rossler
+        a (float, optional): The a parameter of the Roessler attractor. Defaults to 0.2.
+        b (float, optional): The b parameter of the Roessler attractor. Defaults to 0.2.
+        c (float, optional): The c parameter of the Roessler attractor. Defaults to 5.7.
+        velocity (bool, optional): Whether to return the velocity of the Roessler
             attractor. Defaults to False.
     """
 
@@ -778,12 +778,12 @@ class RoesslerAttractor(OscillatorsFunc3D):
 
     @property
     def __initial_configuration__(self) -> dict[str, float]:
-        """Return the initial configuration of the Rossler attractor."""
+        """Return the initial configuration of the Roessler attractor."""
         return {"a": self.a, "b": self.b, "c": self.c}
 
     @property
     def initial_state(self) -> list[float]:
-        """Return the initial state of the Rossler attractor."""
+        """Return the initial state of the Roessler attractor."""
         return [0.1, 0.0, 0.0]
 
     def equation_of_motion(
@@ -791,14 +791,15 @@ class RoesslerAttractor(OscillatorsFunc3D):
         initial_state: list[float],
         t: UniversalArray,  # noqa: ARG002
     ) -> tuple[float, float, float]:
-        """Return the equation of motion of the Rossler attractor.
+        """Return the equation of motion of the Roessler attractor.
 
         Args:
-            initial_state (list[float]): The initial state of the Rossler attractor.
+            initial_state (list[float]): The initial state of the Roessler attractor.
             t (UniversalArray): The time array.
 
         Returns:
-            tuple[float, float, float]: The equation of motion of the Rossler attractor.
+            tuple[float, float, float]: The equation of motion of the Roessler
+                attractor.
         """
         x, y, z = initial_state
         x_dot = -y - z

@@ -56,7 +56,7 @@ class DoublePendulum(OscillatorsFuncBase):
         ...     _ = ax.set_title(f"t = {t[frame]:.2f} seconds")
         ...     return line
         >>> ani = FuncAnimation(fig, update, frames=len(t), interval=10, blit=True)
-        >>> ani.save('DoublePendulum.gif', writer='imagemagick', fps=10)
+        >>> # ani.save('DoublePendulum.gif', writer='imagemagick', fps=10)
 
     Notes:
         The double pendulum differential equation is defined as:
@@ -617,7 +617,7 @@ class LorenzAttractor(OscillatorsFunc3D):
         ...     _ = ax.set_title(f"t = {t[frame]:.2f} seconds")
         ...     return line, point
         >>> ani = FuncAnimation(fig, update, frames=len(t), interval=10, blit=True)
-        >>> ani.save('LorenzAttractor.gif', writer='imagemagick', fps=10)
+        >>> # ani.save('LorenzAttractor.gif', writer='imagemagick', fps=10)
 
     Notes:
         The Lorenz attractor differential equation is defined as:
@@ -738,7 +738,7 @@ class RoesslerAttractor(OscillatorsFunc3D):
         ...     _ = ax.set_title(f"t = {t[frame]:.2f} seconds")
         ...     return line, point
         >>> ani = FuncAnimation(fig, update, frames=len(t), interval=10, blit=True)
-        >>> ani.save('RoesslerAttractor.gif', writer='imagemagick', fps=10)
+        >>> # ani.save('RoesslerAttractor.gif', writer='imagemagick', fps=10)
 
     Notes:
         The Roessler attractor differential equation is defined as:
@@ -837,7 +837,7 @@ class DuffingOscillator(OscillatorsFunc2D):
         ...     ax.set_title(f"t = {t[frame]:.2f} seconds")
         ...     return line, dots
         >>> ani = FuncAnimation(fig, update, frames=len(t), interval=10, blit=True)
-        >>> ani.save('DuffingOscillator.gif', writer='imagemagick', fps=10)
+        >>> # ani.save('DuffingOscillator.gif', writer='imagemagick', fps=10)
 
     Notes:
         The Duffing oscillator differential equation is defined as:
@@ -986,7 +986,7 @@ class ChuaSCircuit(OscillatorsFunc3D):
         ...     interval=10,
         ...     blit=True,
         ... )
-        >>> ani.save('ChuaSCircuit.gif', writer='imagemagick', fps=10)
+        >>> # ani.save('ChuaSCircuit.gif', writer='imagemagick', fps=10)
 
     Notes:
         Chua's Circuit differential equation is defined as:

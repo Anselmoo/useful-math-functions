@@ -53,11 +53,11 @@ class DoublePendulum(OscillatorsFuncBase):
         >>> (line,) = ax.plot([], [], "o-", lw=2)
         >>> def init():
         ...     line.set_data([], [])
-        ...     return line,
+        ...     return (line,)
         >>> def update(frame):
         ...     line.set_data([0, x1[frame], x2[frame]], [0, y1[frame], y2[frame]])
         ...     _ = ax.set_title(f"t = {t[frame]:.2f} seconds")
-        ...     return line,
+        ...     return( line,)
         >>> ani = FuncAnimation(
         ...     fig=fig, func=update,
         ...     init_func=init,
@@ -65,7 +65,7 @@ class DoublePendulum(OscillatorsFuncBase):
         ...     interval=10,
         ...     blit=True
         ... )
-        >>> # ani.save('DoublePendulum.gif', writer='imagemagick', fps=10)
+        >>> ani.save('DoublePendulum.gif', writer='imagemagick', fps=10)
 
     Notes:
         The double pendulum differential equation is defined as:

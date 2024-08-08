@@ -55,7 +55,7 @@ class DoublePendulum(OscillatorsFuncBase):
         ...     line.set_data([0, x1[frame], x2[frame]], [0, y1[frame], y2[frame]])
         ...     _ = ax.set_title(f"t = {t[frame]:.2f} seconds")
         ...     return line
-        >>> ani = FuncAnimation(fig, update, frames=len(t), interval=10, blit=False)
+        >>> ani = FuncAnimation(fig, update, frames=len(t), interval=10, blit=True)
         >>> ani.save('DoublePendulum.gif', writer='imagemagick', fps=10)
 
     Notes:
@@ -495,7 +495,7 @@ class DoubleSpringMassSystem(OscillatorsFunc2D):
         ...     spring2.set_data([0, 0], [x1[frame], x2[frame]])
         ...     _ = ax.set_title(f"t = {t[frame]:.2f} seconds")
         ...     return mass1, mass2, spring1, spring2
-        >>> ani = FuncAnimation(fig, update, frames=len(t), interval=10, blit=False)
+        >>> ani = FuncAnimation(fig, update, frames=len(t), interval=10, blit=True)
         >>> ani.save('DoubleSpringMassSystem.gif', writer='imagemagick', fps=10)
 
     Notes:
@@ -616,7 +616,7 @@ class LorenzAttractor(OscillatorsFunc3D):
         ...     point.set_3d_properties([z[frame]])
         ...     _ = ax.set_title(f"t = {t[frame]:.2f} seconds")
         ...     return line, point
-        >>> ani = FuncAnimation(fig, update, frames=len(t), interval=10, blit=False)
+        >>> ani = FuncAnimation(fig, update, frames=len(t), interval=10, blit=True)
         >>> ani.save('LorenzAttractor.gif', writer='imagemagick', fps=10)
 
     Notes:
@@ -737,7 +737,7 @@ class RoesslerAttractor(OscillatorsFunc3D):
         ...     point.set_3d_properties([z[frame]])
         ...     _ = ax.set_title(f"t = {t[frame]:.2f} seconds")
         ...     return line, point
-        >>> ani = FuncAnimation(fig, update, frames=len(t), interval=10, blit=False)
+        >>> ani = FuncAnimation(fig, update, frames=len(t), interval=10, blit=True)
         >>> ani.save('RoesslerAttractor.gif', writer='imagemagick', fps=10)
 
     Notes:
@@ -836,7 +836,7 @@ class DuffingOscillator(OscillatorsFunc2D):
         ...     dots.set_data(x[:frame], y[:frame])
         ...     ax.set_title(f"t = {t[frame]:.2f} seconds")
         ...     return line, dots
-        >>> ani = FuncAnimation(fig, update, frames=len(t), interval=10, blit=False)
+        >>> ani = FuncAnimation(fig, update, frames=len(t), interval=10, blit=True)
         >>> ani.save('DuffingOscillator.gif', writer='imagemagick', fps=10)
 
     Notes:
@@ -984,7 +984,7 @@ class ChuaSCircuit(OscillatorsFunc3D):
         ...     frames=len(t),
         ...     init_func=init,
         ...     interval=10,
-        ...     blit=False
+        ...     blit=True,
         ... )
         >>> ani.save('ChuaSCircuit.gif', writer='imagemagick', fps=10)
 

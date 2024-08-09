@@ -57,7 +57,7 @@ class DoublePendulum(OscillatorsFuncBase):
         >>> def update(frame):
         ...     line.set_data([0, x1[frame], x2[frame]], [0, y1[frame], y2[frame]])
         ...     _ = ax.set_title(f"t = {t[frame]:.2f} seconds")
-        ...     return( line,)
+        ...     return (line,)
         >>> ani = FuncAnimation(
         ...     fig=fig, func=update,
         ...     init_func=init,
@@ -279,13 +279,7 @@ class MagneticPendulum(OscillatorsFuncBase):
         ...     line.set_data(x[:frame], y[:frame])
         ...     _ = ax.set_title(f"t = {t[frame]:.2f} seconds")
         ...     return scat, line
-        >>> ani = FuncAnimation(
-        ...     fig=fig, func=update,
-        ...     init_func=init,
-        ...     frames=len(t),
-        ...     interval=10,
-        ...     blit=True
-        ... )
+        >>> ani = FuncAnimation(fig, update, frames=len(t), interval=10, blit=True)
         >>> ani.save('MagneticPendulum.gif', writer='imagemagick', fps=10)
 
     Notes:
@@ -872,11 +866,9 @@ class DuffingOscillator(OscillatorsFunc2D):
         >>> _ = ax.set_ylim(min(y) - 0.5, max(y) + 0.5)
         >>> def init() -> tuple:
         ...     line.set_data([], [])
-        ...     line.set_3d_properties([])
-        ...     point.set_data([], [])
-        ...     point.set_3d_properties([])
+        ...     dots.set_data([], [])
         ...     _ = ax.set_title("")
-        ...     return line, point
+        ...     return line, dots
         >>> def update(frame: int) -> Tuple[Line2D, Line2D]:
         ...     line.set_data(x[:frame], y[:frame])
         ...     dots.set_data(x[:frame], y[:frame])

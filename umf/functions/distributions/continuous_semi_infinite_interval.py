@@ -488,7 +488,7 @@ class DagumDistribution(ContinuousPure):
     used in various fields, including economics, finance, and engineering, to model
     data that is non-negative and skewed to the right. It has a probability density
     function (PDF) and a cumulative distribution function (CDF) that can be used to
-    calculate various statistical measures, such as mean, variance, and mode. ▌
+    calculate various statistical measures, such as mean, variance, and mode.
 
     Notes:
         The Dagum distribution is generally defined for the PDF as:

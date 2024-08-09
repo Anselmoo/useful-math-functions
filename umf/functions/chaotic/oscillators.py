@@ -279,7 +279,8 @@ class MagneticPendulum(OscillatorsFuncBase):
         ...     line.set_data(x[:frame], y[:frame])
         ...     _ = ax.set_title(f"t = {t[frame]:.2f} seconds")
         ...     return scat, line
-        >>> ani.save('MagneticPendulum.gif', writer='imagemagick', fps=10)
+        >>> ani = FuncAnimation(fig, update, frames=len(t), interval=10, blit=True)
+        >>> ani.save('MagneticPendulum.gif', writer=PillowWriter(fps=10))
 
     Notes:
         The magnetic pendulum differential equation is defined as:
@@ -770,7 +771,7 @@ class RoesslerAttractor(OscillatorsFunc3D):
         ...     interval=10,
         ...     blit=True
         ... )
-        >>> ani.save('RoesslerAttractor.gif', writer=writer=PillowWriter(fps=10))
+        >>> ani.save('RoesslerAttractor.gif', writer=PillowWriter(fps=10))
 
     Notes:
         The Roessler attractor differential equation is defined as:

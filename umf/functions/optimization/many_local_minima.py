@@ -211,8 +211,9 @@ class CrossInTrayFunction(OptFunction):
         The Cross-in-tray function is defined as:
 
         $$
-            f(x) = -0.0001 \left| \sin(x_1) \sin(x_2) \exp \left| 100
-            - \sqrt{x_1^2 + x_2^2} / \pi \right| \right| + 1
+            f(x) = -0.0001 \cdot \left( \left| \sin(x_1) \sin(x_2)
+            \exp \left( \left| 100 - \sqrt{x_1^2 + x_2^2} / \pi \right| \right) \right|
+            + 1 \right)^{0.1}
         $$
 
         > Reference: Original implementation can be found

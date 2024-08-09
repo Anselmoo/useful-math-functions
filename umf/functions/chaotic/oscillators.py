@@ -53,13 +53,19 @@ class DoublePendulum(OscillatorsFuncBase):
         >>> (line,) = ax.plot([], [], "o-", lw=2)
         >>> def init():
         ...     line.set_data([], [])
-        ...     return line,
+        ...     return (line,)
         >>> def update(frame):
         ...     line.set_data([0, x1[frame], x2[frame]], [0, y1[frame], y2[frame]])
         ...     _ = ax.set_title(f"t = {t[frame]:.2f} seconds")
-        ...     return line,
-        >>> ani = FuncAnimation(fig, update, frames=len(t), interval=10, blit=True)
-        >>> # ani.save('DoublePendulum.gif', writer='imagemagick', fps=10)
+        ...     return (line,)
+        >>> ani = FuncAnimation(
+        ...     fig=fig, func=update,
+        ...     init_func=init,
+        ...     frames=len(t),
+        ...     interval=10,
+        ...     blit=True
+        ... )
+        >>> ani.save('DoublePendulum.gif', writer=PillowWriter(fps=10))
 
     Notes:
         The double pendulum differential equation is defined as:
@@ -274,7 +280,7 @@ class MagneticPendulum(OscillatorsFuncBase):
         ...     _ = ax.set_title(f"t = {t[frame]:.2f} seconds")
         ...     return scat, line
         >>> ani = FuncAnimation(fig, update, frames=len(t), interval=10, blit=True)
-        >>> ani.save('MagneticPendulum.gif', writer='imagemagick', fps=10)
+        >>> ani.save('MagneticPendulum.gif', writer=PillowWriter(fps=10))
 
     Notes:
         The magnetic pendulum differential equation is defined as:
@@ -504,7 +510,13 @@ class DoubleSpringMassSystem(OscillatorsFunc2D):
         ...     spring2.set_data([0, 0], [x1[frame], x2[frame]])
         ...     _ = ax.set_title(f"t = {t[frame]:.2f} seconds")
         ...     return mass1, mass2, spring1, spring2
-        >>> ani = FuncAnimation(fig, update, frames=len(t), interval=10, blit=True)
+        >>> ani = FuncAnimation(
+        ...     fig=fig, func=update,
+        ...     init_func=init,
+        ...     frames=len(t),
+        ...     interval=10,
+        ...     blit=True
+        ... )
         >>> ani.save('DoubleSpringMassSystem.gif', writer='imagemagick', fps=10)
 
     Notes:
@@ -625,8 +637,14 @@ class LorenzAttractor(OscillatorsFunc3D):
         ...     point.set_3d_properties([z[frame]])
         ...     _ = ax.set_title(f"t = {t[frame]:.2f} seconds")
         ...     return line, point
-        >>> ani = FuncAnimation(fig, update, frames=len(t), interval=10, blit=True)
-        >>> # ani.save('LorenzAttractor.gif', writer='imagemagick', fps=10)
+        >>> ani = FuncAnimation(
+        ...     fig=fig, func=update,
+        ...     init_func=init,
+        ...     frames=len(t),
+        ...     interval=10,
+        ...     blit=True
+        ... )
+        >>> ani.save('LorenzAttractor.gif', writer=PillowWriter(fps=10))
 
     Notes:
         The Lorenz attractor differential equation is defined as:
@@ -746,8 +764,14 @@ class RoesslerAttractor(OscillatorsFunc3D):
         ...     point.set_3d_properties([z[frame]])
         ...     _ = ax.set_title(f"t = {t[frame]:.2f} seconds")
         ...     return line, point
-        >>> ani = FuncAnimation(fig, update, frames=len(t), interval=10, blit=True)
-        >>> # ani.save('RoesslerAttractor.gif', writer='imagemagick', fps=10)
+        >>> ani = FuncAnimation(
+        ...     fig=fig, func=update,
+        ...     init_func=init,
+        ...     frames=len(t),
+        ...     interval=10,
+        ...     blit=True
+        ... )
+        >>> ani.save('RoesslerAttractor.gif', writer=PillowWriter(fps=10))
 
     Notes:
         The Roessler attractor differential equation is defined as:
@@ -840,13 +864,24 @@ class DuffingOscillator(OscillatorsFunc2D):
         >>> _ = ax.set_ylabel("Y")
         >>> _ = ax.set_xlim(min(x) - 0.5, max(x) + 0.5)
         >>> _ = ax.set_ylim(min(y) - 0.5, max(y) + 0.5)
+        >>> def init() -> tuple:
+        ...     line.set_data([], [])
+        ...     dots.set_data([], [])
+        ...     _ = ax.set_title("")
+        ...     return line, dots
         >>> def update(frame: int) -> Tuple[Line2D, Line2D]:
         ...     line.set_data(x[:frame], y[:frame])
         ...     dots.set_data(x[:frame], y[:frame])
         ...     ax.set_title(f"t = {t[frame]:.2f} seconds")
         ...     return line, dots
-        >>> ani = FuncAnimation(fig, update, frames=len(t), interval=10, blit=True)
-        >>> # ani.save('DuffingOscillator.gif', writer='imagemagick', fps=10)
+        >>> ani = FuncAnimation(
+        ...     fig=fig, func=update,
+        ...     init_func=init,
+        ...     frames=len(t),
+        ...     interval=10,
+        ...     blit=True
+        ... )
+        >>> ani.save('DuffingOscillator.gif', writer=PillowWriter(fps=10))
 
     Notes:
         The Duffing oscillator differential equation is defined as:
@@ -988,14 +1023,13 @@ class ChuaSCircuit(OscillatorsFunc3D):
         ...     ax.set_title(f"Current Time: {t[frame]:.2f} seconds")
         ...     return line, point
         >>> ani = FuncAnimation(
-        ...     fig,
-        ...     update,
-        ...     frames=len(t),
+        ...     fig=fig, func=update,
         ...     init_func=init,
+        ...     frames=len(t),
         ...     interval=10,
-        ...     blit=True,
+        ...     blit=True
         ... )
-        >>> # ani.save('ChuaSCircuit.gif', writer='imagemagick', fps=10)
+        >>> ani.save('ChuaSCircuit.gif', writer=PillowWriter(fps=10))
 
     Notes:
         Chua's Circuit differential equation is defined as:

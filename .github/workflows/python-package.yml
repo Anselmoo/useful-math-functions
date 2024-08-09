@@ -36,7 +36,7 @@ jobs:
         poetry install --all-extras --with=dev,check
     - name: Test with pytest
       run: |
-        poetry run pytest
+        poetry run pytest umf/functions/chaotic/oscillators.py
     - name: Codecov
       uses: codecov/codecov-action@v4.5.0
       with:

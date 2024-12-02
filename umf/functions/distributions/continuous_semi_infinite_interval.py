@@ -22,11 +22,11 @@ if TYPE_CHECKING:
     from umf.types.static_types import UniversalArray
 
 __all__: list[str] = [
-    "RayleighDistribution",
-    "WeibullDistribution",
-    "LogNormalDistribution",
     "ChiSquaredDistribution",
     "DagumDistribution",
+    "LogNormalDistribution",
+    "RayleighDistribution",
+    "WeibullDistribution",
 ]
 
 

@@ -6,10 +6,10 @@ from pydantic import BaseModel
 from pydantic import ConfigDict
 from pydantic import Field
 
-from umf.types.static_types import MeshArray  # noqa: TCH001
-from umf.types.static_types import UniversalArray  # noqa: TCH001
-from umf.types.static_types import UniversalArrayTuple  # noqa: TCH001
-from umf.types.static_types import UniversalFloatTuple  # noqa: TCH001
+from umf.types.static_types import MeshArray  # noqa: TC001
+from umf.types.static_types import UniversalArray  # noqa: TC001
+from umf.types.static_types import UniversalArrayTuple  # noqa: TC001
+from umf.types.static_types import UniversalFloatTuple  # noqa: TC001
 
 
 class MinimaAPI(BaseModel):

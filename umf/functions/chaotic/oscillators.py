@@ -21,13 +21,13 @@ if TYPE_CHECKING:
     from umf.types.static_types import UniversalArrayTuple
 
 __all__: list[str] = [
-    "DoublePendulum",
-    "MagneticPendulum",
-    "DoubleSpringMassSystem",
-    "LorenzAttractor",
-    "RoesslerAttractor",
-    "DuffingOscillator",
     "ChuaSCircuit",
+    "DoublePendulum",
+    "DoubleSpringMassSystem",
+    "DuffingOscillator",
+    "LorenzAttractor",
+    "MagneticPendulum",
+    "RoesslerAttractor",
 ]
 
 

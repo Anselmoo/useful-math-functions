@@ -18,10 +18,10 @@ if TYPE_CHECKING:
 
 
 __all__: list[str] = [
-    "ThreeHumpCamelFunction",
-    "SixHumpCamelFunction",
     "DixonPriceFunction",
     "RosenbrockFunction",
+    "SixHumpCamelFunction",
+    "ThreeHumpCamelFunction",
 ]
 
 

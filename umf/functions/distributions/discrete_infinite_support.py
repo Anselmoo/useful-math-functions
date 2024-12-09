@@ -19,8 +19,8 @@ if TYPE_CHECKING:
 
 __all__: list[str] = [
     "BoltzmannDistribution",
-    "MaxwellBoltzmannDistribution",
     "GausKuzminDistribution",
+    "MaxwellBoltzmannDistribution",
 ]
 
 

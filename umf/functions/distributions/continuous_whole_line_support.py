@@ -24,15 +24,15 @@ if TYPE_CHECKING:
     from umf.types.static_types import UniversalArray
 
 __all__: list[str] = [
-    "GeneralizedNormalDistribution",
+    "CauchyDistribution",
+    "ExponentialDistribution",
     "GaussianDistribution",
-    "SkewGaussianDistribution",
+    "GeneralizedNormalDistribution",
+    "GumbelDistribution",
     "LaplaceDistribution",
     "LogisticDistribution",
+    "SkewGaussianDistribution",
     "VoigtDistribution",
-    "CauchyDistribution",
-    "GumbelDistribution",
-    "ExponentialDistribution",
 ]
 
 

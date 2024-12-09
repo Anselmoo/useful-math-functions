@@ -19,9 +19,9 @@ if TYPE_CHECKING:
 __all__: list[str] = [
     "BealeFunction",
     "BraninFunction",
-    "StyblinskiTangFunction",
     "GoldsteinPriceFunction",
     "GoldsteinPriceLogFunction",
+    "StyblinskiTangFunction",
 ]
 
 

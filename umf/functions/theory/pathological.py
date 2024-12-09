@@ -16,11 +16,11 @@ if TYPE_CHECKING:
     from umf.types.static_types import UniversalArray
 
 __all__: list[str] = [
-    "WeierstrassFunction",
+    "BesicovitchFunction",
+    "MandelbrotsFractalFunction",
     "RiemannFunction",
     "TakagiFunction",
-    "MandelbrotsFractalFunction",
-    "BesicovitchFunction",
+    "WeierstrassFunction",
 ]
 
 

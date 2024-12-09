@@ -17,17 +17,17 @@ if TYPE_CHECKING:
 
 
 __all__: list[str] = [
-    "PermBetaDFunction",
-    "TridFunction",
-    "SumSquaresFunction",
-    "SumOfDifferentPowersFunction",
-    "ZirilliFunction",
-    "SphereFunction",
-    "RotatedHyperEllipseFunction",
-    "PermFunction",
     "BohachevskyFunctionType1",
     "BohachevskyFunctionType2",
     "BohachevskyFunctionType3",
+    "PermBetaDFunction",
+    "PermFunction",
+    "RotatedHyperEllipseFunction",
+    "SphereFunction",
+    "SumOfDifferentPowersFunction",
+    "SumSquaresFunction",
+    "TridFunction",
+    "ZirilliFunction",
 ]
 
 

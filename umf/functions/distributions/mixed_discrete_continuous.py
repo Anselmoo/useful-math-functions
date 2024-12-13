@@ -26,11 +26,11 @@ if TYPE_CHECKING:
     from umf.types.static_types import UniversalArray
 
 __all__: list[str] = [
+    "AsymmetricRamanLineshape",
     "CrystalBallDistribution",
+    "ModifiedDoniachSunjicDistribution",
     "PearsonVIIDistribution",
     "PseudoVoigtDistribution",
-    "AsymmetricRamanLineshape",
-    "ModifiedDoniachSunjicDistribution",
 ]
 
 

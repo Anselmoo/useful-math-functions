@@ -1174,13 +1174,13 @@ tabulate = ">=0.8.7"
 
 [[package]]
 name = "mkdocstrings"
-version = "0.26.0"
+version = "0.27.0"
 description = "Automatic documentation from sources, for MkDocs."
 optional = false
-python-versions = ">=3.8"
+python-versions = ">=3.9"
 files = [
-    {file = "mkdocstrings-0.26.0-py3-none-any.whl", hash = "sha256:1aa227fe94f88e80737d37514523aacd473fc4b50a7f6852ce41447ab23f2654"},
-    {file = "mkdocstrings-0.26.0.tar.gz", hash = "sha256:ff9d0de28c8fa877ed9b29a42fe407cfe6736d70a1c48177aa84fcc3dc8518cd"},
+    {file = "mkdocstrings-0.27.0-py3-none-any.whl", hash = "sha256:6ceaa7ea830770959b55a16203ac63da24badd71325b96af950e59fd37366332"},
+    {file = "mkdocstrings-0.27.0.tar.gz", hash = "sha256:16adca6d6b0a1f9e0c07ff0b02ced8e16f228a9d65a37c063ec4c14d7b76a657"},
 ]
 
 [package.dependencies]
@@ -2344,4 +2344,4 @@ plotly = ["kaleido", "plotly"]
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.10,<3.12"
-content-hash = "be4dc563486b223708babc451376ec90a0024a14fbfed98cb1a45e6cdb6a8c96"
+content-hash = "5833442bbf5a3c0745c1bb51d57b6e05da7cf2988bc2c502fcde3513ae16a02b"

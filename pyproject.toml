@@ -16,15 +16,14 @@ issues = "https://github.com/Anselmoo/useful-math-functions/issues"
 changelog = "https://github.com/Anselmoo/useful-math-functions/blob/main/CHANGELOG.md"
 
 [project.optional-dependencies]
-matplotlib = ["matplotlib>=3.7.2,<4", "imagemagic>=0.2.1,<0.3"]
-plotly = ["plotly>=5.16.0,<6", "kaleido==0.2.1"]
+matplotlib = ["matplotlib (>=3.10.0,<4.0.0)", "imagemagic (>=0.2.1,<0.3.0)"]
+plotly = ["plotly (>=5.24.1,<6.0.0)", "kaleido==0.2.1"]
 all = [
-    "matplotlib>=3.7.2,<4",
-    "plotly>=5.16.0,<6",
+    "matplotlib (>=3.10.0,<4.0.0)",
+    "plotly (>=5.24.1,<6.0.0)",
     "kaleido==0.2.1",
-    "imagemagic>=0.2.1,<0.3",
+    "imagemagic (>=0.2.1,<0.3.0)",
 ]
-
 
 [tool.poetry]
 packages = [{ include = "umf", from = "." }]

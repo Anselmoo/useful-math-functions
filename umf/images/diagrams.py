@@ -364,8 +364,13 @@ class ClassicPlot(Plot):
                 parameters like frames, interval, and dpi
             **kwargs: Additional keyword arguments passed to animation.save()
         """
-        x_axis_data = ax_fig.lines[0].get_xdata()
-        y_axis_data = ax_fig.lines[0].get_ydata()
+        if ax_fig.lines[0] is not None:
+            x_axis_data = ax_fig.lines[0].get_xdata()
+            y_axis_data = ax_fig.lines[0].get_ydata()
+        else:
+            x_axis_data = ax_fig.collections[0].get_offsets()[:, 0]
+            y_axis_data = ax_fig.collections[0].get_offsets()[:, 1]
+
         scat = ax_fig.collections[
             0
         ]  # Assuming the scatter plot is the first collection
@@ -677,3 +682,25 @@ class PlotlyPlot(Plot):
                  save function.
         """
         fig.write_image(fname.with_suffix(f".{fformat}"), scale=scale, **kwargs)
+
+
+if __name__ == "__main__":
+    from pathlib import Path
+
+    from umf.functions.optimization.special import GoldsteinPriceFunction
+    from umf.meta.plots import GraphSettings
+
+    x = np.linspace(-2, 2, 100)
+    y = np.linspace(-2, 2, 100)
+    X, Y = np.meshgrid(x, y)
+    Z = GoldsteinPriceFunction(X, Y).__eval__
+    plot = ClassicPlot(X, Y, Z, settings=GraphSettings(axis=["x", "y", "z"]))
+    plot.plot_surface()
+    # Now only zoom
+    plot.plot_save_gif(
+        fig=plot.plot_return,
+        ax_fig=plot.ax_return,
+        fname=Path("GoldsteinPriceFunction_zoom.gif"),
+        settings=GIFSettings(rotate=False),
+        savefig_kwargs={"transparent": True},
+    )

@@ -49,12 +49,6 @@ class ClassicPlot(Plot):
         >>> ClassicPlot.plot_save(plot.plot_return, Path("ClassicPlot_surface.png"))
         >>> plot.plot_dashboard()
         >>> ClassicPlot.plot_save(plot.plot_return, Path("ClassicPlot_dashboard.png"))
-        >>> ClassicPlot.plot_save_animation(
-        ...     fig=plot.plot_return,
-        ...     ax_fig=plot.ax_return,
-        ...     fname=Path("ClassicPlot_animation.gif"),
-        ...     settings=AnimationSettings(frames=100, interval=50),
-        ... )
         >>> plot.plot_close()
 
     Examples:
@@ -350,7 +344,7 @@ class ClassicPlot(Plot):
         settings: AnimationSettings,
         **kwargs: dict[str, Any],
     ) -> None:
-        """Create and save an animation of a plot with scatter and line elements.
+        """Create and save an animation of a 2D plot with scatter and line elements.
 
         This function generates an animation by progressively revealing data points
         in both a scatter plot and a line plot, then saves it as an animated file.
@@ -364,17 +358,16 @@ class ClassicPlot(Plot):
                 parameters like frames, interval, and dpi
             **kwargs: Additional keyword arguments passed to animation.save()
         """
-        if isinstance(ax_fig.lines, list):
-            x_axis_data = ax_fig.lines[0].get_xdata()
-            y_axis_data = ax_fig.lines[0].get_ydata()
-        else:
-            x_axis_data = ax_fig.collections[0].get_offsets()[:, 0]
-            y_axis_data = ax_fig.collections[0].get_offsets()[:, 1]
+        x_axis_data = ax_fig.lines[0].get_xdata()
+        y_axis_data = ax_fig.lines[0].get_ydata()
 
         scat = ax_fig.collections[
             0
         ]  # Assuming the scatter plot is the first collection
-        line2 = ax_fig.lines[1]  # Assuming the line plot to update is the second line
+
+        line2: plt.Line2D = ax_fig.lines[
+            1
+        ]  # Assuming the line plot to update is the second line
 
         def update(frame: int, settings: GIFSettings) -> list[plt.Artist]:  # noqa: ARG001
             # for each frame, update the data stored on each artist.

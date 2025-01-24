@@ -364,7 +364,7 @@ class ClassicPlot(Plot):
                 parameters like frames, interval, and dpi
             **kwargs: Additional keyword arguments passed to animation.save()
         """
-        if ax_fig.lines[0] is not None:
+        if isinstance(ax_fig.lines, list):
             x_axis_data = ax_fig.lines[0].get_xdata()
             y_axis_data = ax_fig.lines[0].get_ydata()
         else:

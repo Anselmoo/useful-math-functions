@@ -18,7 +18,7 @@ repos:
     hooks:
       - id: prettier
         name: Prettier (Markdown)
-        files: '\.(md|js|css)$'
+        files: \.(md|js|css)$
         args: [--prose-wrap=always]
 
   - repo: https://github.com/markdownlint/markdownlint

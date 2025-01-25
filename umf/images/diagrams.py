@@ -35,7 +35,6 @@ class ClassicPlot(Plot):
         >>> import numpy as np
         >>> from umf.images.diagrams import ClassicPlot
         >>> from umf.meta.plots import GraphSettings
-        >>> from umf.meta.plots import AnimationSettings
         >>> x = np.linspace(-10, 10, 100)
         >>> y = np.linspace(-10, 10, 100)
         >>> X, Y = np.meshgrid(x, y)
@@ -178,7 +177,7 @@ class ClassicPlot(Plot):
             self.ax = self.fig.add_subplot(111, projection="3d")
         self.ax.plot_wireframe(
             *self._x,
-            edgecolor=plt.cm.get_cmap(self.color).colors,
+            edgecolor=plt.colormaps.get_cmap(self.color).colors,
             alpha=self.alpha,
             **self._kwargs,
         )
@@ -191,7 +190,7 @@ class ClassicPlot(Plot):
             self.ax = self.fig.add_subplot(111)
         self.ax.contour(
             *self._x,
-            cmap=plt.cm.get_cmap(self.cmap),
+            cmap=plt.colormaps.get_cmap(self.cmap),
             alpha=self.alpha,
             **self._kwargs,
         )
@@ -204,7 +203,7 @@ class ClassicPlot(Plot):
             self.ax = self.fig.add_subplot(111, projection="3d")
         self.ax.plot_surface(
             *self._x,
-            cmap=plt.cm.get_cmap(self.cmap),
+            cmap=plt.colormaps.get_cmap(self.cmap),
             alpha=self.alpha,
             **self._kwargs,
         )
@@ -675,25 +674,3 @@ class PlotlyPlot(Plot):
                  save function.
         """
         fig.write_image(fname.with_suffix(f".{fformat}"), scale=scale, **kwargs)
-
-
-if __name__ == "__main__":
-    from pathlib import Path
-
-    from umf.functions.optimization.special import GoldsteinPriceFunction
-    from umf.meta.plots import GraphSettings
-
-    x = np.linspace(-2, 2, 100)
-    y = np.linspace(-2, 2, 100)
-    X, Y = np.meshgrid(x, y)
-    Z = GoldsteinPriceFunction(X, Y).__eval__
-    plot = ClassicPlot(X, Y, Z, settings=GraphSettings(axis=["x", "y", "z"]))
-    plot.plot_surface()
-    # Now only zoom
-    plot.plot_save_gif(
-        fig=plot.plot_return,
-        ax_fig=plot.ax_return,
-        fname=Path("GoldsteinPriceFunction_zoom.gif"),
-        settings=GIFSettings(rotate=False),
-        savefig_kwargs={"transparent": True},
-    )

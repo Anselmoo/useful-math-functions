@@ -1,4 +1,5 @@
 """Plotting functions for 2D and 3D functions."""
+
 from __future__ import annotations
 
 from typing import TYPE_CHECKING
@@ -11,6 +12,7 @@ import plotly.graph_objects as go
 from matplotlib.animation import FuncAnimation
 
 from umf.constants.exceptions import PlotAttributeError
+from umf.meta.plots import AnimationSettings
 from umf.meta.plots import GIFSettings
 from umf.meta.plots import Plot
 
@@ -18,7 +20,8 @@ from umf.meta.plots import Plot
 if TYPE_CHECKING:
     from pathlib import Path
 
-    from matplotlib.pyplot import Figure as FigureTypeMatplotlib
+    from matplotlib.figure import Figure as FigureTypeMatplotlib
+    from matplotlib.figure import SubFigure as SubFigureTypeMatplotlib
     from plotly.graph_objects import Figure as FigureTypePlotly
 
     from umf.types.static_types import PlotlyScatterParameters
@@ -124,8 +127,8 @@ class ClassicPlot(Plot):
              function.
     """
 
-    fig: plt.figure
-    ax: plt.Figure
+    fig: plt.Figure
+    ax: plt.figure
 
     def plot_2d(self, ax: FigureTypeMatplotlib | None = None) -> None:
         """Plot a 2D function.
@@ -174,7 +177,7 @@ class ClassicPlot(Plot):
             self.ax = self.fig.add_subplot(111, projection="3d")
         self.ax.plot_wireframe(
             *self._x,
-            edgecolor=plt.cm.get_cmap(self.color).colors,
+            edgecolor=plt.colormaps.get_cmap(self.color).colors,
             alpha=self.alpha,
             **self._kwargs,
         )
@@ -187,7 +190,7 @@ class ClassicPlot(Plot):
             self.ax = self.fig.add_subplot(111)
         self.ax.contour(
             *self._x,
-            cmap=plt.cm.get_cmap(self.cmap),
+            cmap=plt.colormaps.get_cmap(self.cmap),
             alpha=self.alpha,
             **self._kwargs,
         )
@@ -200,7 +203,7 @@ class ClassicPlot(Plot):
             self.ax = self.fig.add_subplot(111, projection="3d")
         self.ax.plot_surface(
             *self._x,
-            cmap=plt.cm.get_cmap(self.cmap),
+            cmap=plt.colormaps.get_cmap(self.cmap),
             alpha=self.alpha,
             **self._kwargs,
         )
@@ -239,18 +242,18 @@ class ClassicPlot(Plot):
         plt.show()
 
     @property
-    def plot_return(self) -> plt.figure:
+    def plot_return(self) -> FigureTypeMatplotlib:
         """Return the plot."""
         return self.fig
 
     @property
-    def ax_return(self) -> plt.Figure:
+    def ax_return(self) -> FigureTypeMatplotlib:
         """Return the Figure."""
         return self.ax
 
     @staticmethod
     def plot_save(
-        fig: plt.figure,
+        fig: FigureTypeMatplotlib,
         fname: Path,
         fformat: str = "png",
         **kwargs: dict[str, Any],
@@ -269,8 +272,8 @@ class ClassicPlot(Plot):
     @staticmethod
     def plot_save_gif(
         *,
-        fig: plt.figure,
-        ax_fig: plt.Figure,
+        fig: FigureTypeMatplotlib,
+        ax_fig: SubFigureTypeMatplotlib,
         fname: Path,
         settings: GIFSettings,
         **kwargs: dict[str, Any],
@@ -278,7 +281,7 @@ class ClassicPlot(Plot):
         """Saves the given plot to a file.
 
         Note:
-            For gnerating GIFs, the a subfunction is used to update the plot for each
+            For generating GIFs, the a subfunction is used to update the plot for each
             frame of the animation. This subfunction is defined in the function
             `update`.
 
@@ -291,7 +294,7 @@ class ClassicPlot(Plot):
                     save function.
         """
 
-        def update(frame: int, settings: GIFSettings) -> list[plt.Figure]:
+        def update(frame: int, settings: GIFSettings) -> list[SubFigureTypeMatplotlib]:
             """Updates the plot for each frame of the animation.
 
             Args:
@@ -303,9 +306,9 @@ class ClassicPlot(Plot):
                     save function.
 
             Returns:
-                list[plt.Figure]: A list of the updated plot elements.
+                list[SubFigureTypeMatplotlib]: A list of the updated plot elements.
             """
-            surf = ax_fig
+            surf: SubFigureTypeMatplotlib = ax_fig
             if settings.zoom:
                 ax_fig.set_box_aspect(
                     None,
@@ -323,13 +326,68 @@ class ClassicPlot(Plot):
             return [surf]
 
         anim = FuncAnimation(
-            fig,
-            update,
+            fig=fig,
+            func=update,
             frames=settings.frames,
             interval=settings.interval,
             fargs=(settings,),
         )
-        anim.save(fname, writer="imagemagick", dpi=settings.dpi, **kwargs)
+        anim.save(filename=fname, writer="imagemagick", dpi=settings.dpi, **kwargs)
+
+    @staticmethod
+    def plot_save_animation(
+        *,
+        fig: FigureTypeMatplotlib,
+        ax_fig: SubFigureTypeMatplotlib,
+        fname: Path,
+        settings: AnimationSettings,
+        **kwargs: dict[str, Any],
+    ) -> None:
+        """Create and save an animation of a 2D plot with scatter and line elements.
+
+        This function generates an animation by progressively revealing data points
+        in both a scatter plot and a line plot, then saves it as an animated file.
+
+        Args:
+            fig (FigureTypeMatplotlib): The matplotlib figure object containing the plot
+            ax_fig (SubFigureTypeMatplotlib): The axis object containing the plots to
+                animate
+            fname (Path): Path object specifying where to save the animation file
+            settings (AnimationSettings): Settings object containing animation
+                parameters like frames, interval, and dpi
+            **kwargs: Additional keyword arguments passed to animation.save()
+        """
+        x_axis_data = ax_fig.lines[0].get_xdata()
+        y_axis_data = ax_fig.lines[0].get_ydata()
+
+        scat = ax_fig.collections[
+            0
+        ]  # Assuming the scatter plot is the first collection
+
+        line2: plt.Line2D = ax_fig.lines[
+            1
+        ]  # Assuming the line plot to update is the second line
+
+        def update(frame: int, settings: GIFSettings) -> list[plt.Artist]:  # noqa: ARG001
+            # for each frame, update the data stored on each artist.
+            x = x_axis_data[:frame]
+            y = y_axis_data[:frame]
+            # update the scatter plot:
+            data = np.stack([x, y]).T
+            scat.set_offsets(data)
+            # update the line plot:
+            line2.set_xdata(x_axis_data[:frame])
+            line2.set_ydata(y_axis_data[:frame])
+            return [scat, line2]
+
+        anim = FuncAnimation(
+            fig=fig,
+            func=update,
+            frames=settings.frames,
+            interval=settings.interval,
+            fargs=(settings,),
+        )
+        anim.save(filename=fname, writer="imagemagick", dpi=settings.dpi, **kwargs)
 
     @staticmethod
     def plot_close() -> None:
@@ -575,15 +633,17 @@ class PlotlyPlot(Plot):
                 title=self.title,
                 scene=scene,
                 showlegend=legend,
-                legend={
-                    "orientation": "h",
-                    "yanchor": "bottom",
-                    "y": 1.02,
-                    "xanchor": "right",
-                    "x": 1,
-                }
-                if legend
-                else None,
+                legend=(
+                    {
+                        "orientation": "h",
+                        "yanchor": "bottom",
+                        "y": 1.02,
+                        "xanchor": "right",
+                        "x": 1,
+                    }
+                    if legend
+                    else None
+                ),
             )
 
     def plot_show(self) -> None:

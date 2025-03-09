@@ -1,53 +1,83 @@
-[tool.poetry]
+[project]
 name = "useful-math-functions"
-version = "0.2.0"
+version = "0.3.0"
 description = "useful-math-functions for Optimization, Benchmarking, Visualizing, and more ..."
-authors = ["Anselm Hahn <anselm.hahn@gmail.com>"]
+authors = [{ name = "Anselm Hahn", email = "anselm.hahn@gmail.com" }]
+requires-python = ">=3.10,<3.12"
 readme = "README.md"
-packages = [{ include = "umf", from = "." }]
+maintainers = [{ name = "Anselm Hahn", email = "anselm.hahn@gmail.com" }]
+dependencies = [
+    "numpy>=2.0.0,<3",
+    "pydantic>=2.0.0,<3",
+    "scipy>=1.11.2,<2",
+]
 
-[tool.poetry.dependencies]
-python = ">=3.10,<3.12"
-numpy = "^2.0.0"
-matplotlib = { version = "^3.7.2", optional = true }
-pydantic = "^2.0.0"
-plotly = { version = "^5.16.0", optional = true }
-kaleido = { version = "0.2.1", optional = true }
-scipy = "^1.11.2"
-imagemagic = { version = "^0.2.1", optional = true }
+[project.optional-dependencies]
+matplotlib = [
+    "matplotlib (>=3.10.1,<4.0.0)",
+    "imagemagic (>=0.2.1,<0.3.0)",
+]
+plotly = [
+    "plotly (>=5.24.1,<6.0.0)",
+    "kaleido==0.2.1",
+]
+all = [
+    "matplotlib (>=3.10.0,<4.0.0)",
+    "plotly (>=5.24.1,<6.0.0)",
+    "kaleido==0.2.1",
+    "imagemagic (>=0.2.1,<0.3.0)",
+]
 
-[tool.poetry.group.dev.dependencies]
-mypy = "^1.0.0"
-pytest-sugar = "^1.0.0"
-pytest = "^8.0.0"
-pre-commit = "^3.0.0"
-pytest-cov = "^5.0.0"
-ruff = "^0.7.0"
+[project.urls]
+homepage = "https://anselmoo.github.io/useful-math-functions/"
+documentation = "https://anselmoo.github.io/useful-math-functions/"
+repository = "https://github.com/Anselmoo/useful-math-functions.git"
+issues = "https://github.com/Anselmoo/useful-math-functions/issues"
+changelog = "https://github.com/Anselmoo/useful-math-functions/blob/main/CHANGELOG.md"
 
-[tool.poetry.group.check.dependencies]
-scipy = "^1.11.2"
+[dependency-groups]
+dev = [
+    "ruff>=0.9.2,<0.10",
+    "mypy>=1.14.1,<2",
+    "pytest>=8.3.4,<9",
+    "pytest-sugar>=1.0.0,<2",
+    "pytest-cov>=6.0.0,<7",
+    "pre-commit>=4.0.1,<5",
+]
+check = ["scipy>=1.15.1,<2"]
+docs = [
+    "mkdocs-glightbox>=0.4.0,<0.5",
+    "mkdocs-material>=9.5.50,<10",
+    "mkdocs-minify-plugin>=0.8.0,<0.9",
+    "mkdocs-git-revision-date-localized-plugin>=1.3.0,<2",
+    "mkdocstrings[python]>=0.27.0,<0.28",
+    "mathjax>=0.1.2,<0.2",
+    "mkdocs-literate-nav>=0.6.1,<0.7",
+    "mkdocs-section-index>=0.3.9,<0.4",
+    "mike>=2.1.3,<3",
+    "mkdocs-table-reader-plugin>=3.1.0,<4",
+    "pymdown-extensions~=10.14",
+]
 
-[tool.poetry.group.docs.dependencies]
-mkdocs-glightbox = "^0.4.0"
-mkdocs-material = "^9.1.21"
-mkdocs-minify-plugin = "^0.8.0"
-mkdocs-git-revision-date-localized-plugin = "^1.2.0"
-mkdocstrings = { extras = ["python"], version = "^0.27.0" }
-mathjax = "^0.1.2"
-mkdocs-literate-nav = "^0.6.0"
-mkdocs-section-index = "^0.3.5"
-mike = "^2.1.2"
-mkdocs-table-reader-plugin = "^3.0.0"
-pymdown-extensions = "^10.1"
+[tool.uv]
+default-groups = [
+    "dev",
+    "check",
+    "docs",
+]
+
+[tool.hatch.build.targets.sdist]
+include = ["./umf"]
+
+[tool.hatch.build.targets.wheel]
+include = ["./umf"]
+
+[tool.hatch.build.targets.wheel.sources]
+"./umf" = "umf"
 
 [build-system]
-requires = ["poetry-core"]
-build-backend = "poetry.core.masonry.api"
-
-[tool.poetry.extras]
-matplotlib = ["matplotlib", "imagemagic"]
-plotly = ["plotly", "kaleido"]
-all = ["matplotlib", "plotly", "kaleido", "imagemagic"]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
 
 [tool.coverage.report]
 exclude_lines = ["no cov", "if __name__ == .__main__.:", "if TYPE_CHECKING:"]
@@ -78,9 +108,8 @@ known-first-party = ["umf"]
 force-single-line = true
 lines-between-types = 1
 lines-after-imports = 2
-known-third-party = ["poetry.core"]
+known-third-party = ["hatchling.build"]
 required-imports = ["from __future__ import annotations"]
-
 
 [tool.mypy]
 plugins = "pydantic.mypy"
@@ -98,8 +127,6 @@ disallow_untyped_defs = true
 init_forbid_extra = true
 init_typed = true
 warn_required_dynamic_aliases = true
-
-[tool.pytest]
 
 [tool.pytest.ini_options]
 addopts = [

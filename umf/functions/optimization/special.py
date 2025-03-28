@@ -21,8 +21,8 @@ __all__: list[str] = [
     "BraninFunction",
     "GoldsteinPriceFunction",
     "GoldsteinPriceLogFunction",
-    "StyblinskiTangFunction",
     "HimmelblauFunction",
+    "StyblinskiTangFunction",
 ]
 
 

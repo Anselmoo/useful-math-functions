@@ -19,10 +19,10 @@ if TYPE_CHECKING:
 
 __all__: list[str] = [
     "DixonPriceFunction",
+    "Rosenbrock2DFunction",
     "RosenbrockFunction",
     "SixHumpCamelFunction",
     "ThreeHumpCamelFunction",
-    "Rosenbrock2DFunction",
 ]
 
 

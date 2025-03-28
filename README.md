@@ -49,6 +49,40 @@ res.save_as_image()
 
 ![_](https://github.com/Anselmoo/useful-math-functions/blob/main/docs/extra/images/DeJongN5Function.png?raw=true)
 
+To use the newly added functions:
+
+```python
+from umf.functions.optimization.special import HimmelblauFunction
+import numpy as np
+
+x = np.linspace(-5, 5, 100)
+y = np.linspace(-5, 5, 100)
+X, Y = np.meshgrid(x, y)
+Z = HimmelblauFunction(X, Y).__eval__
+
+import matplotlib.pyplot as plt
+fig = plt.figure()
+ax = fig.add_subplot(111, projection="3d")
+ax.plot_surface(X, Y, Z, cmap="viridis")
+plt.savefig("HimmelblauFunction.png", dpi=300, transparent=True)
+```
+
+```python
+from umf.functions.optimization.valley_shaped import Rosenbrock2DFunction
+import numpy as np
+
+x = np.linspace(-2, 2, 100)
+y = np.linspace(-1, 3, 100)
+X, Y = np.meshgrid(x, y)
+Z = Rosenbrock2DFunction(X, Y).__eval__
+
+import matplotlib.pyplot as plt
+fig = plt.figure()
+ax = fig.add_subplot(111, projection="3d")
+ax.plot_surface(X, Y, Z, cmap="viridis")
+plt.savefig("Rosenbrock2DFunction.png", dpi=300, transparent=True)
+```
+
 ## Documentation
 
 The documentation can be found

@@ -21,6 +21,7 @@ __all__: list[str] = [
     "BraninFunction",
     "GoldsteinPriceFunction",
     "GoldsteinPriceLogFunction",
+    "HimmelblauFunction",
     "StyblinskiTangFunction",
 ]
 
@@ -431,3 +432,75 @@ class GoldsteinPriceLogFunction(OptFunction):
             MinimaAPI: Minima of the Goldstein-Price function in logarithmic form.
         """
         return MinimaAPI(f_x=3, x=tuple(np.array([0, -1])))
+
+
+class HimmelblauFunction(OptFunction):
+    r"""Himmelblau function.
+
+    The Himmelblau function is a two-dimensional function with four global minima.
+
+    Examples:
+        >>> import matplotlib.pyplot as plt
+        >>> import numpy as np
+        >>> from umf.functions.optimization.special import HimmelblauFunction
+        >>> x = np.linspace(-5, 5, 100)
+        >>> y = np.linspace(-5, 5, 100)
+        >>> X, Y = np.meshgrid(x, y)
+        >>> Z = HimmelblauFunction(X, Y).__eval__
+        >>> fig = plt.figure()
+        >>> ax = fig.add_subplot(111, projection="3d")
+        >>> _ = ax.plot_surface(X, Y, Z, cmap="viridis")
+        >>> plt.savefig("HimmelblauFunction.png", dpi=300, transparent=True)
+
+    Notes:
+        The Himmelblau function is defined as:
+
+        $$
+            f(x, y) = (x^2 + y - 11)^2 + (x + y^2 - 7)^2
+        $$
+
+        > Reference: Original implementation can be found
+        > [here](https://www.sfu.ca/~ssurjano/himmel.html).
+
+    Args:
+        *x (UniversalArray): Input data, which has to be two dimensional.
+
+    Raises:
+        OutOfDimensionError: If the dimension of the input data is not 2.
+    """
+
+    def __init__(self, *x: UniversalArray) -> None:
+        """Initialize the function."""
+        if len(x) != __2d__:
+            raise OutOfDimensionError(
+                function_name="Himmelblau",
+                dimension=__2d__,
+            )
+        super().__init__(*x)
+
+    @property
+    def __eval__(self) -> UniversalArray:
+        """Evaluate Himmelblau function at x.
+
+        Returns:
+            UniversalArray: Evaluated function value.
+        """
+        x, y = self._x[0], self._x[1]
+        return (x**2 + y - 11) ** 2 + (x + y**2 - 7) ** 2
+
+    @property
+    def __minima__(self) -> MinimaAPI:
+        """Return the minima of the Himmelblau function.
+
+        Returns:
+            MinimaAPI: Minima of the Himmelblau function.
+        """
+        return MinimaAPI(
+            f_x=0.0,
+            x=tuple(
+                np.array([3.0, 2.0]),
+                np.array([-2.805118, 3.131312]),
+                np.array([-3.779310, -3.283186]),
+                np.array([3.584428, -1.848126]),
+            ),
+        )

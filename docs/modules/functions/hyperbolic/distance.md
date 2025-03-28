@@ -1,6 +1,7 @@
 # Hyperbolic Distance Function
 
-The hyperbolic distance function calculates the distance between two points in the hyperbolic plane.
+The hyperbolic distance function calculates the distance between two points in
+the hyperbolic plane.
 
 ## Function Definition
 
@@ -45,7 +46,8 @@ Here are some examples of how to use the hyperbolic distance function:
 
 ## Visualization
 
-To visualize the hyperbolic distance between two points, you can use the following code:
+To visualize the hyperbolic distance between two points, you can use the
+following code:
 
 ```python
 import matplotlib.pyplot as plt
@@ -68,4 +70,5 @@ def plot_hyperbolic_distance(point1, point2):
 plot_hyperbolic_distance((0, 0), (1, 1))
 ```
 
-This code will generate a plot showing the hyperbolic distance between the two points (0, 0) and (1, 1).
+This code will generate a plot showing the hyperbolic distance between the two
+points (0, 0) and (1, 1).

@@ -1,6 +1,7 @@
 # Hyperbolic Angle Function
 
-The hyperbolic angle function computes the angle between two vectors in the hyperbolic plane.
+The hyperbolic angle function computes the angle between two vectors in the
+hyperbolic plane.
 
 ## Function Definition
 
@@ -48,7 +49,8 @@ Here are some examples of how to use the hyperbolic angle function:
 
 ## Visualization
 
-To visualize the hyperbolic angle between two vectors, you can use the following code:
+To visualize the hyperbolic angle between two vectors, you can use the following
+code:
 
 ```python
 import matplotlib.pyplot as plt
@@ -72,4 +74,5 @@ def plot_hyperbolic_angle(vector1, vector2):
 plot_hyperbolic_angle((1, 0), (0, 1))
 ```
 
-This code will generate a plot showing the hyperbolic angle between the two vectors (1, 0) and (0, 1).
+This code will generate a plot showing the hyperbolic angle between the two
+vectors (1, 0) and (0, 1).

@@ -8,6 +8,7 @@ import numpy as np
 
 from umf.meta.functions import HyperbolicFunction
 
+
 if TYPE_CHECKING:
     from umf.types.static_types import UniversalArray
 

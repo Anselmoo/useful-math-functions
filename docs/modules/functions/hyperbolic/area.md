@@ -1,6 +1,7 @@
 # Hyperbolic Area Function
 
-The hyperbolic area function calculates the area of a polygon in the hyperbolic plane.
+The hyperbolic area function calculates the area of a polygon in the hyperbolic
+plane.
 
 ## Function Definition
 
@@ -71,4 +72,5 @@ def plot_hyperbolic_area(vertices):
 plot_hyperbolic_area(((0, 0), (1, 0), (0, 1)))
 ```
 
-This code will generate a plot showing the hyperbolic area of the polygon with vertices (0, 0), (1, 0), and (0, 1).
+This code will generate a plot showing the hyperbolic area of the polygon with
+vertices (0, 0), (1, 0), and (0, 1).

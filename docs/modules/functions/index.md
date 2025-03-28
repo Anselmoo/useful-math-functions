@@ -20,24 +20,31 @@ B --> C[Outputs]
 
 ## Hyperbolic Plane Functions
 
-The hyperbolic plane functions module includes functions for various calculations in the hyperbolic plane, such as distance, angle, area, geodesic, and isometry.
+The hyperbolic plane functions module includes functions for various
+calculations in the hyperbolic plane, such as distance, angle, area, geodesic,
+and isometry.
 
 ### Hyperbolic Distance Function
 
-The hyperbolic distance function calculates the distance between two points in the hyperbolic plane.
+The hyperbolic distance function calculates the distance between two points in
+the hyperbolic plane.
 
 ### Hyperbolic Angle Function
 
-The hyperbolic angle function computes the angle between two vectors in the hyperbolic plane.
+The hyperbolic angle function computes the angle between two vectors in the
+hyperbolic plane.
 
 ### Hyperbolic Area Function
 
-The hyperbolic area function calculates the area of a polygon in the hyperbolic plane.
+The hyperbolic area function calculates the area of a polygon in the hyperbolic
+plane.
 
 ### Hyperbolic Geodesic Function
 
-The hyperbolic geodesic function determines the shortest path between two points in the hyperbolic plane.
+The hyperbolic geodesic function determines the shortest path between two points
+in the hyperbolic plane.
 
 ### Hyperbolic Isometry Function
 
-The hyperbolic isometry function applies isometries (transformations that preserve distances) in the hyperbolic plane.
+The hyperbolic isometry function applies isometries (transformations that
+preserve distances) in the hyperbolic plane.

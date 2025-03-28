@@ -1,6 +1,7 @@
 # Hyperbolic Isometry Function
 
-The hyperbolic isometry function applies isometries (transformations that preserve distances) in the hyperbolic plane.
+The hyperbolic isometry function applies isometries (transformations that
+preserve distances) in the hyperbolic plane.
 
 ## Function Definition
 
@@ -43,7 +44,8 @@ array([2., 4.])
 
 ## Visualization
 
-To visualize the hyperbolic isometry transformation, you can use the following code:
+To visualize the hyperbolic isometry transformation, you can use the following
+code:
 
 ```python
 import matplotlib.pyplot as plt
@@ -65,4 +67,5 @@ def plot_hyperbolic_isometry(point, matrix):
 plot_hyperbolic_isometry((1, 1), np.array([[1, 1], [1, 1]]))
 ```
 
-This code will generate a plot showing the original point and the transformed point after applying the isometry transformation.
+This code will generate a plot showing the original point and the transformed
+point after applying the isometry transformation.

@@ -1,6 +1,7 @@
 # Hyperbolic Geodesic Function
 
-The hyperbolic geodesic function determines the shortest path between two points in the hyperbolic plane.
+The hyperbolic geodesic function determines the shortest path between two points
+in the hyperbolic plane.
 
 ## Function Definition
 
@@ -45,7 +46,8 @@ Here are some examples of how to use the hyperbolic geodesic function:
 
 ## Visualization
 
-To visualize the hyperbolic geodesic between two points, you can use the following code:
+To visualize the hyperbolic geodesic between two points, you can use the
+following code:
 
 ```python
 import matplotlib.pyplot as plt
@@ -68,4 +70,5 @@ def plot_hyperbolic_geodesic(point1, point2):
 plot_hyperbolic_geodesic((0, 0), (1, 1))
 ```
 
-This code will generate a plot showing the hyperbolic geodesic between the two points (0, 0) and (1, 1).
+This code will generate a plot showing the hyperbolic geodesic between the two
+points (0, 0) and (1, 1).

@@ -16,7 +16,7 @@ from typing import Tuple
 import numpy as np
 
 
-def hyperbolic_distance(point1: Tuple[float, float], point2: Tuple[float, float]) -> float:
+def hyperbolic_distance(point1: tuple[float, float], point2: tuple[float, float]) -> float:
     """Calculate the hyperbolic distance between two points in the hyperbolic plane.
 
     Args:

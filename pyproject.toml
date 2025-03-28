@@ -18,12 +18,12 @@ matplotlib = [
     "imagemagic (>=0.2.1,<0.3.0)",
 ]
 plotly = [
-    "plotly (>=5.24.1,<6.0.0)",
+    "plotly (>=6.0.0,<6.1.0)",
     "kaleido==0.2.1",
 ]
 all = [
     "matplotlib (>=3.10.0,<4.0.0)",
-    "plotly (>=5.24.1,<6.0.0)",
+    "plotly (>=6.0.0,<6.1.0)",
     "kaleido==0.2.1",
     "imagemagic (>=0.2.1,<0.3.0)",
 ]
@@ -37,7 +37,7 @@ changelog = "https://github.com/Anselmoo/useful-math-functions/blob/main/CHANGEL
 
 [dependency-groups]
 dev = [
-    "ruff>=0.9.2,<0.10",
+    "ruff>=0.11,<0.12",
     "mypy>=1.14.1,<2",
     "pytest>=8.3.4,<9",
     "pytest-sugar>=1.0.0,<2",

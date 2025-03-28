@@ -1,9 +1,11 @@
+from __future__ import annotations
+
 import numpy as np
-import pytest
+
 from scipy import special
 
+from umf.functions.distributions.continuous_2pi_interval import VonMisesDistribution
 from umf.functions.distributions.continuous_2pi_interval import (
-    VonMisesDistribution,
     WrappedAsymLaplaceDistribution,
 )
 from umf.functions.distributions.continuous_bounded_interval import (

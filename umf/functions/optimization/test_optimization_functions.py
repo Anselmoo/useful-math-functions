@@ -1,10 +1,11 @@
+from __future__ import annotations
+
 import numpy as np
-import pytest
 
 from umf.functions.optimization.bowl_shaped import PermBetaDFunction
-from umf.functions.optimization.bowl_shaped import TridFunction
-from umf.functions.optimization.bowl_shaped import SumSquaresFunction
 from umf.functions.optimization.bowl_shaped import SumOfDifferentPowersFunction
+from umf.functions.optimization.bowl_shaped import SumSquaresFunction
+from umf.functions.optimization.bowl_shaped import TridFunction
 from umf.functions.optimization.bowl_shaped import ZirilliFunction
 
 

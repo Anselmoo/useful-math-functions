@@ -1,12 +1,12 @@
 """Test cases for chaotic oscillators."""
+from __future__ import annotations
 
 import numpy as np
-import pytest
 
 from umf.functions.chaotic.oscillators import DoublePendulum
-from umf.functions.chaotic.oscillators import MagneticPendulum
 from umf.functions.chaotic.oscillators import DoubleSpringMassSystem
 from umf.functions.chaotic.oscillators import LorenzAttractor
+from umf.functions.chaotic.oscillators import MagneticPendulum
 from umf.functions.chaotic.oscillators import RoesslerAttractor
 
 

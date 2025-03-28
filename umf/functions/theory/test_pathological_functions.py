@@ -1,11 +1,12 @@
-import numpy as np
-import pytest
+from __future__ import annotations
 
-from umf.functions.theory.pathological import WeierstrassFunction
+import numpy as np
+
+from umf.functions.theory.pathological import BesicovitchFunction
+from umf.functions.theory.pathological import MandelbrotsFractalFunction
 from umf.functions.theory.pathological import RiemannFunction
 from umf.functions.theory.pathological import TakagiFunction
-from umf.functions.theory.pathological import MandelbrotsFractalFunction
-from umf.functions.theory.pathological import BesicovitchFunction
+from umf.functions.theory.pathological import WeierstrassFunction
 
 
 def test_weierstrass_function() -> None:

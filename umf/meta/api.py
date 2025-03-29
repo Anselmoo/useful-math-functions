@@ -140,3 +140,18 @@ class ResultsChaoticOscillatorAPI(BaseModel):
         default=...,
         description="Function documentation string.",
     )
+
+
+class ResultsHyperbolicAPI(BaseModel):
+    """Results API for hyperbolic functions."""
+
+    model_config = ConfigDict(arbitrary_types_allowed=True)
+    x: UniversalArrayTuple = Field(
+        ...,
+        description="Input data, which can be one, two, three, or higher dimensional.",
+    )
+    result: UniversalArray | MeshArray = Field(
+        ...,
+        description="Function value as numpy array or numpy mesh grid array.",
+    )
+    doc: str | None = Field(..., description="Function documentation string.")

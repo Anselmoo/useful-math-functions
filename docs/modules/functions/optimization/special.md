@@ -83,8 +83,8 @@
         heading_level: 0
         members: None
 
-|                                                                 |
-| :-------------------------------------------------------------: |
+|                                                                     |
+| :-----------------------------------------------------------------: |
 | ![HimmelblauFunction](../../../extra/images/HimmelblauFunction.png) |
 
 ## Styblinski-Tang Function

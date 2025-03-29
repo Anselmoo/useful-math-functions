@@ -90,7 +90,7 @@ target-version = "py310"
 fix = true
 
 lint.select = ["ALL", "W291"]
-lint.ignore = ["ANN101", "ISC001", "COM812", "N803"] # annotations for self
+lint.ignore = ["ISC001", "COM812", "N803"] # annotations for self
 src = ["umf"]
 
 [tool.ruff.lint.per-file-ignores]
@@ -99,6 +99,7 @@ src = ["umf"]
     "S101",    # use of assert detected
     "TCH002",  # third party import (for pytest)
 ]
+"umf/types/__init__.py" = ["A005"]
 
 [tool.ruff.lint.pydocstyle]
 convention = "google"

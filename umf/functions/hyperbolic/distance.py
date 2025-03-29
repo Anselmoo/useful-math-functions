@@ -31,6 +31,22 @@ class HyperbolicDistanceFunction(HyperbolicFunction):
         >>> hdf.result
         1.762747174039086
 
+        >>> # Visualization Example
+        >>> import matplotlib.pyplot as plt
+        >>> from umf.functions.hyperbolic import HyperbolicDistanceFunction
+        >>> point1 = (0, 0)
+        >>> point2 = (1, 1)
+        >>> hdf = HyperbolicDistanceFunction(point1, point2)()
+        >>> distance = hdf.result
+        >>> fig, ax = plt.subplots()
+        >>> ax.plot([point1[0], point2[0]], [point1[1], point2[1]], 'ro-')
+        >>> ax.set_xlim(-0.5, 1.5)
+        >>> ax.set_ylim(-0.5, 1.5)
+        >>> ax.set_aspect('equal')
+        >>> plt.title(f'Distance: {distance:.2f}')
+        >>> plt.grid()
+        >>> plt.savefig("HyperbolicDistanceFunction.png", dpi=300, transparent=True)
+
     Notes:
         The hyperbolic distance between two points $(x_1, y_1)$ and $(x_2, y_2)$ in the
         hyperbolic plane is given by:

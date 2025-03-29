@@ -31,12 +31,37 @@ class HyperbolicAngleFunction(HyperbolicFunction):
         >>> haf.result
         1.5707963267948966
 
+        >>> # Visualization Example
+        >>> import matplotlib.pyplot as plt
+        >>> from umf.functions.hyperbolic import HyperbolicAngleFunction
+        >>> vector1 = (1, 0)
+        >>> vector2 = (0, 1)
+        >>> haf = HyperbolicAngleFunction(vector1, vector2)()
+        >>> angle = haf.result
+        >>> fig, ax = plt.subplots()
+        >>> ax.quiver(
+        ...     0, 0, vector1[0], vector1[1], angles='xy', scale_units='xy', scale=1,
+        ...     color='r', label='Vector 1'
+        ... )
+        >>> ax.quiver(
+        ...     0, 0, vector2[0], vector2[1], angles='xy', scale_units='xy', scale=1,
+        ...     color='b', label='Vector 2'
+        ... )
+        >>> ax.set_xlim(-1.5, 1.5)
+        >>> ax.set_ylim(-1.5, 1.5)
+        >>> ax.set_aspect('equal')
+        >>> ax.legend()
+        >>> plt.title(f'Angle: {angle:.2f} radians')
+        >>> plt.grid()
+        >>> plt.savefig("HyperbolicAngleFunction.png", dpi=300, transparent=True)
+
     Notes:
         The angle between two vectors $(x_1, y_1)$ and $(x_2, y_2)$ in the hyperbolic
         plane is given by:
 
         $$
-        \theta = \cos^{-1}\left(\frac{x_1 x_2 + y_1 y_2}{\sqrt{x_1^2 + y_1^2} \sqrt{x_2^2 + y_2^2}}\right)
+        \theta = \cos^{-1}\left(\frac{x_1 x_2 + y_1 y_2}{\sqrt{x_1^2 + y_1^2}
+        \sqrt{x_2^2 + y_2^2}}\right)
         $$
 
         > Reference: https://en.wikipedia.org/wiki/Hyperbolic_angle

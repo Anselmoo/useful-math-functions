@@ -11,17 +11,17 @@ Examples:
 
 from __future__ import annotations
 
-from typing import Tuple
-
 import numpy as np
 
 
-def hyperbolic_distance(point1: tuple[float, float], point2: tuple[float, float]) -> float:
-    """Calculate the hyperbolic distance between two points in the hyperbolic plane.
+def hyperbolic_distance(
+    point1: tuple[float, float], point2: tuple[float, float]
+) -> float:
+    """Calculate the distance between two points in the hyperbolic plane.
 
     Args:
-        point1 (Tuple[float, float]): The first point (x1, y1).
-        point2 (Tuple[float, float]): The second point (x2, y2).
+        point1 (tuple[float, float]): The first point (x1, y1).
+        point2 (tuple[float, float]): The second point (x2, y2).
 
     Returns:
         float: The hyperbolic distance between the two points.
@@ -32,4 +32,4 @@ def hyperbolic_distance(point1: tuple[float, float], point2: tuple[float, float]
     """
     x1, y1 = point1
     x2, y2 = point2
-    return np.arccosh(1 + ((x2 - x1)**2 + (y2 - y1)**2) / (2 * y1 * y2))
+    return np.arccosh(1 + ((x2 - x1) ** 2 + (y2 - y1) ** 2) / (2 * y1 * y2))

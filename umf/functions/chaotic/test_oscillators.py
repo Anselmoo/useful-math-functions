@@ -1,8 +1,6 @@
 """Test cases for chaotic oscillators."""
 from __future__ import annotations
 
-from __future__ import annotations
-
 import numpy as np
 
 from umf.functions.chaotic.oscillators import DoublePendulum

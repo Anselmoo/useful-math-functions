@@ -28,9 +28,9 @@
         heading_level: 0
         members: None
 
-|                                                                             |
-| :-------------------------------------------------------------------------: |
-| ![StyblinskiTangFunction](../../../extra/images/StyblinskiTangFunction.png) |
+|                                                             |
+| :---------------------------------------------------------: |
+| ![BraninFunction](../../../extra/images/BraninFunction.png) |
 
 ## Goldstein-Price Function
 
@@ -66,10 +66,6 @@
 | :-------------------------------------------------------------------------------: |
 | ![GoldsteinPriceLogFunction](../../../extra/images/GoldsteinPriceLogFunction.png) |
 
-|                                                             |
-| :---------------------------------------------------------: |
-| ![BraninFunction](../../../extra/images/BraninFunction.png) |
-
 ## Himmelblau Function
 
 <!-- prettier-ignore -->
@@ -83,8 +79,8 @@
         heading_level: 0
         members: None
 
-|                                                                 |
-| :-------------------------------------------------------------: |
+|                                                                     |
+| :-----------------------------------------------------------------: |
 | ![HimmelblauFunction](../../../extra/images/HimmelblauFunction.png) |
 
 ## Styblinski-Tang Function
@@ -99,3 +95,7 @@
         inheritance_graph: false
         heading_level: 0
         members: None
+
+|                                                                             |
+| :-------------------------------------------------------------------------: |
+| ![StyblinskiTangFunction](../../../extra/images/StyblinskiTangFunction.png) |

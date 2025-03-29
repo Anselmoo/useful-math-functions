@@ -28,7 +28,7 @@
         heading_level: 0
         members: None
 
-|                                                           |
+|                                                             |
 | :---------------------------------------------------------: |
 | ![BraninFunction](../../../extra/images/BraninFunction.png) |
 
@@ -62,7 +62,7 @@
         heading_level: 0
         members: None
 
-|                                                                                |
+|                                                                                   |
 | :-------------------------------------------------------------------------------: |
 | ![GoldsteinPriceLogFunction](../../../extra/images/GoldsteinPriceLogFunction.png) |
 
@@ -79,8 +79,8 @@
         heading_level: 0
         members: None
 
-|                                                                 |
-| :-------------------------------------------------------------: |
+|                                                                     |
+| :-----------------------------------------------------------------: |
 | ![HimmelblauFunction](../../../extra/images/HimmelblauFunction.png) |
 
 ## Styblinski-Tang Function

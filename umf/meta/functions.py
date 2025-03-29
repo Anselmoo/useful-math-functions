@@ -23,8 +23,8 @@ from umf.constants.exceptions import TimeFormatError
 from umf.meta.api import ResultsChaoticOscillatorAPI
 from umf.meta.api import ResultsDistributionAPI
 from umf.meta.api import ResultsFunctionAPI
-from umf.meta.api import ResultsPathologicalAPI
 from umf.meta.api import ResultsHyperbolicAPI
+from umf.meta.api import ResultsPathologicalAPI
 
 
 if TYPE_CHECKING:

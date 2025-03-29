@@ -19,7 +19,6 @@ if TYPE_CHECKING:
 
 __all__: list[str] = [
     "DixonPriceFunction",
-    "Rosenbrock2DFunction",
     "RosenbrockFunction",
     "SixHumpCamelFunction",
     "ThreeHumpCamelFunction",
@@ -280,65 +279,4 @@ class RosenbrockFunction(OptFunction):
         return MinimaAPI(
             f_x=0.0,
             x=tuple(np.array([1.0 for _ in range(len(self._x))])),
-        )
-
-
-class Rosenbrock2DFunction(OptFunction):
-    r"""2D Rosenbrock function.
-
-    The 2D Rosenbrock function is a two-dimensional function with a single
-    global minimum.
-
-    Examples:
-        >>> import matplotlib.pyplot as plt
-        >>> import numpy as np
-        >>> from umf.functions.optimization.valley_shaped import Rosenbrock2DFunction
-        >>> x = np.linspace(-2, 2, 100)
-        >>> y = np.linspace(-1, 3, 100)
-        >>> X, Y = np.meshgrid(x, y)
-        >>> Z = Rosenbrock2DFunction(X, Y).__eval__
-        >>> fig = plt.figure()
-        >>> ax = fig.add_subplot(111, projection="3d")
-        >>> _ = ax.plot_surface(X, Y, Z, cmap="viridis")
-        >>> plt.savefig("Rosenbrock2DFunction.png", dpi=300, transparent=True)
-
-    Notes:
-        The 2D Rosenbrock function is defined as:
-
-        $$
-        f(x) = 100(x_2 - x_1^2)^2 + (1 - x_1)^2
-        $$
-
-        > Reference: Original implementation can be found
-        > [here](https://www.sfu.ca/~ssurjano/rosen.html).
-
-    Args:
-        *x (UniversalArray): Input data, which has to be two-dimensional.
-
-    Raises:
-        OutOfDimensionError: If the dimension of the input data is not 2.
-    """
-
-    def __init__(self, *x: UniversalArray) -> None:
-        """Initialize the 2D Rosenbrock function."""
-        if len(x) != __2d__:
-            raise OutOfDimensionError(
-                function_name="Rosenbrock2D",
-                dimension=__2d__,
-            )
-        super().__init__(*x)
-
-    @property
-    def __eval__(self) -> UniversalArray:
-        """Evaluate 2D Rosenbrock function at x."""
-        x_1 = self._x[0]
-        x_2 = self._x[1]
-        return 100 * (x_2 - x_1**2) ** 2 + (1 - x_1) ** 2
-
-    @property
-    def __minima__(self) -> MinimaAPI:
-        """Return the zero function."""
-        return MinimaAPI(
-            f_x=0.0,
-            x=(1.0, 1.0),
         )

@@ -74,13 +74,13 @@ import numpy as np
 x = np.linspace(-2, 2, 100)
 y = np.linspace(-1, 3, 100)
 X, Y = np.meshgrid(x, y)
-Z = Rosenbrock2DFunction(X, Y).__eval__
+Z = RosenbrockFunction(X, Y).__eval__
 
 import matplotlib.pyplot as plt
 fig = plt.figure()
 ax = fig.add_subplot(111, projection="3d")
 ax.plot_surface(X, Y, Z, cmap="viridis")
-plt.savefig("Rosenbrock2DFunction.png", dpi=300, transparent=True)
+plt.savefig("RosenbrockFunction.png", dpi=300, transparent=True)
 ```
 
 ## Documentation

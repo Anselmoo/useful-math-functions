@@ -28,23 +28,6 @@
         heading_level: 0
         members: None
 
-|                                                             |
-| :---------------------------------------------------------: |
-| ![BraninFunction](../../../extra/images/BraninFunction.png) |
-
-## Styblinski-Tang Function
-
-<!-- prettier-ignore -->
-::: umf.functions.optimization.special.StyblinskiTangFunction
-    options:
-        show_bases: false
-        show_source: true
-        show_inherited_members: false
-        allow_inspection: false
-        inheritance_graph: false
-        heading_level: 0
-        members: None
-
 |                                                                             |
 | :-------------------------------------------------------------------------: |
 | ![StyblinskiTangFunction](../../../extra/images/StyblinskiTangFunction.png) |
@@ -82,3 +65,37 @@
 |                                                                                   |
 | :-------------------------------------------------------------------------------: |
 | ![GoldsteinPriceLogFunction](../../../extra/images/GoldsteinPriceLogFunction.png) |
+
+|                                                             |
+| :---------------------------------------------------------: |
+| ![BraninFunction](../../../extra/images/BraninFunction.png) |
+
+## Himmelblau Function
+
+<!-- prettier-ignore -->
+::: umf.functions.optimization.special.HimmelblauFunction
+    options:
+        show_bases: false
+        show_source: true
+        show_inherited_members: false
+        allow_inspection: false
+        inheritance_graph: false
+        heading_level: 0
+        members: None
+
+|                                                                 |
+| :-------------------------------------------------------------: |
+| ![HimmelblauFunction](../../../extra/images/HimmelblauFunction.png) |
+
+## Styblinski-Tang Function
+
+<!-- prettier-ignore -->
+::: umf.functions.optimization.special.StyblinskiTangFunction
+    options:
+        show_bases: false
+        show_source: true
+        show_inherited_members: false
+        allow_inspection: false
+        inheritance_graph: false
+        heading_level: 0
+        members: None

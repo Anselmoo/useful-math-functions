@@ -24,6 +24,7 @@ from umf.meta.api import ResultsChaoticOscillatorAPI
 from umf.meta.api import ResultsDistributionAPI
 from umf.meta.api import ResultsFunctionAPI
 from umf.meta.api import ResultsPathologicalAPI
+from umf.meta.api import ResultsHyperbolicAPI
 
 
 if TYPE_CHECKING:
@@ -90,6 +91,37 @@ class OptFunction(ABC, metaclass=CoreElements):
             doc=self.__doc__,
         )
 
+
+class HyperbolicFunction(ABC, metaclass=CoreElements):
+    """Class for hyperbolic functions."""
+
+
+
+    def __init__(self, *args: UniversalArray) -> None:
+        """Initialize the hyperbolic function."""
+        if args[0] is None:
+            raise MissingXError
+
+        self._x: tuple[UniversalArray, ...] = args
+        self.dimension: int = len(args)
+
+    @property
+    def __input__(self) -> UniversalArrayTuple:
+        """Return the input data for the hyperbolic function."""
+        return self._x
+
+    @property
+    @abstractmethod
+    def __eval__(self) -> UniversalArray:
+        """Evaluate the hyperbolic function."""
+
+    def __call__(self) -> ResultsHyperbolicAPI:
+        """Return the results of the hyperbolic function."""
+        return ResultsHyperbolicAPI(
+            x=self.__input__,
+            result=self.__eval__,
+            doc=self.__doc__,
+        )
 
 class PathologicalBase(ABC, metaclass=CoreElements):
     """Base class for pathological functions.

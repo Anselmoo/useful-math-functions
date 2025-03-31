@@ -24,25 +24,25 @@ class HyperbolicAreaFunction(HyperbolicFunction):
     plane.
 
     Examples:
-        >>> from umf.functions.hyperbolic import HyperbolicAreaFunction
-        >>> vertices = [(0, 0), (1, 0), (0, 1)]
-        >>> haf = HyperbolicAreaFunction(vertices)()
+        >>> from umf.functions.hyperbolic.area import HyperbolicAreaFunction
+        >>> vertices = np.array([(0, 0), (1, 0), (0, 1)])
+        >>> haf = HyperbolicAreaFunction(*vertices)()
         >>> haf.result
-        0.5
+        array(0.5)
 
         >>> # Visualization Example
         >>> import matplotlib.pyplot as plt
-        >>> from umf.functions.hyperbolic import HyperbolicAreaFunction
-        >>> vertices = [(0, 0), (1, 0), (0, 1)]
-        >>> haf = HyperbolicAreaFunction(vertices)()
+        >>> from umf.functions.hyperbolic.area import HyperbolicAreaFunction
+        >>> vertices = np.array([(0, 0), (1, 0), (0, 1)])
+        >>> haf = HyperbolicAreaFunction(*vertices)()
         >>> area = haf.result
         >>> fig, ax = plt.subplots()
         >>> polygon = plt.Polygon(vertices, closed=True, fill=None, edgecolor='r')
-        >>> ax.add_patch(polygon)
-        >>> ax.set_xlim(-0.5, 1.5)
-        >>> ax.set_ylim(-0.5, 1.5)
-        >>> ax.set_aspect('equal')
-        >>> plt.title(f'Area: {area:.2f}')
+        >>> _ = ax.add_patch(polygon)
+        >>> _ = ax.set_xlim(-0.5, 1.5)
+        >>> _ = ax.set_ylim(-0.5, 1.5)
+        >>> _ = ax.set_aspect('equal')
+        >>> _ = plt.title(f'Area: {area:.2f}')
         >>> plt.grid()
         >>> plt.savefig("HyperbolicAreaFunction.png", dpi=300, transparent=True)
 
@@ -71,10 +71,10 @@ class HyperbolicAreaFunction(HyperbolicFunction):
         Returns:
             float: The area of the polygon in the hyperbolic plane.
         """
-        n = len(self._vertices)
+        n = len(self._x)
         area = 0.0
         for i in range(n):
-            x1, y1 = self._vertices[i]
-            x2, y2 = self._vertices[(i + 1) % n]
+            x1, y1 = self._x[i]
+            x2, y2 = self._x[(i + 1) % n]
             area += x1 * y2 - x2 * y1
         return 0.5 * np.abs(area)

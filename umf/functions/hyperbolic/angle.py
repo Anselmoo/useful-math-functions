@@ -24,34 +24,34 @@ class HyperbolicAngleFunction(HyperbolicFunction):
     hyperbolic plane.
 
     Examples:
-        >>> from umf.functions.hyperbolic import HyperbolicAngleFunction
-        >>> vector1 = (1, 0)
-        >>> vector2 = (0, 1)
+        >>> from umf.functions.hyperbolic.angle import HyperbolicAngleFunction
+        >>> vector1 = np.array([1, 0])
+        >>> vector2 = np.array([0, 1])
         >>> haf = HyperbolicAngleFunction(vector1, vector2)()
         >>> haf.result
-        1.5707963267948966
+        array(1.57079633)
 
         >>> # Visualization Example
         >>> import matplotlib.pyplot as plt
-        >>> from umf.functions.hyperbolic import HyperbolicAngleFunction
-        >>> vector1 = (1, 0)
-        >>> vector2 = (0, 1)
+        >>> from umf.functions.hyperbolic.angle import HyperbolicAngleFunction
+        >>> vector1 = np.array([1, 0])
+        >>> vector2 = np.array([0, 1])
         >>> haf = HyperbolicAngleFunction(vector1, vector2)()
         >>> angle = haf.result
         >>> fig, ax = plt.subplots()
-        >>> ax.quiver(
+        >>> _ = ax.quiver(
         ...     0, 0, vector1[0], vector1[1], angles='xy', scale_units='xy', scale=1,
         ...     color='r', label='Vector 1'
         ... )
-        >>> ax.quiver(
+        >>> _ = ax.quiver(
         ...     0, 0, vector2[0], vector2[1], angles='xy', scale_units='xy', scale=1,
         ...     color='b', label='Vector 2'
         ... )
-        >>> ax.set_xlim(-1.5, 1.5)
-        >>> ax.set_ylim(-1.5, 1.5)
-        >>> ax.set_aspect('equal')
-        >>> ax.legend()
-        >>> plt.title(f'Angle: {angle:.2f} radians')
+        >>> _ = ax.set_xlim(-1.5, 1.5)
+        >>> _ = ax.set_ylim(-1.5, 1.5)
+        >>> _ = ax.set_aspect('equal')
+        >>> _ = ax.legend()
+        >>> _ = plt.title(f'Angle: {angle:.2f} radians')
         >>> plt.grid()
         >>> plt.savefig("HyperbolicAngleFunction.png", dpi=300, transparent=True)
 
@@ -82,8 +82,8 @@ class HyperbolicAngleFunction(HyperbolicFunction):
         Returns:
             float: The angle between the two vectors in radians.
         """
-        x1, y1 = self._vectors[0]
-        x2, y2 = self._vectors[1]
+        x1, y1 = self._x[0]
+        x2, y2 = self._x[1]
         dot_product = x1 * x2 + y1 * y2
         norm1 = np.sqrt(x1**2 + y1**2)
         norm2 = np.sqrt(x2**2 + y2**2)

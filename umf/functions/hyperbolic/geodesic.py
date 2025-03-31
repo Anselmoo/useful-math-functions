@@ -24,12 +24,28 @@ class HyperbolicGeodesicFunction(HyperbolicFunction):
     in the hyperbolic plane.
 
     Examples:
-        >>> from umf.functions.hyperbolic import HyperbolicGeodesicFunction
-        >>> point1 = (0, 0)
-        >>> point2 = (1, 1)
+        >>> from umf.functions.hyperbolic.geodesic import HyperbolicGeodesicFunction
+        >>> point1 = np.array([0.1, 0.1])
+        >>> point2 = np.array([1, 1])
         >>> hgf = HyperbolicGeodesicFunction(point1, point2)()
         >>> hgf.result
-        1.762747174039086
+        array(2.89838887)
+
+        >>> # Visualization Example
+        >>> import matplotlib.pyplot as plt
+        >>> from umf.functions.hyperbolic.geodesic import HyperbolicGeodesicFunction
+        >>> point1 = np.array([0.1, 0.1])
+        >>> point2 = np.array([1, 1])
+        >>> hgf = HyperbolicGeodesicFunction(point1, point2)()
+        >>> distance = hgf.result
+        >>> fig, ax = plt.subplots()
+        >>> _ = ax.plot([point1[0], point2[0]], [point1[1], point2[1]], 'ro-')
+        >>> _ = ax.set_xlim(-0.5, 1.5)
+        >>> _ = ax.set_ylim(-0.5, 1.5)
+        >>> _ = ax.set_aspect('equal')
+        >>> _ = plt.title(f'Distance: {distance:.2f}')
+        >>> plt.grid()
+        >>> plt.savefig("HyperbolicGeodesicFunction.png", dpi=300, transparent=True)
 
     Notes:
         The hyperbolic geodesic between two points $(x_1, y_1)$ and $(x_2, y_2)$ in the
@@ -57,6 +73,6 @@ class HyperbolicGeodesicFunction(HyperbolicFunction):
         Returns:
             float: The length of the geodesic between the two points.
         """
-        x1, y1 = self._points[0]
-        x2, y2 = self._points[1]
+        x1, y1 = self._x[0]
+        x2, y2 = self._x[1]
         return np.arccosh(1 + ((x2 - x1) ** 2 + (y2 - y1) ** 2) / (2 * y1 * y2))

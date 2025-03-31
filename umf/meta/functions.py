@@ -119,7 +119,7 @@ class HyperbolicFunction(ABC, metaclass=CoreElements):
         """Return the results of the hyperbolic function."""
         return ResultsHyperbolicAPI(
             x=self.__input__,
-            result=self.__eval__,
+            result=np.asarray(self.__eval__),
             doc=self.__doc__,
         )
 

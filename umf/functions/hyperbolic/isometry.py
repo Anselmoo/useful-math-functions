@@ -29,29 +29,30 @@ class HyperbolicIsometryFunction(HyperbolicFunction):
         >>> matrix = np.array([[1, 1], [1, 1]], dtype=float)
         >>> hif = HyperbolicIsometryFunction(point, matrix)()
         >>> hif.result
-        array([2, 2])
+        array([2., 2.])
 
         >>> # Visualization Example
         >>> import matplotlib.pyplot as plt
-        >>> from umf.functions.hyperbolic import HyperbolicIsometryFunction
+        >>> from umf.functions.hyperbolic.isometry import HyperbolicIsometryFunction
         >>> point = np.array([1, 1])
         >>> matrix = np.array([[1, 1], [1, 1]])
         >>> hif = HyperbolicIsometryFunction(point, matrix)()
         >>> transformed_point = hif.result
         >>> fig, ax = plt.subplots()
-        >>> ax.quiver(
+        >>> _  = ax.quiver(
         ...     0, 0, point[0], point[1], angles='xy', scale_units='xy', scale=1,
         ...     color='r', label='Original Point'
         ... )
-        >>> ax.quiver(
+        >>> _  = ax.quiver(
         ...     0, 0, transformed_point[0], transformed_point[1], angles='xy',
         ...     scale_units='xy', scale=1, color='b', label='Transformed Point'
         ... )
-        >>> ax.set_xlim(-1.5, 2.5)
-        >>> ax.set_ylim(-1.5, 2.5)
+
+        >>> _  = ax.set_xlim(-1.5, 2.5)
+        >>> _  = ax.set_ylim(-1.5, 2.5)
         >>> ax.set_aspect('equal')
-        >>> ax.legend()
-        >>> plt.title('Hyperbolic Isometry Transformation')
+        >>> _  = ax.legend()
+        >>> _  = plt.title('Hyperbolic Isometry Transformation')
         >>> plt.grid()
         >>> plt.savefig("HyperbolicIsometryFunction.png", dpi=300, transparent=True)
 

@@ -7,5 +7,3 @@ such as distance, angle, area, geodesic, and isometry.
 """
 
 from __future__ import annotations
-
-

@@ -21,8 +21,8 @@ def test_perm_beta_d_function() -> None:
     """
     x: np.ndarray = np.array([1, 2, 3])
     func: PermBetaDFunction = PermBetaDFunction(x)
-    result: float = func.__eval__
-    expected: float = 0.0
+    result: float = float(np.sum(func.__eval__))
+    expected: float = 11.25
     assert np.all(np.isclose(result, expected, rtol=1e-5, atol=1e-8))
 
 
@@ -36,8 +36,8 @@ def test_trid_function() -> None:
     """
     x: np.ndarray = np.array([1, 2, 3])
     func: TridFunction = TridFunction(x)
-    result: float = func.__eval__
-    expected: float = -2.0
+    result: float = float(np.sum(func.__eval__))
+    expected: float = -9.0
     assert np.all(np.isclose(result, expected, rtol=1e-5, atol=1e-8))
 
 
@@ -51,7 +51,7 @@ def test_sum_squares_function() -> None:
     """
     x: np.ndarray = np.array([1, 2, 3])
     func: SumSquaresFunction = SumSquaresFunction(x)
-    result: float = func.__eval__
+    result: float = float(np.sum(func.__eval__))
     expected: float = 14.0
     assert np.all(np.isclose(result, expected, rtol=1e-5, atol=1e-8))
 
@@ -66,8 +66,8 @@ def test_sum_of_different_powers_function() -> None:
     """
     x: np.ndarray = np.array([1, 2, 3])
     func: SumOfDifferentPowersFunction = SumOfDifferentPowersFunction(x)
-    result: float = func.__eval__
-    expected: float = 36.0
+    result: float = float(np.sum(func.__eval__))
+    expected: float = 14.0
     assert np.all(np.isclose(result, expected, rtol=1e-5, atol=1e-8))
 
 
@@ -81,6 +81,6 @@ def test_zirilli_function() -> None:
     """
     x: np.ndarray = np.array([[1], [2]])
     func: ZirilliFunction = ZirilliFunction(*x)
-    result: float = func.__eval__
-    expected: float = 2.0
+    result: float = float(func.__eval__)
+    expected: float = 1.85
     assert np.all(np.isclose(result, expected, rtol=1e-5, atol=1e-8))

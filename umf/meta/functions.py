@@ -95,8 +95,6 @@ class OptFunction(ABC, metaclass=CoreElements):
 class HyperbolicFunction(ABC, metaclass=CoreElements):
     """Class for hyperbolic functions."""
 
-
-
     def __init__(self, *args: UniversalArray) -> None:
         """Initialize the hyperbolic function."""
         if args[0] is None:
@@ -122,6 +120,7 @@ class HyperbolicFunction(ABC, metaclass=CoreElements):
             result=np.asarray(self.__eval__),
             doc=self.__doc__,
         )
+
 
 class PathologicalBase(ABC, metaclass=CoreElements):
     """Base class for pathological functions.

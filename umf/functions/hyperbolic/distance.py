@@ -75,4 +75,6 @@ class HyperbolicDistanceFunction(HyperbolicFunction):
         """
         x1, y1 = self._x[0].astype(np.float64)
         x2, y2 = self._x[1].astype(np.float64)
-        return np.asarray(np.arccosh(1 + ((x2 - x1) ** 2 + (y2 - y1) ** 2) / (2 * y1 * y2)))
+        return np.asarray(
+            np.arccosh(1 + ((x2 - x1) ** 2 + (y2 - y1) ** 2) / (2 * y1 * y2))
+        )

@@ -13,30 +13,30 @@ if TYPE_CHECKING:
     from umf.types.static_types import UniversalArray
 
 __all__: list[str] = [
-    "HyperbolicGeodesicFunction",
+    "GeodesicFunction",
 ]
 
 
-class HyperbolicGeodesicFunction(HyperbolicFunction):
+class GeodesicFunction(HyperbolicFunction):
     r"""Determine the shortest path between two points in the hyperbolic plane.
 
     The hyperbolic geodesic function determines the shortest path between two points
     in the hyperbolic plane.
 
     Examples:
-        >>> from umf.functions.hyperbolic.geodesic import HyperbolicGeodesicFunction
+        >>> from umf.functions.hyperbolic.geodesic import GeodesicFunction
         >>> point1 = np.array([0.1, 0.1])
         >>> point2 = np.array([1, 1])
-        >>> hgf = HyperbolicGeodesicFunction(point1, point2)()
+        >>> hgf = GeodesicFunction(point1, point2)()
         >>> hgf.result
         array(2.89838887)
 
         >>> # Visualization Example
         >>> import matplotlib.pyplot as plt
-        >>> from umf.functions.hyperbolic.geodesic import HyperbolicGeodesicFunction
+        >>> from umf.functions.hyperbolic.geodesic import GeodesicFunction
         >>> point1 = np.array([0.1, 0.1])
         >>> point2 = np.array([1, 1])
-        >>> hgf = HyperbolicGeodesicFunction(point1, point2)()
+        >>> hgf = GeodesicFunction(point1, point2)()
         >>> distance = hgf.result
         >>> fig, ax = plt.subplots()
         >>> _ = ax.plot([point1[0], point2[0]], [point1[1], point2[1]], 'ro-')
@@ -45,7 +45,7 @@ class HyperbolicGeodesicFunction(HyperbolicFunction):
         >>> _ = ax.set_aspect('equal')
         >>> _ = plt.title(f'Distance: {distance:.2f}')
         >>> plt.grid()
-        >>> plt.savefig("HyperbolicGeodesicFunction.png", dpi=300, transparent=True)
+        >>> plt.savefig("GeodesicFunction.png", dpi=300, transparent=True)
 
     Notes:
         The hyperbolic geodesic between two points $(x_1, y_1)$ and $(x_2, y_2)$ in the

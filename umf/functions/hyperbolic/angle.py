@@ -13,30 +13,30 @@ if TYPE_CHECKING:
     from umf.types.static_types import UniversalArray
 
 __all__: list[str] = [
-    "HyperbolicAngleFunction",
+    "AngleFunction",
 ]
 
 
-class HyperbolicAngleFunction(HyperbolicFunction):
+class AngleFunction(HyperbolicFunction):
     r"""Compute the angle between two vectors in the hyperbolic plane.
 
     The hyperbolic angle function computes the angle between two vectors in the
     hyperbolic plane.
 
     Examples:
-        >>> from umf.functions.hyperbolic.angle import HyperbolicAngleFunction
+        >>> from umf.functions.hyperbolic.angle import AngleFunction
         >>> vector1 = np.array([1, 0])
         >>> vector2 = np.array([0, 1])
-        >>> haf = HyperbolicAngleFunction(vector1, vector2)()
+        >>> haf = AngleFunction(vector1, vector2)()
         >>> haf.result
         array(1.57079633)
 
         >>> # Visualization Example
         >>> import matplotlib.pyplot as plt
-        >>> from umf.functions.hyperbolic.angle import HyperbolicAngleFunction
+        >>> from umf.functions.hyperbolic.angle import AngleFunction
         >>> vector1 = np.array([1, 0])
         >>> vector2 = np.array([0, 1])
-        >>> haf = HyperbolicAngleFunction(vector1, vector2)()
+        >>> haf = AngleFunction(vector1, vector2)()
         >>> angle = haf.result
         >>> fig, ax = plt.subplots()
         >>> _ = ax.quiver(
@@ -53,7 +53,7 @@ class HyperbolicAngleFunction(HyperbolicFunction):
         >>> _ = ax.legend()
         >>> _ = plt.title(f'Angle: {angle:.2f} radians')
         >>> plt.grid()
-        >>> plt.savefig("HyperbolicAngleFunction.png", dpi=300, transparent=True)
+        >>> plt.savefig("AngleFunction.png", dpi=300, transparent=True)
 
     Notes:
         The angle between two vectors $(x_1, y_1)$ and $(x_2, y_2)$ in the hyperbolic

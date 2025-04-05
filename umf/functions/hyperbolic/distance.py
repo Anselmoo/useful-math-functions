@@ -13,30 +13,30 @@ if TYPE_CHECKING:
     from umf.types.static_types import UniversalArray
 
 __all__: list[str] = [
-    "HyperbolicDistanceFunction",
+    "DistanceFunction",
 ]
 
 
-class HyperbolicDistanceFunction(HyperbolicFunction):
+class DistanceFunction(HyperbolicFunction):
     r"""Calculate the hyperbolic distance between two points in the hyperbolic plane.
 
     The hyperbolic distance function calculates the distance between two points in the
     hyperbolic plane.
 
     Examples:
-        >>> from umf.functions.hyperbolic.distance import HyperbolicDistanceFunction
+        >>> from umf.functions.hyperbolic.distance import DistanceFunction
         >>> point1 = np.array([0.1, 0.1])
         >>> point2 = np.array([1, 1])
-        >>> hdf = HyperbolicDistanceFunction(point1, point2)()
+        >>> hdf = DistanceFunction(point1, point2)()
         >>> hdf.result
         array(2.89838887)
 
         >>> # Visualization Example
         >>> import matplotlib.pyplot as plt
-        >>> from umf.functions.hyperbolic.distance import HyperbolicDistanceFunction
+        >>> from umf.functions.hyperbolic.distance import DistanceFunction
         >>> point1 = np.array([0.1, 0.1])
         >>> point2 = np.array([1, 1])
-        >>> hdf = HyperbolicDistanceFunction(point1, point2)()
+        >>> hdf = DistanceFunction(point1, point2)()
         >>> distance = hdf.result
         >>> fig, ax = plt.subplots()
         >>> _ = ax.plot([point1[0], point2[0]], [point1[1], point2[1]], 'ro-')
@@ -45,7 +45,7 @@ class HyperbolicDistanceFunction(HyperbolicFunction):
         >>> _ = ax.set_aspect('equal')
         >>> _ = plt.title(f'Distance: {distance:.2f}')
         >>> plt.grid()
-        >>> plt.savefig("HyperbolicDistanceFunction.png", dpi=300, transparent=True)
+        >>> plt.savefig("DistanceFunction.png", dpi=300, transparent=True)
 
     Notes:
         The hyperbolic distance between two points $(x_1, y_1)$ and $(x_2, y_2)$ in the

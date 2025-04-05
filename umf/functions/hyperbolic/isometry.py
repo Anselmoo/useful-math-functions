@@ -13,30 +13,30 @@ if TYPE_CHECKING:
     from umf.types.static_types import UniversalArray
 
 __all__: list[str] = [
-    "HyperbolicIsometryFunction",
+    "IsometryFunction",
 ]
 
 
-class HyperbolicIsometryFunction(HyperbolicFunction):
+class IsometryFunction(HyperbolicFunction):
     r"""Apply an isometry transformation to a point in the hyperbolic plane.
 
     The hyperbolic isometry function applies isometries (transformations that preserve
     distances) in the hyperbolic plane.
 
     Examples:
-        >>> from umf.functions.hyperbolic.isometry import HyperbolicIsometryFunction
+        >>> from umf.functions.hyperbolic.isometry import IsometryFunction
         >>> point = np.array([1, 1], dtype=float)
         >>> matrix = np.array([[1, 1], [1, 1]], dtype=float)
-        >>> hif = HyperbolicIsometryFunction(point, matrix)()
+        >>> hif = IsometryFunction(point, matrix)()
         >>> hif.result
         array([2., 2.])
 
         >>> # Visualization Example
         >>> import matplotlib.pyplot as plt
-        >>> from umf.functions.hyperbolic.isometry import HyperbolicIsometryFunction
+        >>> from umf.functions.hyperbolic.isometry import IsometryFunction
         >>> point = np.array([1, 1])
         >>> matrix = np.array([[1, 1], [1, 1]])
-        >>> hif = HyperbolicIsometryFunction(point, matrix)()
+        >>> hif = IsometryFunction(point, matrix)()
         >>> transformed_point = hif.result
         >>> fig, ax = plt.subplots()
         >>> _  = ax.quiver(
@@ -54,7 +54,7 @@ class HyperbolicIsometryFunction(HyperbolicFunction):
         >>> _  = ax.legend()
         >>> _  = plt.title('Hyperbolic Isometry Transformation')
         >>> plt.grid()
-        >>> plt.savefig("HyperbolicIsometryFunction.png", dpi=300, transparent=True)
+        >>> plt.savefig("IsometryFunction.png", dpi=300, transparent=True)
 
     Notes:
         An isometry transformation in the hyperbolic plane is represented by a 2x2

@@ -41,8 +41,8 @@ References:
 - Mandelbrot, B. B. (1982). The Fractal Geometry of Nature
 - Falconer, K. (2003). Fractal Geometry: Mathematical Foundations and Applications
 - Barnsley, M. (1988). Fractals Everywhere
-# trunk-ignore(ruff/E501)
 - Peitgen, H.-O., Jürgens, H., & Saupe, D. (2004). Chaos and Fractals: New Frontiers of Science
+- Glasser, G., & Pokthier, K. (2010). Bilder der Mathematik
 """  # noqa: E501
 
 from __future__ import annotations

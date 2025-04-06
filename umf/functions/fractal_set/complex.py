@@ -5,10 +5,9 @@ from __future__ import annotations
 from typing import TYPE_CHECKING
 
 import numpy as np
+from meta.api import ResultsFractalAPI
 
-from umf.meta.functions import ComplexFractalFunction
-from umf.meta.functions import FractalFunction
-
+from umf.meta.functions import ComplexFractalFunction, FractalFunction
 
 if TYPE_CHECKING:
     from umf.types.static_types import UniversalArray
@@ -29,7 +28,7 @@ class MandelbrotSet(ComplexFractalFunction):
     Examples:
         >>> import numpy as np
         >>> import matplotlib.pyplot as plt
-        >>> from umf.functions.fractal_set.complex_fractals import MandelbrotSet
+        >>> from umf.functions.fractal_set.complex import MandelbrotSet
         >>> # Generate a Mandelbrot set with 100x100 resolution and 50 max iterations
         >>> x = np.linspace(-2.5, 1.5, 1000)
         >>> y = np.linspace(-1.5, 1.5, 1000)
@@ -109,7 +108,7 @@ class JuliaSet(ComplexFractalFunction):
     Examples:
         >>> import numpy as np
         >>> import matplotlib.pyplot as plt
-        >>> from umf.functions.fractal_set.complex_fractals import JuliaSet
+        >>> from umf.functions.fractal_set.complex import JuliaSet
         >>> # Generate a Julia set with 100x100 resolution, c = -0.7 + 0.27j
         >>> # 50 max iterations
         >>> x = np.linspace(-1.5, 1.5, 1000)
@@ -179,10 +178,10 @@ class JuliaSet(ComplexFractalFunction):
         Returns:
             np.ndarray: Boolean array where True indicates the point is in the set
         """
-        iterations = JuliaSet(
+        iterations: ResultsFractalAPI = JuliaSet(
             z_values, self.c, max_iter=self.max_iter, escape_radius=self.escape_radius
         )()
-        return iterations.result == self.max_iter
+        return np.array(iterations.result == self.max_iter)
 
 
 class FeigenbaumDiagram(FractalFunction):
@@ -194,7 +193,7 @@ class FeigenbaumDiagram(FractalFunction):
     Examples:
         >>> import numpy as np
         >>> import matplotlib.pyplot as plt
-        >>> from umf.functions.fractal_set.complex_fractals import FeigenbaumDiagram
+        >>> from umf.functions.fractal_set.complex import FeigenbaumDiagram
         >>> # Generate a Feigenbaum diagram
         >>> r_values = np.linspace(2.8, 4.0, 1000)  # Parameter range
         >>> feigenbaum = FeigenbaumDiagram(r_values)()

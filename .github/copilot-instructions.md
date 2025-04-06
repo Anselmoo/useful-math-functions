@@ -1,15 +1,19 @@
 # Copilot Instructions
 
-This repository contains mathematical functions implemented in Python. When contributing or modifying code, please adhere to the following guidelines:
+This repository contains mathematical functions implemented in Python. When
+contributing or modifying code, please adhere to the following guidelines:
 
 ## Code Structure
 
-- Follow the initial structure with `api.py` for interface definitions and `functions.py` for implementations
-- Each function should be implemented in `functions.py` and exposed through `api.py`
+- Follow the initial structure with `api.py` for interface definitions and
+  `functions.py` for implementations
+- Each function should be implemented in `functions.py` and exposed through
+  `api.py`
 
 ## Coding Standards
 
-1. Follow [Google Python Style Guide](https://google.github.io/styleguide/pyguide.html)
+1. Follow
+   [Google Python Style Guide](https://google.github.io/styleguide/pyguide.html)
 2. Use type annotations (Python 3.10+):
 
    ```python

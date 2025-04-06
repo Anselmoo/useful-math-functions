@@ -26,12 +26,12 @@ class LorenzAttractor(DynamicFractalFunction):
     r"""Implementation of the Lorenz attractor fractal.
 
     The Lorenz attractor is a set of chaotic solutions of the Lorenz system:
-    
+
     Notes:
-        The Lorenz attractor has a fractal dimension of approximately 2.06 (Hausdorff 
-        dimension). It exhibits chaotic behavior for certain parameter values, 
-        meaning that small  changes in initial conditions lead to dramatically different 
-        trajectories,  while still being confined to the same strange attractor. 
+        The Lorenz attractor has a fractal dimension of approximately 2.06 (Hausdorff
+        dimension). It exhibits chaotic behavior for certain parameter values,
+        meaning that small  changes in initial conditions lead to dramatically different
+        trajectories,  while still being confined to the same strange attractor.
 
         $$
             \begin{align}
@@ -40,9 +40,9 @@ class LorenzAttractor(DynamicFractalFunction):
             \frac{dz}{dt} &= xy - \beta z
             \end{align}
         $$
-        
-        This is one of the most famous examples of deterministic chaos and was 
-        discovered by Edward Lorenz in 1963 while studying simplified models of 
+
+        This is one of the most famous examples of deterministic chaos and was
+        discovered by Edward Lorenz in 1963 while studying simplified models of
         atmospheric convection.
 
     Examples:
@@ -410,12 +410,13 @@ class RandomWalkFractal(DynamicFractalFunction):
         """Initialize the random walk fractal."""
         self.step_size = step_size
         self.dimension = dimension
+        self.rng = np.random.default_rng()
         if bounds is not None:
             self.bounds = np.array(bounds)
         else:
             self.bounds = np.array([[-10, 10], [-10, 10]])
         # For bounded random walks in 2D
-        self.fractal_dimension = 1.5 if self.dimension == 2 else 2.0
+        self.fractal_dimension = 1.5 if self.dimension == __2d__ else 2.0
 
         if len(walk_data) != __2d__:
             raise OutOfDimensionError(
@@ -433,9 +434,9 @@ class RandomWalkFractal(DynamicFractalFunction):
         Returns:
             np.ndarray: New position
         """
-        if self.dimension == 2:
+        if self.dimension == __2d__:
             # Generate random angle
-            angle = np.random.uniform(0, 2 * np.pi)
+            angle = self.rng.uniform(0, 2 * np.pi)
             # Take step in random direction
             new_state = state + self.step_size * np.array(
                 [np.cos(angle), np.sin(angle)]
@@ -447,17 +448,16 @@ class RandomWalkFractal(DynamicFractalFunction):
                 new_state[i] = np.clip(new_state[i], bounds[i, 0], bounds[i, 1])
         else:
             # Handle higher dimensions with normalized random steps
-            step = np.random.normal(0, 1, self.dimension)
+            step = self.rng.normal(0, 1, self.dimension)
             step = step / np.linalg.norm(step) * self.step_size
             new_state = state + step
 
             # Apply bounds if provided (assuming bounds is properly dimensioned)
-            if self.bounds is not None:
-                if self.bounds.shape[0] == self.dimension:
-                    for i in range(self.dimension):
-                        new_state[i] = np.clip(
-                            new_state[i], self.bounds[i, 0], self.bounds[i, 1]
-                        )
+            if self.bounds is not None and self.bounds.shape[0] == self.dimension:
+                for i in range(self.dimension):
+                    new_state[i] = np.clip(
+                        new_state[i], self.bounds[i, 0], self.bounds[i, 1]
+                    )
 
         return new_state
 

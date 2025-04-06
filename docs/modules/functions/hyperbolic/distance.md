@@ -13,4 +13,4 @@
 
 |                      Distance Function                       |
 | :----------------------------------------------------------: |
-| ![AngleFunction](../../../extra/images/DistanceFunction.png) |
+| ![DistanceFunction](../../../extra/images/DistanceFunction.png) |

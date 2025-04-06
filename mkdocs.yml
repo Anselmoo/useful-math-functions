@@ -120,8 +120,8 @@ markdown_extensions:
   - pymdownx.critic:
   - pymdownx.details:
   - pymdownx.emoji:
-      emoji_index: !!python/name:materialx.emoji.twemoji
-      emoji_generator: !!python/name:materialx.emoji.to_svg
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
   - pymdownx.escapeall:
       hardbreak: True
       nbsp: True
@@ -202,16 +202,24 @@ nav:
   - Home: index.md
   - Functions:
       - modules/functions/index.md
-      - Continuous Distribution:
+      - Chaotic Systems:
+          - Oscillators: modules/functions/chaotic/oscillators.md
+      - Distribution (Continuous):
           - 2𝛑 Interval: modules/functions/distributions/continuous_2pi_interval.md
           - Bounded Interval: modules/functions/distributions/continuous_bounded_interval.md
           - Semi Infinite Interval: modules/functions/distributions/continuous_semi_infinite_interval.md
           - Variable Support: modules/functions/distributions/continuous_variable_support.md
           - Whole Line Support: modules/functions/distributions/continuous_whole_line_support.md
-      - Discrete Distribution:
+      - Distribution (Discrete):
           - Finite Support: modules/functions/distributions/discrete_finite_support.md
           - Infinite Support: modules/functions/distributions/discrete_infinite_support.md
-      - Mixed Distribution: modules/functions/distributions/mixed_discrete_continuous.md
+      - Distribution (Discrete): modules/functions/distributions/mixed_discrete_continuous.md
+      - Hyperbolic:
+          - Angle Functions: modules/functions/hyperbolic/angle.md
+          - Area Functions: modules/functions/hyperbolic/area.md
+          - Distance Functions: modules/functions/hyperbolic/distance.md
+          - Geodesic Functions: modules/functions/hyperbolic/geodesic.md
+          - Isometry Functions: modules/functions/hyperbolic/isometry.md
       - Optimization:
           - Bowl Shaped: modules/functions/optimization/bowl_shaped.md
           - Drops Steps: modules/functions/optimization/drops_steps.md
@@ -221,8 +229,6 @@ nav:
           - Valley Shaped: modules/functions/optimization/valley_shaped.md
       - Theory:
           - Pathological: modules/functions/theory/pathological.md
-      - Chaotic Systems:
-          - Oscillators: modules/functions/chaotic/oscillators.md
       - Others:
           - Supporting Functions: modules/functions/others/support_functions.md
   - Exporting:
@@ -234,14 +240,16 @@ nav:
           - Dataset Generation: modules/export/dataset_generation.md
   - API:
       - Functions:
+          - Chaotic Systems:
+              - Modules: modules/api/chaotic_systems.md
           - Distributions:
               - Modules: modules/api/distributions.md
+          - Hyperbolic:
+              - Modules: modules/api/hyperbolic.md
           - Optimization:
               - Modules: modules/api/optimization.md
           - Theory:
               - Modules: modules/api/theory.md
-          - Chaotic Systems:
-              - Modules: modules/api/chaotic_systems.md
       - Others:
           - Data Generation:
               - Modules: modules/api/data_generation.md

@@ -2,37 +2,34 @@
 
 from __future__ import annotations
 
-from abc import ABC
-from abc import ABCMeta
-from abc import abstractmethod
-from typing import TYPE_CHECKING
-from typing import Any
+from abc import ABC, ABCMeta, abstractmethod
+from typing import TYPE_CHECKING, Any
 
 import numpy as np
-
 from scipy.integrate import odeint
 
 from umf.constants.dimensions import __1d__
-from umf.constants.exceptions import ExcessiveExponentError
-from umf.constants.exceptions import MissingXError
-from umf.constants.exceptions import NoCumulativeError
-from umf.constants.exceptions import NotAPositiveNumberError
-from umf.constants.exceptions import OutOfDimensionError
-from umf.constants.exceptions import OutOfRangeError
-from umf.constants.exceptions import TimeFormatError
-from umf.meta.api import ResultsChaoticOscillatorAPI
-from umf.meta.api import ResultsDistributionAPI
-from umf.meta.api import ResultsFractalAPI
-from umf.meta.api import ResultsFunctionAPI
-from umf.meta.api import ResultsHyperbolicAPI
-from umf.meta.api import ResultsPathologicalAPI
-
+from umf.constants.exceptions import (
+    ExcessiveExponentError,
+    MissingXError,
+    NoCumulativeError,
+    NotAPositiveNumberError,
+    OutOfDimensionError,
+    OutOfRangeError,
+    TimeFormatError,
+)
+from umf.meta.api import (
+    ResultsChaoticOscillatorAPI,
+    ResultsDistributionAPI,
+    ResultsFractalAPI,
+    ResultsFunctionAPI,
+    ResultsHyperbolicAPI,
+    ResultsPathologicalAPI,
+)
 
 if TYPE_CHECKING:
-    from umf.meta.api import MinimaAPI
-    from umf.meta.api import SummaryStatisticsAPI
-    from umf.types.static_types import UniversalArray
-    from umf.types.static_types import UniversalArrayTuple
+    from umf.meta.api import MinimaAPI, SummaryStatisticsAPI
+    from umf.types.static_types import UniversalArray, UniversalArrayTuple
 
 
 class CoreElements(ABCMeta):
@@ -911,7 +908,8 @@ class FractalFunction(ABC, metaclass=CoreElements):
     This base class provides the structure for implementing various fractal algorithms.
 
     Args:
-        *x (UniversalArray): Input data, which can vary depending on the specific fractal.
+        *x (UniversalArray): Input data, which can vary depending on the specific
+            fractal.
         max_iter (int, optional): Maximum number of iterations. Defaults to 100.
         **kwargs: Keyword arguments specific to each fractal implementation.
 
@@ -968,8 +966,7 @@ class FractalFunction(ABC, metaclass=CoreElements):
         """
         params = {}
         for attr_name in dir(self):
-            # Skip special methods, private attributes, and the fractal_dimension property
-            if attr_name.startswith("__") or attr_name.startswith("_"):
+            if attr_name.startswith(("__", "_")):
                 continue
 
             # Skip methods and properties
@@ -977,7 +974,7 @@ class FractalFunction(ABC, metaclass=CoreElements):
             if callable(attr) or isinstance(attr, property):
                 continue
 
-            # Add to parameters
+            # Add parameter to dictionary
             params[attr_name] = attr
 
         return params
@@ -985,13 +982,10 @@ class FractalFunction(ABC, metaclass=CoreElements):
     @property
     @abstractmethod
     def __eval__(self) -> UniversalArray | list | dict:
-        """Generate the fractal data.
-
-        The specific implementation depends on the type of fractal.
-        May return iteration counts, coordinates, or other representations.
+        """Evaluate the fractal function.
 
         Returns:
-            UniversalArray | list | dict: The fractal data.
+            UniversalArray | list | dict: Fractal data representation.
         """
 
     def calculate_dimension(self) -> float | None:
@@ -1034,7 +1028,8 @@ class ComplexFractalFunction(FractalFunction):
     It provides common functionality for fractals like the Mandelbrot set and Julia set.
 
     Args:
-        *x (UniversalArray): Input data, which can vary depending on the specific fractal.
+        *x (UniversalArray): Input data, which can vary depending on the specific
+            fractal.
         max_iter (int, optional): Maximum number of iterations. Defaults to 100.
         escape_radius (float, optional): Escape radius. Defaults to 2.0.
 
@@ -1096,3 +1091,99 @@ class ComplexFractalFunction(FractalFunction):
                 break
 
         return iterations.reshape(shape)
+
+
+class CurveFractalFunction(FractalFunction):
+    """Base class for curve-based fractals.
+
+    This class extends FractalFunction to handle fractals based on iterative curve
+    generation, like the Cantor set, Dragon curve, and space-filling curves.
+
+    Args:
+        *x (UniversalArray): Input points defining the curve space
+        max_iter (int, optional): Maximum number of iterations. Defaults to 100.
+        scale_factor (float, optional): Scale factor between iterations.
+            Defaults to 0.5.
+    """
+
+    def __init__(
+        self, *x: UniversalArray, max_iter: int = 100, scale_factor: float = 0.5
+    ) -> None:
+        """Initialize the curve fractal function."""
+        super().__init__(*x, max_iter=max_iter)
+        self.scale_factor = scale_factor
+
+    def generate_points(self) -> np.ndarray:
+        """Generate points for the curve at the current iteration.
+
+        Returns:
+            np.ndarray: Array of points defining the curve
+        """
+        raise NotImplementedError
+
+
+class DynamicFractalFunction(FractalFunction):
+    """Base class for fractals generated by dynamic systems.
+
+    This class handles fractals that emerge from iterating dynamic systems,
+    like attractors and percolation models.
+
+    Args:
+        *x (UniversalArray): Input data, which can vary depending on the specific
+            fractal.
+        max_iter (int, optional): Maximum number of iterations. Defaults to 1000.
+        transient_steps (int, optional): Initial steps to discard. Defaults to 100.
+    """
+
+    def __init__(
+        self,
+        *x: UniversalArray,
+        max_iter: int = 1000,
+        transient_steps: int = 100,
+    ) -> None:
+        """Initialize the dynamic fractal function."""
+        super().__init__(*x, max_iter=max_iter)
+        self.transient_steps = transient_steps
+
+    def iterate_system(self, initial_state: np.ndarray) -> np.ndarray:
+        """Iterate the dynamic system.
+
+        Args:
+            initial_state (np.ndarray): Starting state of the system
+
+        Returns:
+            np.ndarray: Array of system states
+        """
+        raise NotImplementedError
+
+
+class GeometricFractalFunction(FractalFunction):
+    """Base class for fractals based on geometric transformations.
+
+    This class handles self-similar fractals generated through geometric
+    transformations, like the Sierpinski triangle and Koch snowflake.
+
+    Args:
+        *x (UniversalArray): Initial geometric shape vertices
+        max_iter (int, optional): Maximum number of iterations. Defaults to 6.
+        scale_factor (float, optional): Scale factor for transformations. Defaults
+            to 0.5.
+    """
+
+    def __init__(
+        self, *x: UniversalArray, max_iter: int = 6, scale_factor: float = 0.5
+    ) -> None:
+        """Initialize the geometric fractal function."""
+        super().__init__(*x, max_iter=max_iter)
+        self.scale_factor = scale_factor
+
+    def transform_points(self, points: np.ndarray) -> list[np.ndarray]:
+        """Apply geometric transformations to points.
+
+        Args:
+            points (np.ndarray): Array of points to transform
+
+        Returns:
+            list[np.ndarray]: List of transformed point arrays
+        """
+        raise NotImplementedError

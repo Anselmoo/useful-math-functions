@@ -2,10 +2,11 @@
 
 from __future__ import annotations
 
-from pydantic import BaseModel
-from pydantic import ConfigDict
-from pydantic import Field
+import warnings
 
+from pydantic import BaseModel, ConfigDict, Field, model_validator
+
+from umf.constants.dimensions import __3d__
 from umf.types.static_types import MeshArray  # noqa: TC001
 from umf.types.static_types import UniversalArray  # noqa: TC001
 from umf.types.static_types import UniversalArrayTuple  # noqa: TC001
@@ -158,7 +159,19 @@ class ResultsHyperbolicAPI(BaseModel):
 
 
 class ResultsFractalAPI(BaseModel):
-    """Results API for fractal functions."""
+    """Results API for fractal functions.
+
+    This class provides a standardized structure for returning fractal data,
+    including the input parameters, resulting fractal representation, and metadata.
+
+    Attributes:
+        x (UniversalArrayTuple): Input data for the fractal generation.
+        result (UniversalArray | MeshArray | list | dict): Fractal data, which may
+            be iteration counts, coordinates, or other representations.
+        parameters (dict | None): Parameters used to generate the fractal.
+        dimension (float | None): Fractal dimension, if calculated.
+        doc (str | None): Function documentation string.
+    """
 
     model_config = ConfigDict(arbitrary_types_allowed=True)
     x: UniversalArrayTuple = Field(
@@ -167,7 +180,8 @@ class ResultsFractalAPI(BaseModel):
     )
     result: UniversalArray | MeshArray | list | dict = Field(
         ...,
-        description="Fractal data, which may be iteration counts, coordinates, or other representations.",
+        description="Fractal data, which may be iteration counts, coordinates,"
+        " or other representations.",
     )
     parameters: dict | None = Field(
         default=None,
@@ -178,3 +192,22 @@ class ResultsFractalAPI(BaseModel):
         description="Fractal dimension, if calculated.",
     )
     doc: str | None = Field(..., description="Function documentation string.")
+
+    @model_validator(mode="after")
+    def validate_dimension(self) -> ResultsFractalAPI:
+        """Validate the fractal dimension.
+
+        Checks that the provided fractal dimension is within a reasonable range
+        (between 0 and 3 for most fractals).
+
+        Returns:
+            ResultsFractalAPI: The validated model instance
+        """
+        if self.dimension is not None and not (0 <= self.dimension <= __3d__):
+            warnings.warn(
+                message=f"Unusual fractal dimension: {self.dimension}. "
+                f"Most fractals have dimensions between 0 and 3.",
+                category=UserWarning,
+                stacklevel=1,
+            )
+        return self

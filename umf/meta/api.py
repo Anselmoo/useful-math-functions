@@ -4,7 +4,10 @@ from __future__ import annotations
 
 import warnings
 
-from pydantic import BaseModel, ConfigDict, Field, model_validator
+from pydantic import BaseModel
+from pydantic import ConfigDict
+from pydantic import Field
+from pydantic import model_validator
 
 from umf.constants.dimensions import __3d__
 from umf.types.static_types import MeshArray  # noqa: TC001

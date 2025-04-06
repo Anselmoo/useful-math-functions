@@ -5,9 +5,11 @@ from __future__ import annotations
 from typing import TYPE_CHECKING
 
 import numpy as np
-from meta.api import ResultsFractalAPI
 
-from umf.meta.functions import ComplexFractalFunction, FractalFunction
+from meta.api import ResultsFractalAPI
+from umf.meta.functions import ComplexFractalFunction
+from umf.meta.functions import FractalFunction
+
 
 if TYPE_CHECKING:
     from umf.types.static_types import UniversalArray

@@ -155,3 +155,26 @@ class ResultsHyperbolicAPI(BaseModel):
         description="Function value as numpy array or numpy mesh grid array.",
     )
     doc: str | None = Field(..., description="Function documentation string.")
+
+
+class ResultsFractalAPI(BaseModel):
+    """Results API for fractal functions."""
+
+    model_config = ConfigDict(arbitrary_types_allowed=True)
+    x: UniversalArrayTuple = Field(
+        ...,
+        description="Input data for the fractal generation.",
+    )
+    result: UniversalArray | MeshArray | list | dict = Field(
+        ...,
+        description="Fractal data, which may be iteration counts, coordinates, or other representations.",
+    )
+    parameters: dict | None = Field(
+        default=None,
+        description="Parameters used to generate the fractal.",
+    )
+    dimension: float | None = Field(
+        default=None,
+        description="Fractal dimension, if calculated.",
+    )
+    doc: str | None = Field(..., description="Function documentation string.")

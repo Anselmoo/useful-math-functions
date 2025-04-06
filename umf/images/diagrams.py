@@ -332,7 +332,13 @@ class ClassicPlot(Plot):
             interval=settings.interval,
             fargs=(settings,),
         )
-        anim.save(filename=fname, writer="imagemagick", dpi=settings.dpi, **kwargs)
+        anim.save(
+            filename=fname,
+            writer="imagemagick",
+            dpi=settings.dpi,
+            savefig_kwargs={"transparent": settings.transperent},
+            **kwargs,
+        )
 
     @staticmethod
     def plot_save_animation(
@@ -387,7 +393,13 @@ class ClassicPlot(Plot):
             interval=settings.interval,
             fargs=(settings,),
         )
-        anim.save(filename=fname, writer="imagemagick", dpi=settings.dpi, **kwargs)
+        anim.save(
+            filename=fname,
+            writer="imagemagick",
+            dpi=settings.dpi,
+            savefig_kwargs={"transparent": settings.transperent},
+            **kwargs,
+        )
 
     @staticmethod
     def plot_close() -> None:

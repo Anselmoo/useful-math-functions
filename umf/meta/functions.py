@@ -22,6 +22,7 @@ from umf.constants.exceptions import OutOfRangeError
 from umf.constants.exceptions import TimeFormatError
 from umf.meta.api import ResultsChaoticOscillatorAPI
 from umf.meta.api import ResultsDistributionAPI
+from umf.meta.api import ResultsFractalAPI
 from umf.meta.api import ResultsFunctionAPI
 from umf.meta.api import ResultsHyperbolicAPI
 from umf.meta.api import ResultsPathologicalAPI
@@ -901,3 +902,197 @@ class OscillatorsFunc3D(OscillatorsFuncBase):
         """Return the velocity of the oscillator."""
         y = self.solve()
         return y[:, 3], y[:, 4], y[:, 5]
+
+
+class FractalFunction(ABC, metaclass=CoreElements):
+    """Base class for fractal functions.
+
+    Fractal functions generate self-similar patterns with detail at every scale.
+    This base class provides the structure for implementing various fractal algorithms.
+
+    Args:
+        *x (UniversalArray): Input data, which can vary depending on the specific fractal.
+        max_iter (int, optional): Maximum number of iterations. Defaults to 100.
+        **kwargs: Keyword arguments specific to each fractal implementation.
+
+    Raises:
+        MissingXError: If no input data is specified.
+    """
+
+    def __init__(self, *x: UniversalArray, max_iter: int = 100) -> None:
+        """Initialize the fractal function."""
+        if x[0] is None:
+            raise MissingXError
+
+        self._x: tuple[UniversalArray, ...] = x
+        self.max_iter = max_iter
+        self.dimension: int = len(x)
+        # Initialize fractal_dimension attribute explicitly
+        self._fractal_dimension: float | None = None
+
+    @property
+    def fractal_dimension(self) -> float | None:
+        """Get the fractal dimension.
+
+        Returns:
+            float | None: The fractal dimension if available, otherwise None.
+        """
+        return self._fractal_dimension
+
+    @fractal_dimension.setter
+    def fractal_dimension(self, value: float | None) -> None:
+        """Set the fractal dimension.
+
+        Args:
+            value (float | None): The fractal dimension value to set.
+        """
+        self._fractal_dimension = value
+
+    @property
+    def __input__(self) -> UniversalArrayTuple:
+        """Return the input data.
+
+        Returns:
+            UniversalArrayTuple: The input data as a tuple of arrays.
+        """
+        return self._x
+
+    def _get_parameters(self) -> dict:
+        """Collect parameters for the API response.
+
+        This method gathers all the parameters that were used to create the fractal,
+        and returns them as a dictionary for use in the API response.
+
+        Returns:
+            dict: Dictionary of parameter names and values.
+        """
+        params = {}
+        for attr_name in dir(self):
+            # Skip special methods, private attributes, and the fractal_dimension property
+            if attr_name.startswith("__") or attr_name.startswith("_"):
+                continue
+
+            # Skip methods and properties
+            attr = getattr(self, attr_name)
+            if callable(attr) or isinstance(attr, property):
+                continue
+
+            # Add to parameters
+            params[attr_name] = attr
+
+        return params
+
+    @property
+    @abstractmethod
+    def __eval__(self) -> UniversalArray | list | dict:
+        """Generate the fractal data.
+
+        The specific implementation depends on the type of fractal.
+        May return iteration counts, coordinates, or other representations.
+
+        Returns:
+            UniversalArray | list | dict: The fractal data.
+        """
+
+    def calculate_dimension(self) -> float | None:
+        """Calculate the fractal dimension.
+
+        This is a default implementation that returns None.
+        Subclasses may override this with more specific dimension calculations.
+
+        Returns:
+            float | None: The approximate fractal dimension, or None if not calculable.
+        """
+        return None
+
+    def __call__(self) -> ResultsFractalAPI:
+        """Return the results of the fractal function.
+
+        Returns:
+            ResultsFractalAPI: A standardized API response containing the fractal data.
+        """
+        parameters = self._get_parameters()
+
+        # Get fractal dimension if available
+        dimension = self.fractal_dimension
+        if dimension is None:
+            dimension = self.calculate_dimension()
+
+        return ResultsFractalAPI(
+            x=self.__input__,
+            result=self.__eval__,
+            parameters=parameters,
+            dimension=dimension,
+            doc=self.__doc__,
+        )
+
+
+class ComplexFractalFunction(FractalFunction):
+    """Base class for complex fractal functions.
+
+    This class extends the FractalFunction to handle complex numbers in the input data.
+    It provides common functionality for fractals like the Mandelbrot set and Julia set.
+
+    Args:
+        *x (UniversalArray): Input data, which can vary depending on the specific fractal.
+        max_iter (int, optional): Maximum number of iterations. Defaults to 100.
+        escape_radius (float, optional): Escape radius. Defaults to 2.0.
+
+    Raises:
+        MissingXError: If no input data is specified.
+    """
+
+    def __init__(
+        self, *x: UniversalArray, max_iter: int = 100, escape_radius: float = 2.0
+    ) -> None:
+        """Initialize the complex fractal function."""
+        super().__init__(*x, max_iter=max_iter)
+
+        self.escape_radius = escape_radius
+
+    def iterate_complex_function(
+        self, z_start: np.ndarray, c: np.ndarray | complex, shape: tuple
+    ) -> np.ndarray:
+        """Common iteration method for complex fractals.
+
+        Implements the $z = z^2 + c$ iteration common to both Mandelbrot and Julia sets.
+
+        Args:
+            z_start (np.ndarray): Starting z values
+            c (np.ndarray | complex): Parameter c values
+            shape (tuple): Original shape of the array
+
+        Returns:
+            np.ndarray: Iteration counts
+        """
+        z = z_start.flatten()
+        if isinstance(c, np.ndarray):
+            c = c.flatten()
+
+        iterations = np.zeros(z.shape, dtype=int)
+        escape_radius_squared = self.escape_radius**2
+
+        # Points still iterating
+        mask = np.full(shape=z.shape, fill_value=True, dtype=bool)
+
+        for i in range(self.max_iter):
+            # Update z for points still iterating
+            z[mask] = (
+                z[mask] ** 2 + c[mask]
+                if isinstance(c, np.ndarray)
+                else z[mask] ** 2 + c
+            )
+            # Find points that escape
+            escaped = np.abs(z) ** 2 > escape_radius_squared
+
+            # Update iterations for newly escaped points
+            iterations[mask & escaped] = i + 1
+
+            # Update mask to exclude escaped points
+            mask[escaped] = False
+
+            # If all points have escaped, break
+            if not np.any(mask):
+                break
+
+        return iterations.reshape(shape)

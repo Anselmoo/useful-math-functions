@@ -49,5 +49,4 @@
 | :---------------------------------------------------------------: |
 | ![FeigenbaumDiagram](../../../extra/images/FeigenbaumDiagram.png) |
 
-
 ## LyapunovExponent

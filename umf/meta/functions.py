@@ -66,7 +66,7 @@ class OptFunction(ABC, metaclass=CoreElements):
 
         if isinstance(x, tuple):
             for i in x:
-                if not isinstance(i, UniversalArray):
+                if not isinstance(i, np.ndarray):
                     raise NotTupleArrayError
 
         self._x: tuple[UniversalArray, ...] = x

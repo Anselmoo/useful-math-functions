@@ -20,7 +20,9 @@ from __future__ import annotations
 from typing import TypeAlias
 
 import numpy as np
+
 from numpy.typing import NDArray
+
 
 UniversalArray: TypeAlias = NDArray[np.int_ | np.float64 | np.complex128]
 UniversalArrayTuple = tuple[UniversalArray, ...]

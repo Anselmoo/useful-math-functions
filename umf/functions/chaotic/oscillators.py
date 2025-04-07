@@ -6,13 +6,19 @@ from collections import OrderedDict
 from typing import TYPE_CHECKING
 
 import numpy as np
-from numpy import pi
-from scipy.constants import g, mu_0
 
-from umf.meta.functions import OscillatorsFunc2D, OscillatorsFunc3D, OscillatorsFuncBase
+from numpy import pi
+from scipy.constants import g
+from scipy.constants import mu_0
+
+from umf.meta.functions import OscillatorsFunc2D
+from umf.meta.functions import OscillatorsFunc3D
+from umf.meta.functions import OscillatorsFuncBase
+
 
 if TYPE_CHECKING:
-    from umf.types.static_types import UniversalArray, UniversalArrayTuple
+    from umf.types.static_types import UniversalArray
+    from umf.types.static_types import UniversalArrayTuple
 
 __all__: list[str] = [
     "ChuaSCircuit",

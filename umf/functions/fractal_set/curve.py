@@ -3,11 +3,13 @@
 from __future__ import annotations
 
 import itertools
+
 from typing import TYPE_CHECKING
 
 import numpy as np
 
 from umf.meta.functions import CurveFractalFunction
+
 
 if TYPE_CHECKING:
     from umf.types.static_types import UniversalArray

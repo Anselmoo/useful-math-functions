@@ -2,35 +2,38 @@
 
 from __future__ import annotations
 
-from abc import ABC, ABCMeta, abstractmethod
-from typing import TYPE_CHECKING, Any
+from abc import ABC
+from abc import ABCMeta
+from abc import abstractmethod
+from typing import TYPE_CHECKING
+from typing import Any
 
 import numpy as np
+
 from scipy.integrate import odeint
 
 from umf.constants.dimensions import __1d__
-from umf.constants.exceptions import (
-    ExcessiveExponentError,
-    MissingXError,
-    NoCumulativeError,
-    NotAPositiveNumberError,
-    NotTupleArrayError,
-    OutOfDimensionError,
-    OutOfRangeError,
-    TimeFormatError,
-)
-from umf.meta.api import (
-    ResultsChaoticOscillatorAPI,
-    ResultsDistributionAPI,
-    ResultsFractalAPI,
-    ResultsFunctionAPI,
-    ResultsHyperbolicAPI,
-    ResultsPathologicalAPI,
-)
+from umf.constants.exceptions import ExcessiveExponentError
+from umf.constants.exceptions import MissingXError
+from umf.constants.exceptions import NoCumulativeError
+from umf.constants.exceptions import NotAPositiveNumberError
+from umf.constants.exceptions import NotTupleArrayError
+from umf.constants.exceptions import OutOfDimensionError
+from umf.constants.exceptions import OutOfRangeError
+from umf.constants.exceptions import TimeFormatError
+from umf.meta.api import ResultsChaoticOscillatorAPI
+from umf.meta.api import ResultsDistributionAPI
+from umf.meta.api import ResultsFractalAPI
+from umf.meta.api import ResultsFunctionAPI
+from umf.meta.api import ResultsHyperbolicAPI
+from umf.meta.api import ResultsPathologicalAPI
+
 
 if TYPE_CHECKING:
-    from umf.meta.api import MinimaAPI, SummaryStatisticsAPI
-    from umf.types.static_types import UniversalArray, UniversalArrayTuple
+    from umf.meta.api import MinimaAPI
+    from umf.meta.api import SummaryStatisticsAPI
+    from umf.types.static_types import UniversalArray
+    from umf.types.static_types import UniversalArrayTuple
 
 
 class CoreElements(ABCMeta):

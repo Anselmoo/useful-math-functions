@@ -6,7 +6,9 @@ from typing import TYPE_CHECKING
 
 import numpy as np
 
-from umf.meta.functions import ComplexFractalFunction, FractalFunction
+from umf.meta.functions import ComplexFractalFunction
+from umf.meta.functions import FractalFunction
+
 
 if TYPE_CHECKING:
     from umf.meta.api import ResultsFractalAPI

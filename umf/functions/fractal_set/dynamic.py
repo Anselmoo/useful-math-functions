@@ -6,9 +6,11 @@ from typing import TYPE_CHECKING
 
 import numpy as np
 
-from umf.constants.dimensions import __2d__, __3d__
+from umf.constants.dimensions import __2d__
+from umf.constants.dimensions import __3d__
 from umf.constants.exceptions import OutOfDimensionError
 from umf.meta.functions import DynamicFractalFunction
+
 
 if TYPE_CHECKING:
     from umf.types.static_types import UniversalArray

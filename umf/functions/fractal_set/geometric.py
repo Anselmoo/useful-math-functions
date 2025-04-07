@@ -3,12 +3,14 @@
 from __future__ import annotations
 
 import itertools
+
 from typing import TYPE_CHECKING
 
 import numpy as np
 
 from umf.constants.dimensions import __2d__
 from umf.meta.functions import GeometricFractalFunction
+
 
 if TYPE_CHECKING:
     from umf.types.static_types import UniversalArray

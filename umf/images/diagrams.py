@@ -2,15 +2,20 @@
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, Any
+from typing import TYPE_CHECKING
+from typing import Any
 
 import matplotlib.pyplot as plt
 import numpy as np
 import plotly.graph_objects as go
+
 from matplotlib.animation import FuncAnimation
 
 from umf.constants.exceptions import PlotAttributeError
-from umf.meta.plots import AnimationSettings, GIFSettings, Plot
+from umf.meta.plots import AnimationSettings
+from umf.meta.plots import GIFSettings
+from umf.meta.plots import Plot
+
 
 if TYPE_CHECKING:
     from pathlib import Path

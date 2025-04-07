@@ -31,9 +31,9 @@ class KochCurve(GeometricFractalFunction):
     segments that form an equilateral bump.
 
     Notes:
-        The Koch curve has a fractal dimension of log(4)/log(3) ≈ 1.2619, making it
-        a curve with infinite length but enclosing a finite area. It was one of the
-        earliest fractals described, introduced by Helge von Koch in 1904.
+        The Koch curve has a fractal dimension of $\log 4 /\log(3) \approx 1.2619$,
+        making in a curve with infinite length but enclosing a finite area. It was
+        one of the earliest fractals described, introduced by Helge von Koch in 1904.
 
         At each iteration, each line segment is divided into four segments of equal
         length, creating an equilateral triangle bump in the middle third.
@@ -192,10 +192,10 @@ class SierpinskiCarpet(GeometricFractalFunction):
     from a grid of squares.
 
     Notes:
-        The Sierpinski carpet has a fractal dimension of log(8)/log(3) ≈ 1.893,
-        approaching but not reaching dimension 2. It's a two-dimensional analog
-        of the Cantor set, created by recursively removing the central ninth
-        from each remaining square.
+        The Sierpinski carpet has a fractal dimension of
+        $\log(8)/\log(3) \approx 1.893$, approaching but not reaching dimension 2.
+        It's a two-dimensional analog of the Cantor set, created by recursively
+        removing the central ninth from each remaining square.
 
         Each iteration subdivides each square into 9 congruent sub-squares and
         removes the central one, resulting in 8 remaining squares per subdivision.
@@ -205,14 +205,15 @@ class SierpinskiCarpet(GeometricFractalFunction):
         >>> import matplotlib.pyplot as plt
         >>> from umf.functions.fractal_set.geometric import SierpinskiCarpet
         >>> # Generate Sierpinski carpet
-        >>> size = np.array([1.0, 1.0])
-        >>> carpet = SierpinskiCarpet(size, max_iter=5)()
+        >>> width = np.array([1.0])
+        >>> height = np.array([1.0])
+        >>> carpet = SierpinskiCarpet(width, height, max_iter=5)()
         >>> squares = carpet.result
 
         >>> # Visualization
         >>> _ = plt.figure(figsize=(10, 10))
         >>> for square in squares:
-        ...     _ = plt.fill(square[:, 0], square[:, 1], 'b', alpha=0.1)
+        ...     _ = plt.fill(square[:, 0], square[:, 1], 'b', alpha=0.3)
         >>> _ = plt.axis('equal')
         >>> _ = plt.title("Sierpinski Carpet")
         >>> plt.savefig("SierpinskiCarpet.png", dpi=300, transparent=True)
@@ -222,10 +223,14 @@ class SierpinskiCarpet(GeometricFractalFunction):
         max_iter (int, optional): Number of iterations. Defaults to 5.
     """
 
-    def __init__(self, *x: UniversalArray, max_iter: int = 5) -> None:
+    def __init__(
+        self,
+        *x: UniversalArray,
+        max_iter: int = 5,
+        fractal_dimension: float = np.log(8) / np.log(3),
+    ) -> None:
         """Initialize the Sierpinski carpet."""
-        self.fractal_dimension = np.log(8) / np.log(3)  # Exact dimension
-        super().__init__(*x, max_iter=max_iter)
+        super().__init__(*x, max_iter=max_iter, fractal_dimension=fractal_dimension)
 
     def transform_points(self, squares: list[np.ndarray]) -> list[np.ndarray]:
         """Subdivide squares according to Sierpinski carpet pattern.
@@ -254,7 +259,9 @@ class SierpinskiCarpet(GeometricFractalFunction):
             list[np.ndarray]: List of square vertex arrays
         """
         # Initial square
-        squares = [np.array([[0, 0], self._x])]
+        width = self._x[0] if isinstance(self._x[0], (int, float)) else self._x[0][0]
+        height = self._x[1] if isinstance(self._x[1], (int, float)) else self._x[1][0]
+        squares = [np.array([[0, 0], [width, height]])]
 
         for _ in range(self.max_iter):
             squares = self.transform_points(squares)
@@ -495,7 +502,7 @@ class UniformMassCenterTriangle(GeometricFractalFunction):
         >>> from umf.functions.fractal_set.geometric import UniformMassCenterTriangle
         >>> # Generate mass center triangle
         >>> vertices = np.array([[0, 0], [1, 0], [0.5, np.sqrt(0.75)]])
-        >>> triangle = UniformMassCenterTriangle(vertices, max_iter=10000)()
+        >>> triangle = UniformMassCenterTriangle(vertices, max_iter=10000, ratio=0.5)()
         >>> points = triangle.result
 
         >>> # Visualization

@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import itertools
 from typing import TYPE_CHECKING
 
 import numpy as np
@@ -30,17 +31,17 @@ class CantorSet(CurveFractalFunction):
         >>> import matplotlib.pyplot as plt
         >>> from umf.functions.fractal_set.curve import CantorSet
         >>> # Generate Cantor set with 5 iterations
-        >>> x = np.array([0., 1.])  # Initial interval
-        >>> cantor = CantorSet(x, max_iter=5)()
+        >>> x0, x1 = np.array([0.]), np.array([1.])  # Initial interval
+        >>> cantor = CantorSet(x0, x1, max_iter=15)()
         >>> intervals = cantor.result
 
         >>> # Visualization
         >>> fig, ax = plt.subplots(figsize=(10, 4))
         >>> for level, points in enumerate(intervals):
-        ...     y = cantor.max_iter - level
+        ...     y = cantor.parameters["max_iter"] - level
         ...     for start, end in points:
-        ...         _ = plt.plot([start, end], [y, y], 'k', linewidth=2)
-        >>> _ = plt.ylim(-0.5, cantor.max_iter + 0.5)
+        ...         _ = plt.plot([start, end], [y, y], 'b', linewidth=2)
+        >>> _ = plt.ylim(-0.5, cantor.parameters["max_iter"] + 0.5)
         >>> _ = plt.title("Cantor Set")
         >>> plt.savefig("CantorSet.png", dpi=300, transparent=True)
 
@@ -52,13 +53,23 @@ class CantorSet(CurveFractalFunction):
         max_iter (int, optional): Maximum iterations. Defaults to 5.
     """
 
-    def __init__(self, *x: UniversalArray, max_iter: int = 5) -> None:
+    def __init__(
+        self,
+        *x: UniversalArray,
+        max_iter: int = 5,
+        scale_factor: float = 1 / 3,
+        fractal_dimension: float = np.log(2) / np.log(3),
+    ) -> None:
         """Initialize the Cantor set."""
-        self.fractal_dimension = np.log(2) / np.log(3)  # Exact dimension
-        super().__init__(*x, max_iter=max_iter, scale_factor=1 / 3)
+        super().__init__(
+            *x,
+            max_iter=max_iter,
+            scale_factor=scale_factor,
+            fractal_dimension=fractal_dimension,
+        )
 
     @property
-    def __eval__(self) -> list[list[tuple[float, float]]]:
+    def __eval__(self) -> list[list[tuple[UniversalArray, UniversalArray]]]:
         """Generate the Cantor set intervals.
 
         Returns:
@@ -71,10 +82,7 @@ class CantorSet(CurveFractalFunction):
             for start, end in intervals[-1]:
                 length = end - start
                 third = length * self.scale_factor
-                # Add left interval
-                new_intervals.append((start, start + third))
-                # Add right interval
-                new_intervals.append((end - third, end))
+                new_intervals.extend(((start, start + third), (end - third, end)))
             intervals.append(new_intervals)
 
         return intervals
@@ -107,10 +115,11 @@ class DragonCurve(CurveFractalFunction):
         max_iter (int, optional): Maximum iterations. Defaults to 10.
     """
 
-    def __init__(self, *x: UniversalArray, max_iter: int = 10) -> None:
+    def __init__(
+        self, *x: UniversalArray, max_iter: int = 10, fractal_dimension: float = 2.0
+    ) -> None:
         """Initialize the Dragon curve."""
-        self.fractal_dimension = 2.0  # Approximate dimension
-        super().__init__(*x, max_iter=max_iter)
+        super().__init__(*x, max_iter=max_iter, fractal_dimension=fractal_dimension)
 
     @property
     def __eval__(self) -> np.ndarray:
@@ -155,26 +164,27 @@ class HilbertCurve(CurveFractalFunction):
         >>> import matplotlib.pyplot as plt
         >>> from umf.functions.fractal_set.curve import HilbertCurve
         >>> # Generate Hilbert curve with order 5
-        >>> size = 32  # Grid size (power of 2)
-        >>> hilbert = HilbertCurve(np.array([size, size]), max_iter=5)()
+        >>> size = np.array([32])  # Grid size (power of 2)
+        >>> hilbert = HilbertCurve(size, size, max_iter=5)()
         >>> points = hilbert.result
 
         >>> # Visualization
-        >>> plt.figure(figsize=(10, 10))
-        >>> plt.plot(points[:, 0], points[:, 1], 'b-', linewidth=1)
-        >>> plt.axis('equal')
-        >>> plt.title("Hilbert Curve")
+        >>> _ = plt.figure(figsize=(10, 10))
+        >>> _ = plt.plot(points[:, 0], points[:, 1], 'b-', linewidth=1)
+        >>> _ = plt.axis('equal')
+        >>> _ = plt.title("Hilbert Curve")
         >>> plt.savefig("HilbertCurve.png", dpi=300, transparent=True)
 
     Args:
-        size (UniversalArray): Grid size [width, height]
+        *x (UniversalArray): Grid size [width, height]
         max_iter (int, optional): Order of the curve. Defaults to 5.
     """
 
-    def __init__(self, size: UniversalArray, max_iter: int = 5) -> None:
+    def __init__(
+        self, *x: UniversalArray, max_iter: int = 5, fractal_dimension: float = 2.0
+    ) -> None:
         """Initialize the Hilbert curve."""
-        self.fractal_dimension = 2.0  # Space-filling curve
-        super().__init__(size, max_iter=max_iter)
+        super().__init__(*x, max_iter=max_iter, fractal_dimension=fractal_dimension)
 
     def _hilbert_to_xy(self, h: int, size: int) -> tuple[float, float]:
         """Convert Hilbert curve index to x,y coordinates.
@@ -191,11 +201,10 @@ class HilbertCurve(CurveFractalFunction):
 
         for _ in range(size):
             new_temp = []
-            for j in range(len(temp)):
-                for k in range(4):
-                    x = temp[j][0] * 2 + positions[k][0]
-                    y = temp[j][1] * 2 + positions[k][1]
-                    new_temp.append((x, y))
+            for j, k in itertools.product(range(len(temp)), range(4)):
+                x = temp[j][0] * 2 + positions[k][0]
+                y = temp[j][1] * 2 + positions[k][1]
+                new_temp.append((x, y))
             temp = new_temp
 
         return temp[h]
@@ -233,28 +242,34 @@ class SpaceFillingCurve(CurveFractalFunction):
         >>> points = curve.result
 
         >>> # Visualization
-        >>> plt.figure(figsize=(10, 10))
-        >>> plt.plot(points[:, 0], points[:, 1], 'b-', linewidth=1)
-        >>> plt.axis('equal')
-        >>> plt.title("Space-Filling Curve")
+        >>> _ = plt.figure(figsize=(10, 10))
+        >>> _ = plt.plot(points[:, 0], points[:, 1], 'b-', linewidth=1)
+        >>> _ = plt.axis('equal')
+        >>> _ = plt.title("Space-Filling Curve")
         >>> plt.savefig("SpaceFillingCurve.png", dpi=300, transparent=True)
 
     Args:
-        size (UniversalArray): Size of the square [width, height]
+        *x (UniversalArray): Size of the square [width, height]
         max_iter (int, optional): Number of iterations. Defaults to 5.
         curve_type (str, optional): Type of space-filling curve. Defaults to "peano".
     """
 
     def __init__(
-        self, size: UniversalArray, max_iter: int = 5, curve_type: str = "peano"
+        self,
+        *x: UniversalArray,
+        max_iter: int = 5,
+        curve_type: str = "peano",
+        fractal_dimension: float = 2.0,
     ) -> None:
         """Initialize the space-filling curve."""
         self.curve_type = curve_type
-        self.fractal_dimension = 2.0  # All space-filling curves have dimension 2
-        super().__init__(size, max_iter=max_iter)
+        self.fractal_dimension = (
+            self.fractal_dimension
+        )  # All space-filling curves have dimension 2
+        super().__init__(*x, max_iter=max_iter, fractal_dimension=fractal_dimension)
 
-    def _peano_helper(
-        self, x: float, y: float, size: float, dir_x: int, dir_y: int
+    def _peano_helper(  # noqa: PLR0913
+        self, x: float, y: float, size: float, dir_x: int, dir_y: int, depth: int = 0
     ) -> list:
         """Helper function for generating Peano curve points.
 
@@ -264,11 +279,12 @@ class SpaceFillingCurve(CurveFractalFunction):
             size (float): Size of the current segment
             dir_x (int): Direction in x-axis
             dir_y (int): Direction in y-axis
+            depth (int, optional): Current recursion depth. Defaults to 0.
 
         Returns:
             list: List of points
         """
-        if self.max_iter == 0:
+        if depth >= self.max_iter:
             return [[x, y]]
 
         points = []
@@ -286,11 +302,12 @@ class SpaceFillingCurve(CurveFractalFunction):
             (2, 1),
             (2, 2),
         ]
-
         for px, py in pattern:
             new_x = x + dir_x * px * new_size
             new_y = y + dir_y * py * new_size
-            points.extend(self._peano_helper(new_x, new_y, new_size, dir_x, dir_y))
+            points.extend(
+                self._peano_helper(new_x, new_y, new_size, dir_x, dir_y, depth + 1)
+            )
 
         return points
 
@@ -302,7 +319,7 @@ class SpaceFillingCurve(CurveFractalFunction):
             np.ndarray: Array of points defining the curve
         """
         if self.curve_type == "peano":
-            points = self._peano_helper(0, 0, self._x[0], 1, 1)
+            points = self._peano_helper(0, 0, self._x[0], 1, 1, 0)
             return np.array(points)
         msg = f"Unknown curve type: {self.curve_type}"
         raise ValueError(msg)

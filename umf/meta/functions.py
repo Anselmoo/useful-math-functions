@@ -916,7 +916,8 @@ class FractalFunction(ABC, metaclass=CoreElements):
     iteration control, and evaluation methods.
 
     Args:
-        *x (UniversalArray): Input parameters for the fractal (coordinates, complex values, etc.)
+        *x (UniversalArray): Input parameters for the fractal (coordinates,
+            complex values, etc.)
         max_iter (int): Maximum number of iterations for the fractal generation.
         scale_factor (float, optional): Scaling factor for certain fractals.
     """
@@ -1075,14 +1076,21 @@ class CurveFractalFunction(FractalFunction):
         max_iter (int, optional): Maximum number of iterations. Defaults to 100.
         scale_factor (float, optional): Scale factor between iterations.
             Defaults to 0.5.
+        fractal_dimension (float, optional): Fractal dimension of the curve.
+            Defaults to 2.0.
     """
 
     def __init__(
-        self, *x: UniversalArray, max_iter: int = 100, scale_factor: float = 0.5
+        self,
+        *x: UniversalArray,
+        max_iter: int = 100,
+        scale_factor: float = 0.5,
+        fractal_dimension: float = 2.0,
     ) -> None:
         """Initialize the curve fractal function."""
         super().__init__(*x, max_iter=max_iter)
         self.scale_factor = scale_factor
+        self.fractal_dimension = fractal_dimension
 
     def generate_points(self) -> np.ndarray:
         """Generate points for the curve at the current iteration.
@@ -1139,14 +1147,21 @@ class GeometricFractalFunction(FractalFunction):
         max_iter (int, optional): Maximum number of iterations. Defaults to 6.
         scale_factor (float, optional): Scale factor for transformations. Defaults
             to 0.5.
+        fractal_dimension (float, optional): Fractal dimension of the shape.
+            Defaults to 2.0.
     """
 
     def __init__(
-        self, *x: UniversalArray, max_iter: int = 6, scale_factor: float = 0.5
+        self,
+        *x: UniversalArray,
+        max_iter: int = 6,
+        scale_factor: float = 0.5,
+        fractal_dimension: float = 2.0,
     ) -> None:
         """Initialize the geometric fractal function."""
         super().__init__(*x, max_iter=max_iter)
         self.scale_factor = scale_factor
+        self.fractal_dimension = fractal_dimension
 
     def transform_points(self, points: np.ndarray) -> list[np.ndarray]:
         """Apply geometric transformations to points.

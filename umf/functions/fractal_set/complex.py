@@ -239,7 +239,6 @@ class FeigenbaumDiagram(FractalFunction):
         n_discard: int = 100,
     ) -> None:
         """Initialize the Feigenbaum diagram."""
-
         self.x0 = x0
         self.n_discard = n_discard
         self.fractal_dimension = 0.538  # Feigenbaum constant-related dimension

@@ -73,8 +73,8 @@ class LorenzAttractor(DynamicFractalFunction):
         ...     z = [points[i][2], points[i+1][2]]
         ...     # Normalize z-coordinate for color mapping
         ...     z_norm = (
-        ...         points[i][2] - points[:, 2].min())
-        ...         / (points[:, 2].max() - points[:, 2].min()
+        ...         (points[i][2] - points[:, 2].min())
+        ...         / (points[:, 2].max() - points[:, 2].min())
         ...         )
         ...     _ = ax.plot(x, y, z, color=cm(z_norm), linewidth=0.8, alpha=0.8)
         >>>

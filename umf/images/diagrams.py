@@ -2,20 +2,15 @@
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING
-from typing import Any
+from typing import TYPE_CHECKING, Any
 
 import matplotlib.pyplot as plt
 import numpy as np
 import plotly.graph_objects as go
-
 from matplotlib.animation import FuncAnimation
 
 from umf.constants.exceptions import PlotAttributeError
-from umf.meta.plots import AnimationSettings
-from umf.meta.plots import GIFSettings
-from umf.meta.plots import Plot
-
+from umf.meta.plots import AnimationSettings, GIFSettings, Plot
 
 if TYPE_CHECKING:
     from pathlib import Path
@@ -370,7 +365,9 @@ class ClassicPlot(Plot):
             1
         ]  # Assuming the line plot to update is the second line
 
-        def update(frame: int, settings: GIFSettings) -> list[plt.Artist]:
+        def update(
+            frame: int, settings: GIFSettings
+        ) -> list[plt.Artist]:  # noqa: ARG001
             # for each frame, update the data stored on each artist.
             x = x_axis_data[:frame]
             y = y_axis_data[:frame]

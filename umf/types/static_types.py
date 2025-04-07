@@ -17,12 +17,12 @@
 
 from __future__ import annotations
 
-import numpy as np
+from typing import TypeAlias
 
+import numpy as np
 from numpy.typing import NDArray
 
-
-UniversalArray = NDArray[np.int_ | np.float64 | np.complex128]
+UniversalArray: TypeAlias = NDArray[np.int_ | np.float64 | np.complex128]
 UniversalArrayTuple = tuple[UniversalArray, ...]
 UniversalFloatTuple = tuple[float, ...]
 MeshArray = list[NDArray[np.float64]]

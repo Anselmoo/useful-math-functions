@@ -2,36 +2,35 @@
 
 from __future__ import annotations
 
-from abc import ABC
-from abc import ABCMeta
-from abc import abstractmethod
-from typing import TYPE_CHECKING
-from typing import Any
+from abc import ABC, ABCMeta, abstractmethod
+from typing import TYPE_CHECKING, Any
 
 import numpy as np
-
 from scipy.integrate import odeint
 
 from umf.constants.dimensions import __1d__
-from umf.constants.exceptions import ExcessiveExponentError
-from umf.constants.exceptions import MissingXError
-from umf.constants.exceptions import NoCumulativeError
-from umf.constants.exceptions import NotAPositiveNumberError
-from umf.constants.exceptions import OutOfDimensionError
-from umf.constants.exceptions import OutOfRangeError
-from umf.constants.exceptions import TimeFormatError
-from umf.meta.api import ResultsChaoticOscillatorAPI
-from umf.meta.api import ResultsDistributionAPI
-from umf.meta.api import ResultsFractalAPI
-from umf.meta.api import ResultsFunctionAPI
-from umf.meta.api import ResultsHyperbolicAPI
-from umf.meta.api import ResultsPathologicalAPI
-
+from umf.constants.exceptions import (
+    ExcessiveExponentError,
+    MissingXError,
+    NoCumulativeError,
+    NotAPositiveNumberError,
+    NotTupleArrayError,
+    OutOfDimensionError,
+    OutOfRangeError,
+    TimeFormatError,
+)
+from umf.meta.api import (
+    ResultsChaoticOscillatorAPI,
+    ResultsDistributionAPI,
+    ResultsFractalAPI,
+    ResultsFunctionAPI,
+    ResultsHyperbolicAPI,
+    ResultsPathologicalAPI,
+)
+from umf.types.static_types import UniversalArray
 
 if TYPE_CHECKING:
-    from umf.meta.api import MinimaAPI
-    from umf.meta.api import SummaryStatisticsAPI
-    from umf.types.static_types import UniversalArray
+    from umf.meta.api import MinimaAPI, SummaryStatisticsAPI
     from umf.types.static_types import UniversalArrayTuple
 
 
@@ -64,6 +63,11 @@ class OptFunction(ABC, metaclass=CoreElements):
         """Initialize the function."""
         if x[0] is None:
             raise MissingXError
+
+        if isinstance(x, tuple):
+            for i in x:
+                if not isinstance(i, UniversalArray):
+                    raise NotTupleArrayError
 
         self._x: tuple[UniversalArray, ...] = x
         self.dimension: int = len(x)
@@ -907,119 +911,83 @@ class OscillatorsFunc3D(OscillatorsFuncBase):
 class FractalFunction(ABC, metaclass=CoreElements):
     """Base class for fractal functions.
 
-    Fractal functions generate self-similar patterns with detail at every scale.
-    This base class provides the structure for implementing various fractal algorithms.
+    This class provides a template for implementing fractal generation algorithms.
+    It defines the basic interface for all fractal functions including inputs,
+    iteration control, and evaluation methods.
 
     Args:
-        *x (UniversalArray): Input data, which can vary depending on the specific
-            fractal.
-        max_iter (int, optional): Maximum number of iterations. Defaults to 100.
-        **kwargs: Keyword arguments specific to each fractal implementation.
-
-    Raises:
-        MissingXError: If no input data is specified.
+        *x (UniversalArray): Input parameters for the fractal (coordinates, complex values, etc.)
+        max_iter (int): Maximum number of iterations for the fractal generation.
+        scale_factor (float, optional): Scaling factor for certain fractals.
     """
 
-    def __init__(self, *x: UniversalArray, max_iter: int = 100) -> None:
+    def __init__(
+        self,
+        *x: UniversalArray,
+        max_iter: int = 100,
+        scale_factor: float | None = None,
+    ) -> None:
         """Initialize the fractal function."""
         if x[0] is None:
             raise MissingXError
 
+        # Store input as a tuple of UniversalArray objects
         self._x: tuple[UniversalArray, ...] = x
         self.max_iter = max_iter
-        self.dimension: int = len(x)
-        # Initialize fractal_dimension attribute explicitly
-        self._fractal_dimension: float | None = None
-
-    @property
-    def fractal_dimension(self) -> float | None:
-        """Get the fractal dimension.
-
-        Returns:
-            float | None: The fractal dimension if available, otherwise None.
-        """
-        return self._fractal_dimension
-
-    @fractal_dimension.setter
-    def fractal_dimension(self, value: float | None) -> None:
-        """Set the fractal dimension.
-
-        Args:
-            value (float | None): The fractal dimension value to set.
-        """
-        self._fractal_dimension = value
+        self.scale_factor = scale_factor
+        self.fractal_dimension = 0.0  # Default dimension, to be overridden
 
     @property
     def __input__(self) -> UniversalArrayTuple:
         """Return the input data.
 
         Returns:
-            UniversalArrayTuple: The input data as a tuple of arrays.
+            UniversalArrayTuple: Tuple of input arrays
         """
         return self._x
-
-    def _get_parameters(self) -> dict:
-        """Collect parameters for the API response.
-
-        This method gathers all the parameters that were used to create the fractal,
-        and returns them as a dictionary for use in the API response.
-
-        Returns:
-            dict: Dictionary of parameter names and values.
-        """
-        params = {}
-        for attr_name in dir(self):
-            if attr_name.startswith(("__", "_")):
-                continue
-
-            # Skip methods and properties
-            attr = getattr(self, attr_name)
-            if callable(attr) or isinstance(attr, property):
-                continue
-
-            # Add parameter to dictionary
-            params[attr_name] = attr
-
-        return params
 
     @property
     @abstractmethod
     def __eval__(self) -> UniversalArray | list | dict:
-        """Evaluate the fractal function.
+        """Generate the fractal.
+
+        This method should implement the actual fractal generation algorithm.
 
         Returns:
-            UniversalArray | list | dict: Fractal data representation.
+            UniversalArray | list | dict: Fractal representation, which could be:
+                - Array of iteration counts (e.g., for Mandelbrot set)
+                - List of coordinates (e.g., for Koch curve)
+                - Dictionary of parameters and values (e.g., for L-systems)
         """
 
     def calculate_dimension(self) -> float | None:
         """Calculate the fractal dimension.
 
-        This is a default implementation that returns None.
-        Subclasses may override this with more specific dimension calculations.
+        For many fractals, this is a fixed value that can be calculated analytically.
+        For others, it may require box-counting or other numerical methods.
 
         Returns:
-            float | None: The approximate fractal dimension, or None if not calculable.
+            float | None: Fractal dimension if available, otherwise None
         """
-        return None
+        return getattr(self, "fractal_dimension", None)
 
     def __call__(self) -> ResultsFractalAPI:
         """Return the results of the fractal function.
 
         Returns:
-            ResultsFractalAPI: A standardized API response containing the fractal data.
+            ResultsFractalAPI: Object containing the fractal data and metadata
         """
-        parameters = self._get_parameters()
-
-        # Get fractal dimension if available
-        dimension = self.fractal_dimension
-        if dimension is None:
-            dimension = self.calculate_dimension()
+        parameters = {
+            "max_iter": self.max_iter,
+        }
+        if self.scale_factor is not None:
+            parameters["scale_factor"] = self.scale_factor
 
         return ResultsFractalAPI(
             x=self.__input__,
             result=self.__eval__,
             parameters=parameters,
-            dimension=dimension,
+            dimension=self.calculate_dimension(),
             doc=self.__doc__,
         )
 

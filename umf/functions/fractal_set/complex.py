@@ -6,10 +6,7 @@ from typing import TYPE_CHECKING
 
 import numpy as np
 
-from meta.api import ResultsFractalAPI
-from umf.meta.functions import ComplexFractalFunction
-from umf.meta.functions import FractalFunction
-
+from umf.meta.functions import ComplexFractalFunction, FractalFunction
 
 if TYPE_CHECKING:
     from umf.meta.api import ResultsFractalAPI
@@ -57,21 +54,21 @@ class MandelbrotSet(ComplexFractalFunction):
         where $z_0 = 0$ and $c$ is a complex parameter.
 
     Args:
-        c (UniversalArray): Complex plane coordinates.
+        *x (UniversalArray): Complex plane coordinates.
         max_iter (int, optional): Maximum number of iterations. Defaults to 100.
         escape_radius (float, optional): Escape radius. Defaults to 2.0.
     """
 
     def __init__(
-        self, c: UniversalArray, max_iter: int = 100, escape_radius: float = 2.0
+        self, *x: UniversalArray, max_iter: int = 100, escape_radius: float = 2.0
     ) -> None:
         """Initialize the Mandelbrot set."""
-        self.c = c
         # Initialize first, then call super() to register properly
         self.fractal_dimension = (
             2.0  # Approximate dimension for the Mandelbrot boundary
         )
-        super().__init__(c, max_iter=max_iter, escape_radius=escape_radius)
+
+        super().__init__(*x, max_iter=max_iter, escape_radius=escape_radius)
 
     @property
     def __eval__(self) -> np.ndarray:
@@ -80,7 +77,7 @@ class MandelbrotSet(ComplexFractalFunction):
         Returns:
             np.ndarray: Array of iteration counts.
         """
-        c = np.asarray(self.c)
+        c = self._x[0]
         shape = c.shape
 
         # Use the common implementation from ComplexFractalFunction
@@ -138,26 +135,30 @@ class JuliaSet(ComplexFractalFunction):
         where $z_0$ is a complex number and c is a fixed complex parameter.
 
     Args:
-        z (UniversalArray): Starting complex plane coordinates.
-        c (complex): Julia set parameter.
+        *x (UniversalArray): Complex values for [z, c], where z is the starting complex
+            plane coordinates and c is the Julia set parameter.
         max_iter (int, optional): Maximum number of iterations. Defaults to 100.
         escape_radius (float, optional): Escape radius. Defaults to 2.0.
     """
 
     def __init__(
         self,
-        z: UniversalArray,
-        c: complex,
+        *x: UniversalArray,
         max_iter: int = 100,
         escape_radius: float = 2.0,
     ) -> None:
         """Initialize the Julia set."""
-        self.z = z
-        self.c = c
+        # Ensure c is converted to numpy array even if it's a scalar complex
+        c_value = x[1] if len(x) > 1 else -0.7 + 0.27j
+        self.c = np.asarray(c_value, dtype=complex)
         # Different c values give different fractal dimensions
         # 1.2 is a reasonable default for many Julia sets
         self.fractal_dimension = 1.2
-        super().__init__(z, max_iter=max_iter, escape_radius=escape_radius)
+        # We need to ensure x[1] is an ndarray for validation
+        new_x = list(x)
+        if len(new_x) > 1:
+            new_x[1] = self.c
+        super().__init__(*new_x, max_iter=max_iter, escape_radius=escape_radius)
 
     @property
     def __eval__(self) -> np.ndarray:
@@ -166,11 +167,18 @@ class JuliaSet(ComplexFractalFunction):
         Returns:
             np.ndarray: Array of iteration counts.
         """
-        z = np.asarray(self.z)
+        z = np.asarray(self._x[0])
         shape = z.shape
 
+        # Ensure c is properly broadcast when it's a scalar
+        c = (
+            np.broadcast_to(self.c, shape)
+            if np.isscalar(self.c) or self.c.size == 1
+            else self.c
+        )
+
         # Use the common implementation from ComplexFractalFunction
-        return self.iterate_complex_function(z_start=z, c=self.c, shape=shape)
+        return self.iterate_complex_function(z_start=z, c=c, shape=shape)
 
     def is_in_set(self, z_values: UniversalArray) -> np.ndarray:
         """Determine whether points are in the Julia set.
@@ -198,7 +206,7 @@ class FeigenbaumDiagram(FractalFunction):
         >>> import matplotlib.pyplot as plt
         >>> from umf.functions.fractal_set.complex import FeigenbaumDiagram
         >>> # Generate a Feigenbaum diagram
-        >>> r_values = np.linspace(2.8, 4.0, 1000)  # Parameter range
+        >>> r_values = np.linspace(2.8, 4.0, 1000)
         >>> feigenbaum = FeigenbaumDiagram(r_values)()
         >>> bifurcation_data = feigenbaum.result
 
@@ -216,7 +224,7 @@ class FeigenbaumDiagram(FractalFunction):
         the parameter $r$ increases, revealing the period-doubling route to chaos.
 
     Args:
-        r_values (UniversalArray): Range of parameter values.
+        *x (UniversalArray): Range of parameter values.
         x0 (float, optional): Initial value for the iteration. Defaults to 0.5.
         max_iter (int, optional): Maximum number of iterations. Defaults to 1000.
         n_discard (int, optional): Number of initial iterations to discard.
@@ -225,17 +233,17 @@ class FeigenbaumDiagram(FractalFunction):
 
     def __init__(
         self,
-        r_values: UniversalArray,
+        *x: UniversalArray,
         x0: float = 0.5,
-        max_iter: int = 1000,  # Changed from n_iterations for consistency
+        max_iter: int = 1000,
         n_discard: int = 100,
     ) -> None:
         """Initialize the Feigenbaum diagram."""
-        self.r_values = r_values
+
         self.x0 = x0
         self.n_discard = n_discard
         self.fractal_dimension = 0.538  # Feigenbaum constant-related dimension
-        super().__init__(r_values, max_iter=max_iter)
+        super().__init__(*x, max_iter=max_iter)
 
     @property
     def __eval__(self) -> list[tuple[float, list[float]]]:
@@ -246,7 +254,7 @@ class FeigenbaumDiagram(FractalFunction):
         """
         result = []
 
-        for r in self.r_values:
+        for r in self._x[0]:
             x = self.x0
             x_values = []
 

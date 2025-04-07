@@ -6,11 +6,9 @@ from typing import TYPE_CHECKING
 
 import numpy as np
 
-from umf.constants.dimensions import __2d__
-from umf.constants.dimensions import __3d__
+from umf.constants.dimensions import __2d__, __3d__
 from umf.constants.exceptions import OutOfDimensionError
 from umf.meta.functions import DynamicFractalFunction
-
 
 if TYPE_CHECKING:
     from umf.types.static_types import UniversalArray
@@ -67,8 +65,8 @@ class LorenzAttractor(DynamicFractalFunction):
     Args:
         initial_state (UniversalArray): Initial point [x, y, z]
         max_iter (int, optional): Number of iterations. Defaults to 10000.
-        sigma (float, optional): σ parameter. Defaults to 10.0.
-        rho (float, optional): ρ parameter. Defaults to 28.0.
+        sigma (float, optional): $\sigma$ parameter. Defaults to 10.0.
+        rho (float, optional): $\rho$ parameter. Defaults to 28.0.
         beta (float, optional): β parameter. Defaults to 8/3.
     """
 
@@ -148,8 +146,8 @@ class CurlicueFractal(DynamicFractalFunction):
         $$
 
         When $\theta$ is an irrational multiple of $\pi$, the pattern never repeats and
-        creates intricate fractal-like structures. The Golden angle $\theta = \pi(3-\sqrt{5})$
-        produces particularly beautiful patterns.
+        creates intricate fractal-like structures. The Golden angle
+        $\theta = \pi(3-\sqrt{5})$ produces particularly beautiful patterns.
 
     Examples:
         >>> import numpy as np
@@ -172,8 +170,8 @@ class CurlicueFractal(DynamicFractalFunction):
         >>> plt.savefig("CurlicueFractal.png", dpi=300, transparent=True)
 
     Args:
-        start (UniversalArray): Starting point [x, y]
-        angle (float): Rotation angle in radians
+        start (UniversalArray): Starting point [x, y].
+        angle (float): Rotation angle in radians.
         max_iter (int, optional): Number of iterations. Defaults to 1000.
         step_size (float, optional): Length of each step. Defaults to 1.0.
     """
@@ -196,19 +194,22 @@ class CurlicueFractal(DynamicFractalFunction):
             )
         super().__init__(*start, max_iter=max_iter)
 
-    def iterate_system(self, state: UniversalArray) -> np.ndarray:
+    def iterate_system(
+        self, state: UniversalArray, points: list[UniversalArray]
+    ) -> np.ndarray:
         """Generate next point in the Curlicue pattern.
 
         Args:
-            state (np.ndarray): Current point and cumulative angle
+            state (np.ndarray): Current point and cumulative angle.
+            points (list[np.ndarray]): List of points generated so far.
 
         Returns:
             np.ndarray: Next point and updated angle
         """
         x, y = state
         # Calculate new position
-        new_x = x + self.step_size * np.cos(self.angle * len(self._points))
-        new_y = y + self.step_size * np.sin(self.angle * len(self._points))
+        new_x = x + self.step_size * np.cos(self.angle * len(points))
+        new_y = y + self.step_size * np.sin(self.angle * len(points))
         return np.array([new_x, new_y])
 
     @property
@@ -219,13 +220,13 @@ class CurlicueFractal(DynamicFractalFunction):
             np.ndarray: Array of points defining the curve
         """
         state = np.array([self._x[0], self._x[1]])
-        self._points = [state]
+        points = [state]
 
         for _ in range(self.max_iter):
-            state = self.iterate_system(state)
-            self._points.append(state.copy())
+            state = self.iterate_system(state=state, points=points)
+            points.append(state.copy())
 
-        return np.array(self._points)
+        return np.array(points)
 
 
 class PercolationModel(DynamicFractalFunction):
@@ -258,7 +259,7 @@ class PercolationModel(DynamicFractalFunction):
         >>> # Note: Use a tuple for input parameters
         >>> size_tuple = (height, width)
         >>> model = PercolationModel(*size_tuple, p=0.59, max_iter=1000)
-        >>>
+
         >>> # For static visualization of final state
         >>> final_grid = model()
         >>> _ = plt.figure(figsize=(10, 10))
@@ -266,20 +267,20 @@ class PercolationModel(DynamicFractalFunction):
         >>> _ = plt.colorbar(label='Cluster value')
         >>> _ = plt.title("Percolation Model (Final State)")
         >>> plt.savefig("PercolationModel.png", dpi=300, transparent=True)
-        >>>
+
         >>> # For GIF visualization of the percolation process
         >>> fig, ax = plt.subplots(figsize=(10, 10))
         >>> grid = np.zeros((height[0], width[0]), dtype=float)
         >>> im = ax.imshow(grid, cmap='inferno', interpolation='nearest', animated=True)
         >>> _ = plt.colorbar(im, label='Cluster value')
         >>> _ = plt.title("Percolation Model Evolution")
-        >>>
+
         >>> def update(frame):
         ...     global grid
         ...     grid = model.iterate_system(grid)
         ...     im.set_array(grid)
         ...     return [im]
-        >>>
+
         >>> # Create animation (50 frames is usually enough to see the pattern)
         >>> ani = FuncAnimation(fig, update, frames=150, interval=50, blit=True)
         >>> ani.save("PercolationModel.gif", writer='pillow', dpi=100)

@@ -55,14 +55,14 @@ class KochCurve(GeometricFractalFunction):
         >>> plt.savefig("KochCurve.png", dpi=300, transparent=True)
 
     Args:
-        points (UniversalArray): Initial line segment points
+        *x (UniversalArray): Initial line segment points
         max_iter (int, optional): Number of iterations. Defaults to 5.
     """
 
-    def __init__(self, points: UniversalArray, max_iter: int = 5) -> None:
+    def __init__(self, *x: UniversalArray, max_iter: int = 5) -> None:
         """Initialize the Koch curve."""
         self.fractal_dimension = np.log(4) / np.log(3)  # Exact dimension
-        super().__init__(points, max_iter=max_iter)
+        super().__init__(*x, max_iter=max_iter)
 
     def transform_points(self, points: np.ndarray) -> np.ndarray:
         """Apply Koch curve transformation to line segments.
@@ -139,14 +139,14 @@ class SierpinskiTriangle(GeometricFractalFunction):
         >>> plt.savefig("SierpinskiTriangle.png", dpi=300, transparent=True)
 
     Args:
-        points (UniversalArray): Initial triangle vertices
+        *x (UniversalArray): Initial triangle vertices
         max_iter (int, optional): Number of iterations. Defaults to 7.
     """
 
-    def __init__(self, points: UniversalArray, max_iter: int = 7) -> None:
+    def __init__(self, *x: UniversalArray, max_iter: int = 7) -> None:
         """Initialize the Sierpinski triangle."""
         self.fractal_dimension = np.log(3) / np.log(2)  # Exact dimension
-        super().__init__(points, max_iter=max_iter)
+        super().__init__(*x, max_iter=max_iter)
 
     def transform_points(self, triangles: list[np.ndarray]) -> list[np.ndarray]:
         """Subdivide triangles according to Sierpinski pattern.
@@ -218,14 +218,14 @@ class SierpinskiCarpet(GeometricFractalFunction):
         >>> plt.savefig("SierpinskiCarpet.png", dpi=300, transparent=True)
 
     Args:
-        size (UniversalArray): Size of the initial square [width, height]
+        *x (UniversalArray): Size of the initial square [width, height]
         max_iter (int, optional): Number of iterations. Defaults to 5.
     """
 
-    def __init__(self, size: UniversalArray, max_iter: int = 5) -> None:
+    def __init__(self, *x: UniversalArray, max_iter: int = 5) -> None:
         """Initialize the Sierpinski carpet."""
         self.fractal_dimension = np.log(8) / np.log(3)  # Exact dimension
-        super().__init__(size, max_iter=max_iter)
+        super().__init__(*x, max_iter=max_iter)
 
     def transform_points(self, squares: list[np.ndarray]) -> list[np.ndarray]:
         """Subdivide squares according to Sierpinski carpet pattern.
@@ -300,14 +300,14 @@ class MengerSponge(GeometricFractalFunction):
         >>> plt.savefig("MengerSponge.png", dpi=300, transparent=True)
 
     Args:
-        size (UniversalArray): Size of the initial cube [width, height, depth]
+        *x (UniversalArray): Size of the initial cube [width, height, depth]
         max_iter (int, optional): Number of iterations. Defaults to 3.
     """
 
-    def __init__(self, size: UniversalArray, max_iter: int = 3) -> None:
+    def __init__(self, *x: UniversalArray, max_iter: int = 3) -> None:
         """Initialize the Menger sponge."""
         self.fractal_dimension = np.log(20) / np.log(3)  # Exact dimension
-        super().__init__(size, max_iter=max_iter)
+        super().__init__(*x, max_iter=max_iter)
 
     def transform_points(self, cubes: list[np.ndarray]) -> list[np.ndarray]:
         """Subdivide cubes according to Menger sponge pattern.
@@ -381,7 +381,7 @@ class PythagorasTree(GeometricFractalFunction):
         >>> plt.savefig("PythagorasTree.png", dpi=300, transparent=True)
 
     Args:
-        base (UniversalArray): Base line segment points
+        *x (UniversalArray): Base line segment points
         max_iter (int, optional): Number of iterations. Defaults to 10.
         angle (float, optional): Angle of branches in radians. Defaults to np.pi/4.
         scale_factor (float, optional): Scaling factor for branches. Defaults to 0.7.
@@ -393,7 +393,7 @@ class PythagorasTree(GeometricFractalFunction):
 
     def __init__(
         self,
-        base: UniversalArray,
+        *x: UniversalArray,
         max_iter: int = 10,
         angle: float = np.pi / 4,
         scale_factor: float = 0.7,
@@ -402,7 +402,7 @@ class PythagorasTree(GeometricFractalFunction):
         self.angle = angle
         self.scale_factor = scale_factor
         self.fractal_dimension = 2.0  # Approximate dimension
-        super().__init__(base, max_iter=max_iter)
+        super().__init__(*x, max_iter=max_iter)
 
     def transform_points(self, branches: list[np.ndarray]) -> list[np.ndarray]:
         """Generate new squares for the Pythagoras tree.
@@ -506,18 +506,21 @@ class UniformMassCenterTriangle(GeometricFractalFunction):
         >>> plt.savefig("UniformMassCenterTriangle.png", dpi=300, transparent=True)
 
     Args:
-        vertices (UniversalArray): Triangle vertices
+        *x (UniversalArray): Triangle vertices
         max_iter (int, optional): Number of points to generate. Defaults to 10000.
         ratio (float, optional): Movement ratio towards vertex. Defaults to 0.5.
     """
 
     def __init__(
-        self, vertices: UniversalArray, max_iter: int = 10000, ratio: float = 0.5
+        self,
+        *x: UniversalArray,
+        max_iter: int = 10000,
+        ratio: float = 0.5,
     ) -> None:
         """Initialize the mass center triangle."""
         self.ratio = ratio
         self.fractal_dimension = 1.585  # Approximate dimension
-        super().__init__(vertices, max_iter=max_iter)
+        super().__init__(*x, max_iter=max_iter)
 
     @property
     def __eval__(self) -> np.ndarray:

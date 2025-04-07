@@ -48,14 +48,14 @@ class CantorSet(CurveFractalFunction):
         The Cantor set has dimension log(2)/log(3) ≈ 0.6309
 
     Args:
-        x (UniversalArray): Initial interval [start, end]
+        *x (UniversalArray): Initial interval [start, end]
         max_iter (int, optional): Maximum iterations. Defaults to 5.
     """
 
-    def __init__(self, x: UniversalArray, max_iter: int = 5) -> None:
+    def __init__(self, *x: UniversalArray, max_iter: int = 5) -> None:
         """Initialize the Cantor set."""
         self.fractal_dimension = np.log(2) / np.log(3)  # Exact dimension
-        super().__init__(x, max_iter=max_iter, scale_factor=1 / 3)
+        super().__init__(*x, max_iter=max_iter, scale_factor=1 / 3)
 
     @property
     def __eval__(self) -> list[list[tuple[float, float]]]:
@@ -103,17 +103,14 @@ class DragonCurve(CurveFractalFunction):
         >>> plt.savefig("DragonCurve.png", dpi=300, transparent=True)
 
     Args:
-        start (UniversalArray): Starting point coordinates
-        end (UniversalArray): Ending point coordinates
+        *x (UniversalArray): Coordinates [start_point, end_point]
         max_iter (int, optional): Maximum iterations. Defaults to 10.
     """
 
-    def __init__(
-        self, start: UniversalArray, end: UniversalArray, max_iter: int = 10
-    ) -> None:
+    def __init__(self, *x: UniversalArray, max_iter: int = 10) -> None:
         """Initialize the Dragon curve."""
         self.fractal_dimension = 2.0  # Approximate dimension
-        super().__init__(start, end, max_iter=max_iter)
+        super().__init__(*x, max_iter=max_iter)
 
     @property
     def __eval__(self) -> np.ndarray:
@@ -192,7 +189,7 @@ class HilbertCurve(CurveFractalFunction):
         positions = [(0, 0), (0, 1), (1, 1), (1, 0)]
         temp = [(0, 0)]
 
-        for i in range(size):
+        for _ in range(size):
             new_temp = []
             for j in range(len(temp)):
                 for k in range(4):
@@ -262,9 +259,11 @@ class SpaceFillingCurve(CurveFractalFunction):
         """Helper function for generating Peano curve points.
 
         Args:
-            x, y (float): Current position
-            size (float): Current segment size
-            dir_x, dir_y (int): Direction multipliers
+            x (float): x-coordinate
+            y (float): y-coordinate
+            size (float): Size of the current segment
+            dir_x (int): Direction in x-axis
+            dir_y (int): Direction in y-axis
 
         Returns:
             list: List of points
@@ -305,4 +304,5 @@ class SpaceFillingCurve(CurveFractalFunction):
         if self.curve_type == "peano":
             points = self._peano_helper(0, 0, self._x[0], 1, 1)
             return np.array(points)
-        raise ValueError(f"Unknown curve type: {self.curve_type}")
+        msg = f"Unknown curve type: {self.curve_type}"
+        raise ValueError(msg)

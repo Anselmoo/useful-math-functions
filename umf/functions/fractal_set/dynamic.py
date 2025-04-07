@@ -91,7 +91,7 @@ class LorenzAttractor(DynamicFractalFunction):
         This is one of the most famous examples of deterministic chaos and was
         discovered by Edward Lorenz in 1963 while studying simplified models of
         atmospheric convection.
-        
+
     Args:
         initial_state (UniversalArray): Initial point [x, y, z]
         max_iter (int, optional): Number of iterations. Defaults to 10000.

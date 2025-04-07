@@ -11,6 +11,6 @@
         heading_level: 0
         members: None
 
-|                      Geodesic Function                       |
-| :----------------------------------------------------------: |
-| ![AngleFunction](../../../extra/images/GeodesicFunction.png) |
+|                       Geodesic Function                        |
+| :------------------------------------------------------------: |
+| ![Geodesicunction](../../../extra/images/GeodesicFunction.png) |

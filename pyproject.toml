@@ -1,31 +1,21 @@
 [project]
 name = "useful-math-functions"
-version = "0.3.0"
+version = "0.4.0"
 description = "useful-math-functions for Optimization, Benchmarking, Visualizing, and more ..."
 authors = [{ name = "Anselm Hahn", email = "anselm.hahn@gmail.com" }]
 requires-python = ">=3.10,<3.12"
 readme = "README.md"
 maintainers = [{ name = "Anselm Hahn", email = "anselm.hahn@gmail.com" }]
-dependencies = [
-    "numpy>=2.0.0,<3",
-    "pydantic>=2.0.0,<3",
-    "scipy>=1.11.2,<2",
-]
+dependencies = ["numpy>=2.0.0,<3", "pydantic>=2.0.0,<3", "scipy>=1.11.2,<2"]
 
 [project.optional-dependencies]
-matplotlib = [
-    "matplotlib (>=3.10.1,<4.0.0)",
-    "imagemagic (>=0.2.1,<0.3.0)",
-]
-plotly = [
-    "plotly (>=6.0.0,<6.1.0)",
-    "kaleido==0.2.1",
-]
+matplotlib = ["matplotlib (>=3.10.1,<4.0.0)", "imagemagic (>=0.2.1,<0.3.0)"]
+plotly = ["plotly (>=6.0.0,<6.1.0)", "kaleido==0.2.1"]
 all = [
-    "matplotlib (>=3.10.0,<4.0.0)",
-    "plotly (>=6.0.0,<6.1.0)",
-    "kaleido==0.2.1",
-    "imagemagic (>=0.2.1,<0.3.0)",
+  "matplotlib (>=3.10.0,<4.0.0)",
+  "plotly (>=6.0.0,<6.1.0)",
+  "kaleido==0.2.1",
+  "imagemagic (>=0.2.1,<0.3.0)",
 ]
 
 [project.urls]
@@ -37,34 +27,30 @@ changelog = "https://github.com/Anselmoo/useful-math-functions/blob/main/CHANGEL
 
 [dependency-groups]
 dev = [
-    "ruff>=0.11,<0.12",
-    "mypy>=1.14.1,<2",
-    "pytest>=8.3.4,<9",
-    "pytest-sugar>=1.0.0,<2",
-    "pytest-cov>=6.0.0,<7",
-    "pre-commit>=4.0.1,<5",
+  "ruff>=0.11,<0.12",
+  "mypy>=1.14.1,<2",
+  "pytest>=8.3.4,<9",
+  "pytest-sugar>=1.0.0,<2",
+  "pytest-cov>=6.0.0,<7",
+  "pre-commit>=4.0.1,<5",
 ]
 check = ["scipy>=1.15.1,<2"]
 docs = [
-    "mkdocs-glightbox>=0.4.0,<0.5",
-    "mkdocs-material>=9.5.50,<10",
-    "mkdocs-minify-plugin>=0.8.0,<0.9",
-    "mkdocs-git-revision-date-localized-plugin>=1.3.0,<2",
-    "mkdocstrings[python]>=0.27.0,<0.28",
-    "mathjax>=0.1.2,<0.2",
-    "mkdocs-literate-nav>=0.6.1,<0.7",
-    "mkdocs-section-index>=0.3.9,<0.4",
-    "mike>=2.1.3,<3",
-    "mkdocs-table-reader-plugin>=3.1.0,<4",
-    "pymdown-extensions~=10.14",
+  "mkdocs-glightbox>=0.4.0,<0.5",
+  "mkdocs-material>=9.5.50,<10",
+  "mkdocs-minify-plugin>=0.8.0,<0.9",
+  "mkdocs-git-revision-date-localized-plugin>=1.3.0,<2",
+  "mkdocstrings[python]>=0.27.0,<0.28",
+  "mathjax>=0.1.2,<0.2",
+  "mkdocs-literate-nav>=0.6.1,<0.7",
+  "mkdocs-section-index>=0.3.9,<0.4",
+  "mike>=2.1.3,<3",
+  "mkdocs-table-reader-plugin>=3.1.0,<4",
+  "pymdown-extensions~=10.14",
 ]
 
 [tool.uv]
-default-groups = [
-    "dev",
-    "check",
-    "docs",
-]
+default-groups = ["dev", "check", "docs"]
 
 [tool.hatch.build.targets.sdist]
 include = ["./umf"]
@@ -95,11 +81,13 @@ src = ["umf"]
 
 [tool.ruff.lint.per-file-ignores]
 "umf/**/test_*.py" = [
-    "PLR2004", # magic value comparison
-    "S101",    # use of assert detected
-    "TCH002",  # third party import (for pytest)
+  "PLR2004", # magic value comparison
+  "S101",    # use of assert detected
+  "TCH002",  # third party import (for pytest)
 ]
-"umf/types/__init__.py" =  ["A005"] # module shadows a Python standard-library module
+"umf/types/__init__.py" = [
+  "A005",
+] # module shadows a Python standard-library module
 
 [tool.ruff.lint.pydocstyle]
 convention = "google"
@@ -131,11 +119,11 @@ warn_required_dynamic_aliases = true
 
 [tool.pytest.ini_options]
 addopts = [
-    "--cov=umf",
-    "--cov-report=term-missing",
-    "--cov-report=xml",
-    "--cov-report=html",
-    "--doctest-modules",
-    "--doctest-glob=*.md",
+  "--cov=umf",
+  "--cov-report=term-missing",
+  "--cov-report=xml",
+  "--cov-report=html",
+  "--doctest-modules",
+  "--doctest-glob=*.md",
 ]
 testpaths = ["umf"]

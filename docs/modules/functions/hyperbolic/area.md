@@ -11,6 +11,6 @@
         heading_level: 0
         members: None
 
-|                      Area Function                       |
-| :------------------------------------------------------: |
-| ![AngleFunction](../../../extra/images/AreaFunction.png) |
+|                      Area Function                      |
+| :-----------------------------------------------------: |
+| ![AreaFunction](../../../extra/images/AreaFunction.png) |

@@ -11,6 +11,6 @@
         heading_level: 0
         members: None
 
-|                      Distance Function                       |
-| :----------------------------------------------------------: |
-| ![AngleFunction](../../../extra/images/DistanceFunction.png) |
+|                        Distance Function                        |
+| :-------------------------------------------------------------: |
+| ![DistanceFunction](../../../extra/images/DistanceFunction.png) |

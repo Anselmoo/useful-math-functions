@@ -284,7 +284,8 @@ class SierpinskiCarpet(GeometricFractalFunction):
     Args:
         *x (UniversalArray): Size of the initial square [width, height]
         max_iter (int, optional): Number of iterations. Defaults to 5.
-        fractal_dimension (float, optional): Fractal dimension. Defaults to log(8)/log(3).
+        fractal_dimension (float, optional): Fractal dimension. Defaults to
+            $\log 8 \/ \log 3$.
     """
 
     def __init__(
@@ -323,8 +324,8 @@ class SierpinskiCarpet(GeometricFractalFunction):
             list[np.ndarray]: List of square vertex arrays
         """
         # Initial square
-        width = self._x[0] if isinstance(self._x[0], (int, float)) else self._x[0][0]
-        height = self._x[1] if isinstance(self._x[1], (int, float)) else self._x[1][0]
+        width = self._x[0][0]
+        height = self._x[1][0]
         squares = [np.array([[0, 0], [width, height]])]
 
         for _ in range(self.max_iter):
@@ -417,7 +418,8 @@ class MengerSponge(GeometricFractalFunction):
     Args:
         *x (UniversalArray): Size of the initial cube [length, width, height]
         max_iter (int, optional): Number of iterations. Defaults to 3.
-        fractal_dimension (float, optional): Fractal dimension. Defaults to log(20)/log(3).
+        fractal_dimension (float, optional): Fractal dimension. Defaults to
+            $\log 20 \/ \log 3$.
     """
 
     def __init__(
@@ -502,7 +504,10 @@ class PythagorasTree(GeometricFractalFunction):
         >>> for idx in sorted_indices:
         ...     square = squares[idx]
         ...     # Normalize height for color mapping
-        ...     y_height = (y_coords[idx] - y_min) / (y_max - y_min) if y_max > y_min else 0
+        ...     y_height = (
+        ...         (y_coords[idx] - y_min) / (y_max - y_min)
+        ...         if y_max > y_min else 0)
+        ...     )
         ...     # Size-based variation for more natural appearance
         ...     size = np.linalg.norm(square[1] - square[0])
         ...     size_factor = np.clip(1.0 - np.log10(size + 1) * 0.2, 0.3, 1.0)
@@ -660,7 +665,12 @@ class UniformMassCenterTriangle(GeometricFractalFunction):
         >>> ax = plt.gca()
         >>> ax.set_facecolor('black')
         >>> # Create custom colormap for glowing effect
-        >>> colors = [(0.0, 0.0, 0.3), (0.0, 0.3, 0.7), (0.5, 0.0, 0.8), (0.8, 0.2, 0.0)]
+        >>> colors = [
+        ...     (0.0, 0.0, 0.3),
+        ...     (0.0, 0.3, 0.7),
+        ...     (0.5, 0.0, 0.8),
+        ...     (0.8, 0.2, 0.0),
+        ... ]
         >>> cm = LinearSegmentedColormap.from_list('glow_colors', colors, N=256)
         >>> # Create point clusters for efficiency
         >>> from scipy.stats import binned_statistic_2d
@@ -683,7 +693,7 @@ class UniformMassCenterTriangle(GeometricFractalFunction):
         ... )
         >>> # Add triangle outline
         >>> vertices_array = np.array([v for v in vertices])
-        >>> vertices_array = np.vstack([vertices_array, vertices_array[0]])  # Close the loop
+        >>> vertices_array = np.vstack([vertices_array, vertices_array[0]])
         >>> _ = plt.plot(vertices_array[:, 0], vertices_array[:, 1],
         ...              color='white', alpha=0.5, linewidth=1.0)
         >>> _ = plt.axis('equal')
@@ -712,7 +722,8 @@ class UniformMassCenterTriangle(GeometricFractalFunction):
         *x (UniversalArray): Triangle vertices
         max_iter (int, optional): Number of points to generate. Defaults to 10000.
         ratio (float, optional): Movement ratio towards vertex. Defaults to 0.5.
-        fractal_dimension (float, optional): Approximate fractal dimension. Defaults to log(3)/log(2).
+        fractal_dimension (float, optional): Approximate fractal dimension. Defaults
+            to $\log 3 \/ \log 2$.
     """
 
     def __init__(

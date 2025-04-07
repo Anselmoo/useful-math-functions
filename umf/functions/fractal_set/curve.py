@@ -51,7 +51,10 @@ class CantorSet(CurveFractalFunction):
         ...     for start, end in points:
         ...         _ = plt.plot([start, end], [y, y],
         ...                      color=color,
-        ...                      linewidth=5 - 3 * level / cantor.parameters["max_iter"],
+        ...                      linewidth=(
+        ...                         5 - 3 * level
+        ...                          / cantor.parameters["max_iter"]
+        ...                      ),
         ...                      solid_capstyle='butt')
         >>>
         >>> _ = plt.ylim(-0.5, cantor.parameters["max_iter"] + 0.5)
@@ -255,13 +258,18 @@ class HilbertCurve(CurveFractalFunction):
         >>> size = np.array([32])  # Grid size (power of 2)
         >>> hilbert = HilbertCurve(size, size, max_iter=5)()
         >>> points = hilbert.result
-        >>> 
+        >>>
         >>> # Visualization with improved coloring
         >>> fig = plt.figure(figsize=(10, 10))
         >>> # Create custom colormap
-        >>> colors = [(0.0, 0.5, 0.0), (0.3, 0.7, 0.0), (0.9, 0.9, 0.0), (1.0, 0.5, 0.0)]
+        >>> colors = [
+        ...     (0.0, 0.5, 0.0),
+        ...     (0.3, 0.7, 0.0),
+        ...     (0.9, 0.9, 0.0),
+        ...     (1.0, 0.5, 0.0),
+        ... ]
         >>> cm = LinearSegmentedColormap.from_list('hilbert_colors', colors, N=256)
-        >>> 
+        >>>
         >>> # Color segments based on their position
         >>> for i in range(len(points) - 1):
         ...     x = [points[i][0], points[i+1][0]]
@@ -270,7 +278,7 @@ class HilbertCurve(CurveFractalFunction):
         ...     position = i / (len(points) - 2)
         ...     color = cm(position)
         ...     _ = plt.plot(x, y, color=color, linewidth=1.5)
-        >>> 
+        >>>
         >>> _ = plt.axis('equal')
         >>> _ = plt.axis('off')  # Hide axes for cleaner look
         >>> _ = plt.title("Hilbert Curve")
@@ -278,34 +286,35 @@ class HilbertCurve(CurveFractalFunction):
         >>> plt.savefig("HilbertCurve.png", dpi=300, transparent=True)
 
     Notes:
-        The Hilbert curve has a fractal dimension of exactly 2 and completely fills 
-        the 2D space. Mathematically, the nth-order Hilbert curve can be constructed 
+        The Hilbert curve has a fractal dimension of exactly 2 and completely fills
+        the 2D space. Mathematically, the nth-order Hilbert curve can be constructed
         recursively using the following transformations:
-        
-        The mapping from 1D Hilbert curve index $h$ to 2D coordinates $(x,y)$ can be 
+
+        The mapping from 1D Hilbert curve index $h$ to 2D coordinates $(x,y)$ can be
         expressed through a recursive algorithm:
-        
+
         $$
         H_1 = \begin{pmatrix} 0,0 & 0,1 & 1,1 & 1,0 \end{pmatrix}
         $$
-        
+
         For higher orders $n > 1$:
-        
+
         $$
-        H_n = \begin{pmatrix} 
+        H_n = \begin{pmatrix}
         H_{n-1}^{\text{rot270}} \\
         H_{n-1} + (0,2^{n-1}) \\
         H_{n-1} + (2^{n-1},2^{n-1}) \\
         H_{n-1}^{\text{rot90}} + (2^{n-1}-1,2^{n-1}-1)
         \end{pmatrix}
         $$
-        
-        where $H_{n-1}^{\text{rot90}}$ and $H_{n-1}^{\text{rot270}}$ represent the 
+
+        where $H_{n-1}^{\text{rot90}}$ and $H_{n-1}^{\text{rot270}}$ represent the
         $(n-1)$-order Hilbert curve rotated by 90° and 270° respectively.
-        
-        The Hilbert curve maintains locality: points close on the 1D curve are 
-        generally close in the 2D mapping, making it useful for dimensionality reduction.
-        
+
+        The Hilbert curve maintains locality: points close on the 1D curve are
+        generally close in the 2D mapping, making it useful for dimensionality
+        reduction.
+
         > Reference: Hilbert, D. (1891). Über die stetige Abbildung einer Linie auf ein
         > Flächenstück. Mathematische Annalen, 38(3), 459-460.
 
@@ -375,43 +384,43 @@ class SpaceFillingCurve(CurveFractalFunction):
         >>> height, width = np.array([32]), np.array([32])  # Grid size (power of 2)
         >>> curve = SpaceFillingCurve(height, width, max_iter=5)()
         >>> points = curve.result
-        >>> 
+        >>>
         >>> # Visualization with enhanced coloring
         >>> fig = plt.figure(figsize=(10, 10))
-        >>> 
+        >>>
         >>> # Create custom colormap for better visualization
         >>> colors = [(0.0, 0.2, 0.6), (0.2, 0.6, 1.0), (0.8, 0.9, 1.0)]
         >>> cm = LinearSegmentedColormap.from_list('curve_colors', colors, N=256)
-        >>> 
+        >>>
         >>> # Color points based on their position in the sequence
         >>> points_count = len(points)
         >>> colors = cm(np.linspace(0, 1, points_count-1))
-        >>> 
+        >>>
         >>> for i in range(points_count-1):
         ...     x = [points[i, 0], points[i+1, 0]]
         ...     y = [points[i, 1], points[i+1, 1]]
         ...     _ = plt.plot(x, y, color=colors[i], linewidth=1)
-        >>> 
+        >>>
         >>> _ = plt.axis('equal')
         >>> _ = plt.title("Space-Filling Curve")
         >>> _ = plt.axis('off')  # Hide axes for cleaner look
         >>> plt.tight_layout()
         >>> plt.savefig("SpaceFillingCurve.png", dpi=300, transparent=True)
-                
+
     Notes:
         Space-filling curves create a continuous mapping from a 1-dimensional space
         to an n-dimensional space. For the Peano curve (implemented here), the
-        construction follows a recursive pattern that divides the square into 9 
+        construction follows a recursive pattern that divides the square into 9
         equal sub-squares and connects their centers in a specific pattern.
-        
+
         Mathematically, a space-filling curve is a surjective continuous function:
-        
+
         $$
         f: [0,1] \rightarrow [0,1]^n
         $$
-        
+
         The Peano curve specifically has the following recursive construction pattern:
-        
+
         $$
         P_1(t) = \begin{cases}
         (3t, 0) & \text{if } 0 \leq t < \frac{1}{9} \\
@@ -421,11 +430,11 @@ class SpaceFillingCurve(CurveFractalFunction):
         (3t - \frac{8}{3}, 2) & \text{if } \frac{8}{9} \leq t \leq 1
         \end{cases}
         $$
-        
+
         For higher-order curves, each segment is replaced with a scaled, potentially
         rotated, version of the base pattern, creating a self-similar structure that
         progressively fills the square more completely.
-        
+
         > Reference: https://en.wikipedia.org/wiki/Space-filling_curve
 
     Args:
@@ -445,7 +454,7 @@ class SpaceFillingCurve(CurveFractalFunction):
         self.curve_type = curve_type
         super().__init__(*x, max_iter=max_iter, fractal_dimension=fractal_dimension)
 
-    def _peano_helper(
+    def _peano_helper(  # noqa: PLR0913
         self, x: float, y: float, size: float, dir_x: int, dir_y: int, depth: int
     ) -> list:
         """Helper function for generating Peano curve points.
@@ -740,8 +749,6 @@ class KochCurve(CurveFractalFunction):
         The Koch curve is everywhere continuous but nowhere differentiable, making it
         one of the earliest examples of a fractal with these properties.
 
-        > Reference: Koch, H. (1904). Sur une courbe continue sans tangente, obtenue par une
-        > construction géométrique élémentaire. Arkiv för Matematik, Astronomi och Fysik, 1, 681-702.
 
     Args:
         *x (UniversalArray): Coordinates [start_point, end_point]

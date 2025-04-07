@@ -55,24 +55,27 @@ class LorenzAttractor(DynamicFractalFunction):
         >>> x, y, z = np.array([0.0]), np.array([1.0]), np.array([1.05])
         >>> lorenz = LorenzAttractor(x, y, z, max_iter=10000)()
         >>> points = lorenz.result
-        >>> 
+        >>>
         >>> # Visualization with enhanced quality
         >>> fig = plt.figure(figsize=(12, 10), dpi=300)
         >>> ax = fig.add_subplot(111, projection='3d')
-        >>> 
+        >>>
         >>> # Create a custom colormap for better visualization
         >>> colors = [(0.0, 0.0, 0.5), (0.0, 0.5, 1.0), (0.7, 0.0, 0.7)]
         >>> cm = LinearSegmentedColormap.from_list('lorenz_colors', colors, N=256)
-        >>> 
+        >>>
         >>> # Color points based on their z-coordinate for better depth perception
         >>> for i in range(len(points) - 1):
         ...     x = [points[i][0], points[i+1][0]]
         ...     y = [points[i][1], points[i+1][1]]
         ...     z = [points[i][2], points[i+1][2]]
         ...     # Normalize z-coordinate for color mapping
-        ...     z_norm = (points[i][2] - points[:, 2].min()) / (points[:, 2].max() - points[:, 2].min())
+        ...     z_norm = (
+        ...         points[i][2] - points[:, 2].min())
+        ...         / (points[:, 2].max() - points[:, 2].min()
+        ...         )
         ...     _ = ax.plot(x, y, z, color=cm(z_norm), linewidth=0.8, alpha=0.8)
-        >>> 
+        >>>
         >>> # Set viewing angle for best presentation
         >>> _ = ax.view_init(elev=30, azim=70)
         >>> _ = ax.set_xlabel('X axis', fontsize=12)
@@ -315,13 +318,15 @@ class PercolationModel(DynamicFractalFunction):
         >>>
         >>> # Create custom colormap for better visualization
         >>> colors = [(0.0, 0.2, 0.5), (0.0, 0.5, 0.8), (0.8, 0.0, 0.2)]
-        >>> cmap = LinearSegmentedColormap.from_list('percolation_colors', colors, N=256)
+        >>> cmap = LinearSegmentedColormap.from_list(
+        ...     'percolation_colors', colors, N=256,
+        ... )
         >>>
         >>> # Find occupied cells and visualize as 3D bars
         >>> for i in range(size_x):
         ...     for j in range(size_y):
         ...         if grid[i, j] > 0:
-        ...             # Height represents cluster connectivity (higher value = more connected)
+        ...             # Height represents connectivity (higher value = more connected)
         ...             height = 0.2 if grid[i, j] == 1 else grid[i, j] / 5.0
         ...             # Color based on connectivity
         ...             color = cmap(grid[i, j] / 5.0 if grid[i, j] > 1 else 0.1)
@@ -341,7 +346,10 @@ class PercolationModel(DynamicFractalFunction):
         >>> _ = ax.set_xlabel('X axis', fontsize=12)
         >>> _ = ax.set_ylabel('Y axis', fontsize=12)
         >>> _ = ax.set_zlabel('Connectivity', fontsize=12)
-        >>> _ = plt.title("Percolation Model at Critical Threshold (p≈0.592)", fontsize=14)
+        >>> _ = plt.title(
+        ...     "Percolation Model at Critical Threshold (p≈0.592)",
+        ...     fontsize=14,
+        ... )
         >>>
         >>> # Find and highlight the largest connected cluster
         >>> from scipy.ndimage import label
@@ -350,7 +358,7 @@ class PercolationModel(DynamicFractalFunction):
         >>> largest_cluster = labeled_array == largest_cluster_id
         >>>
         >>> # Plot the largest cluster with distinct color
-        >>> # Use a gradient colormap for the largest cluster to avoid a single yellow color
+        >>> # Use a gradient colormap for the largest cluster to avoid a single color
         >>> cluster_colors = [(1.0, 1.0, 0.5), (1.0, 0.8, 0.0), (0.9, 0.3, 0.0)]
         >>> cluster_cmap = LinearSegmentedColormap.from_list(
         ...     "cluster_cmap",

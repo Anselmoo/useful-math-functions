@@ -365,7 +365,9 @@ class ClassicPlot(Plot):
             1
         ]  # Assuming the line plot to update is the second line
 
-        def update(frame: int, settings: GIFSettings) -> list[plt.Artist]:
+        def update(
+            frame: int, settings: GIFSettings  # noqa: ARG001
+        ) -> list[plt.Artist]:
             # for each frame, update the data stored on each artist.
             x = x_axis_data[:frame]
             y = y_axis_data[:frame]

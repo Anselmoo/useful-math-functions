@@ -261,7 +261,8 @@ class FeigenbaumDiagram(FractalFunction):
         Key values of the bifurcation parameter:
 
         - For $0 < r < 1$: All iterations tend to 0
-        - For $1 < r < 3$: Iterations tend to a single fixed point $x^* = 1 - \frac{1}{r}$
+        - For $1 < r < 3$: Iterations tend to a single fixed point
+          $x^* = 1 - \frac{1}{r}$
         - For $r > 3$: Period doubling begins
         - Near $r \approx 3.57$: Chaotic behavior emerges
 
@@ -364,7 +365,7 @@ class FeigenbaumDiagram(FractalFunction):
         return bifurcations
 
     def is_in_set(self, point: UniversalArray) -> np.ndarray:
-        """Determine whether a point is in the chaotic region of the bifurcation diagram.
+        """Determine whether a point is in the chaotic region of the bifurcation.
 
         Args:
             point (UniversalArray): Point to test, in the form [r, x]
@@ -375,4 +376,5 @@ class FeigenbaumDiagram(FractalFunction):
         # Define chaotic region approximately as r > 3.57
         r = point[0]
         # For numerical stability, return array type with proper shape
-        return np.array(r > 3.57, dtype=bool)
+        chaotic_limiter = 3.57
+        return np.array(r > chaotic_limiter, dtype=bool)

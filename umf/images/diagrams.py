@@ -74,13 +74,14 @@ class ClassicPlot(Plot):
         ...     fig=plot.plot_return,
         ...     ax_fig=plot.ax_return,
         ...     fname=Path("GoldsteinPriceFunction_zoom.gif"),
+        ...     settings=GIFSettings(),
         ... )
         >>> # Now only rotate
         >>> plot.plot_save_gif(
         ...     fig=plot.plot_return,
         ...     ax_fig=plot.ax_return,
         ...     fname=Path("GoldsteinPriceFunction_rotate.gif"),
-        ...     savefig_kwargs={"transparent": True},
+        ...     settings=GIFSettings(),
         ... )
         >>> # Now only zoom and rotate
         >>> plot.plot_save_gif(

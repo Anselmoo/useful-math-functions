@@ -404,7 +404,7 @@ class PythagorasTree(GeometricFractalFunction):
         ...     # Normalize height for color mapping
         ...     y_height = (
         ...         (y_coords[idx] - y_min) / (y_max - y_min)
-        ...         if y_max > y_min else 0)
+        ...         if y_max > y_min else 0
         ...     )
         ...     # Size-based variation for more natural appearance
         ...     size = np.linalg.norm(square[1] - square[0])

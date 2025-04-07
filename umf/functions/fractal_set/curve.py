@@ -755,6 +755,8 @@ class KochCurve(CurveFractalFunction):
     Args:
         *x (UniversalArray): Coordinates [start_point, end_point]
         max_iter (int, optional): Number of iterations. Defaults to 5.
+        fractal_dimension (float, optional): Fractal dimension. Defaults to
+            $\log(4) / \log(3)$.
     """
 
     def __init__(

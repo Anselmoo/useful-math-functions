@@ -83,12 +83,18 @@ class SierpinskiTriangle(GeometricFractalFunction):
     Args:
         *x (UniversalArray): Initial triangle vertices
         max_iter (int, optional): Number of iterations. Defaults to 7.
+        fractal_dimension (float, optional): Fractal dimension. Defaults to
+            $\log(3) / \log(2)$.
     """
 
-    def __init__(self, *x: UniversalArray, max_iter: int = 7) -> None:
+    def __init__(
+        self,
+        *x: UniversalArray,
+        max_iter: int = 7,
+        fractal_dimension: float = np.log(3) / np.log(2),
+    ) -> None:
         """Initialize the Sierpinski triangle."""
-        self.fractal_dimension = np.log(3) / np.log(2)  # Exact dimension
-        super().__init__(*x, max_iter=max_iter)
+        super().__init__(*x, max_iter=max_iter, fractal_dimension=fractal_dimension)
 
     def transform_points(self, points: list[np.ndarray]) -> list[np.ndarray]:
         """Subdivide triangles according to Sierpinski pattern.
@@ -183,7 +189,7 @@ class SierpinskiCarpet(GeometricFractalFunction):
         *x (UniversalArray): Size of the initial square [width, height]
         max_iter (int, optional): Number of iterations. Defaults to 5.
         fractal_dimension (float, optional): Fractal dimension. Defaults to
-            $\log 8 \/ \log 3$.
+            $\log(8) / \log(3)$.
     """
 
     def __init__(
@@ -317,7 +323,7 @@ class MengerSponge(GeometricFractalFunction):
         *x (UniversalArray): Size of the initial cube [length, width, height]
         max_iter (int, optional): Number of iterations. Defaults to 3.
         fractal_dimension (float, optional): Fractal dimension. Defaults to
-            $\log 20 \/ \log 3$.
+            $\log(20) / \log(3)$.
     """
 
     def __init__(
@@ -621,7 +627,7 @@ class UniformMassCenterTriangle(GeometricFractalFunction):
         max_iter (int, optional): Number of points to generate. Defaults to 10000.
         ratio (float, optional): Movement ratio towards vertex. Defaults to 0.5.
         fractal_dimension (float, optional): Approximate fractal dimension. Defaults
-            to $\log 3 \/ \log 2$.
+            to $\log(3) / \log(2)$.
     """
 
     def __init__(

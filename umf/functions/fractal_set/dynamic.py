@@ -29,24 +29,6 @@ class LorenzAttractor(DynamicFractalFunction):
 
     The Lorenz attractor is a set of chaotic solutions of the Lorenz system:
 
-    Notes:
-        The Lorenz attractor has a fractal dimension of approximately 2.06 (Hausdorff
-        dimension). It exhibits chaotic behavior for certain parameter values,
-        meaning that small  changes in initial conditions lead to dramatically different
-        trajectories,  while still being confined to the same strange attractor.
-
-        $$
-            \begin{align}
-            \frac{dx}{dt} &= \sigma(y - x) \\
-            \frac{dy}{dt} &= x(\rho - z) - y \\
-            \frac{dz}{dt} &= xy - \beta z
-            \end{align}
-        $$
-
-        This is one of the most famous examples of deterministic chaos and was
-        discovered by Edward Lorenz in 1963 while studying simplified models of
-        atmospheric convection.
-
     Examples:
         >>> import numpy as np
         >>> import matplotlib.pyplot as plt
@@ -92,12 +74,30 @@ class LorenzAttractor(DynamicFractalFunction):
         >>> plt.tight_layout()
         >>> plt.savefig("LorenzAttractor.png", dpi=300, transparent=True)
 
+    Notes:
+        The Lorenz attractor has a fractal dimension of approximately 2.06 (Hausdorff
+        dimension). It exhibits chaotic behavior for certain parameter values,
+        meaning that small  changes in initial conditions lead to dramatically different
+        trajectories,  while still being confined to the same strange attractor.
+
+        $$
+            \begin{align}
+            \frac{dx}{dt} &= \sigma(y - x) \\
+            \frac{dy}{dt} &= x(\rho - z) - y \\
+            \frac{dz}{dt} &= xy - \beta z
+            \end{align}
+        $$
+
+        This is one of the most famous examples of deterministic chaos and was
+        discovered by Edward Lorenz in 1963 while studying simplified models of
+        atmospheric convection.
+        
     Args:
         initial_state (UniversalArray): Initial point [x, y, z]
         max_iter (int, optional): Number of iterations. Defaults to 10000.
         sigma (float, optional): $\sigma$ parameter. Defaults to 10.0.
         rho (float, optional): $\rho$ parameter. Defaults to 28.0.
-        beta (float, optional): β parameter. Defaults to 8/3.
+        beta (float, optional): $\beta$ parameter. Defaults to 8/3.
     """
 
     def __init__(
@@ -224,6 +224,7 @@ class CurlicueFractal(DynamicFractalFunction):
         angle (float): Rotation angle in radians.
         max_iter (int, optional): Number of iterations. Defaults to 1000.
         step_size (float, optional): Length of each step. Defaults to 1.0.
+        fractal_dimension (float, optional): Fractal dimension. Defaults to 1.5.
     """
 
     def __init__(
@@ -232,17 +233,17 @@ class CurlicueFractal(DynamicFractalFunction):
         angle: float,
         max_iter: int = 1000,
         step_size: float = 1.0,
+        fractal_dimension: float = 1.5,
     ) -> None:
         """Initialize the Curlicue fractal."""
         self.angle = angle
         self.step_size = step_size
-        self.fractal_dimension = 1.5  # Approximate dimension
         if len(start) != __2d__:
             raise OutOfDimensionError(
                 function_name=self.__class__.__name__,
                 dimension=__2d__,
             )
-        super().__init__(*start, max_iter=max_iter)
+        super().__init__(*start, max_iter=max_iter, fractal_dimension=fractal_dimension)
 
     def iterate_system(
         self, state: UniversalArray, points: list[UniversalArray]
@@ -407,21 +408,26 @@ class PercolationModel(DynamicFractalFunction):
         size (UniversalArray): Grid dimensions [height, width]
         p (float, optional): Occupation probability. Defaults to 0.59.
         max_iter (int, optional): Number of iterations. Defaults to 1000.
+        fractal_dimension (float, optional): Fractal dimension. Defaults to
+            $91 / 48$.
     """
 
     def __init__(
-        self, *size: UniversalArray, p: float = 0.59, max_iter: int = 1000
+        self,
+        *size: UniversalArray,
+        p: float = 0.59,
+        max_iter: int = 1000,
+        fractal_dimension: float = 91 / 48,
     ) -> None:
         """Initialize the percolation model."""
         self.p = p
-        self.fractal_dimension = float(91 / 48)  # At critical probability (91/48)
         self.rng = np.random.default_rng()
         if len(size) != __2d__:
             raise OutOfDimensionError(
                 function_name=self.__class__.__name__,
                 dimension=__2d__,
             )
-        super().__init__(*size, max_iter=max_iter)
+        super().__init__(*size, max_iter=max_iter, fractal_dimension=fractal_dimension)
 
     def iterate_system(self, initial_state: np.ndarray) -> np.ndarray:
         """Update the percolation grid.
@@ -549,6 +555,7 @@ class RandomWalkFractal(DynamicFractalFunction):
         max_iter (int, optional): Number of steps. Defaults to 10000.
         step_size (float, optional): Size of each step. Defaults to 1.0.
         dimension (int, optional): Dimensionality of the walk. Defaults to 2.
+        fractal_dimension (float, optional): Fractal dimension. Defaults to 2.0.
     """
 
     def __init__(
@@ -558,6 +565,7 @@ class RandomWalkFractal(DynamicFractalFunction):
         max_iter: int = 10000,
         step_size: float = 1.0,
         dimension: int = 2,
+        fractal_dimension: float = 2.0,
     ) -> None:
         """Initialize the random walk fractal."""
         self.step_size = step_size
@@ -568,14 +576,16 @@ class RandomWalkFractal(DynamicFractalFunction):
         else:
             self.bounds = np.array([[-10, 10], [-10, 10]])
         # For bounded random walks in 2D
-        self.fractal_dimension = 1.5 if self.dimension == __2d__ else 2.0
+        fractal_dimension = 1.5 if self.dimension == __2d__ else 2.0
 
         if len(walk_data) != __2d__:
             raise OutOfDimensionError(
                 function_name=self.__class__.__name__,
                 dimension=__2d__,
             )
-        super().__init__(*walk_data, max_iter=max_iter)
+        super().__init__(
+            *walk_data, max_iter=max_iter, fractal_dimension=fractal_dimension
+        )
 
     def iterate_system(self, state: np.ndarray) -> np.ndarray:
         """Take a random step from current position.

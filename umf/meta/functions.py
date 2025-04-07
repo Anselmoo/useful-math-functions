@@ -1114,6 +1114,8 @@ class DynamicFractalFunction(FractalFunction):
             fractal.
         max_iter (int, optional): Maximum number of iterations. Defaults to 1000.
         transient_steps (int, optional): Initial steps to discard. Defaults to 100.
+        fractal_dimension (float, optional): Fractal dimension of the system.
+            Defaults to 2.0.
     """
 
     def __init__(
@@ -1121,10 +1123,12 @@ class DynamicFractalFunction(FractalFunction):
         *x: UniversalArray,
         max_iter: int = 1000,
         transient_steps: int = 100,
+        fractal_dimension: float = 2.0,
     ) -> None:
         """Initialize the dynamic fractal function."""
         super().__init__(*x, max_iter=max_iter)
         self.transient_steps = transient_steps
+        self.fractal_dimension: float = fractal_dimension
 
     def iterate_system(self, initial_state: np.ndarray) -> np.ndarray:
         """Iterate the dynamic system.

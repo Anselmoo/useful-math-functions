@@ -204,24 +204,77 @@ class FeigenbaumDiagram(FractalFunction):
     Examples:
         >>> import numpy as np
         >>> import matplotlib.pyplot as plt
+        >>> from matplotlib.colors import LinearSegmentedColormap
         >>> from umf.functions.fractal_set.complex import FeigenbaumDiagram
         >>> # Generate a Feigenbaum diagram
         >>> r_values = np.linspace(2.8, 4.0, 1000)
         >>> feigenbaum = FeigenbaumDiagram(r_values)()
         >>> bifurcation_data = feigenbaum.result
-
-        >>> # Visualization Example
-        >>> _ = plt.figure(figsize=(12, 8))
-        >>> for r, x_values in bifurcation_data:
-        ...     _ = plt.plot([r] * len(x_values), x_values, ',r', alpha=0.2)
-        >>> _ = plt.xlabel('r parameter')
-        >>> _ = plt.ylabel('x values')
-        >>> _ = plt.title('Feigenbaum Diagram (Logistic Map)')
+        >>>
+        >>> # Visualization Example with improved quality
+        >>> fig = plt.figure(figsize=(12, 8), dpi=300)
+        >>> # Create a custom colormap for a more appealing visualization
+        >>> colors = [(0.0, 0.0, 0.4), (0.0, 0.0, 0.7), (0.0, 0.3, 1.0)]
+        >>> cm = LinearSegmentedColormap.from_list('feigenbaum_colors', colors, N=256)
+        >>>
+        >>> # Plot points with a gradient based on r value for better visualization
+        >>> for i, (r, x_values) in enumerate(bifurcation_data):
+        ...     # Break long line into multiple lines
+        ...     color_val = i / len(bifurcation_data)
+        ...     _ = plt.plot(
+        ...         [r] * len(x_values),
+        ...         x_values,
+        ...         ',',
+        ...         color=cm(color_val),
+        ...         alpha=0.1,
+        ...         markersize=0.5
+        ...     )
+        >>>
+        >>> # Add key bifurcation points as vertical lines
+        >>> key_points = [3.0, 3.45, 3.57]  # Important bifurcation points
+        >>> for point in key_points:
+        ...     _ = plt.axvline(x=point, color='red', alpha=0.2, linestyle='--')
+        >>>
+        >>> _ = plt.xlabel('Parameter r', fontsize=14)
+        >>> _ = plt.ylabel('Population values x', fontsize=14)
+        >>> _ = plt.title('Feigenbaum Diagram (Logistic Map)', fontsize=16)
+        >>> _ = plt.xlim(2.8, 4.0)  # Set explicit x limits
+        >>> _ = plt.ylim(0, 1)      # Set explicit y limits
+        >>> plt.grid(False)         # Remove grid for cleaner appearance
+        >>> plt.tight_layout()
         >>> plt.savefig("FeigenbaumDiagram.png", dpi=300, transparent=True)
 
     Notes:
         The Feigenbaum diagram shows the values that the logistic map takes as
         the parameter $r$ increases, revealing the period-doubling route to chaos.
+
+        The logistic map is defined as:
+
+        $$
+        x_{n+1} = r \cdot x_n \cdot (1 - x_n)
+        $$
+
+        where $r$ is the bifurcation parameter. As $r$ increases from 0 to 4,
+        the behavior changes from a single stable fixed point to period doubling
+        and eventually chaos.
+
+        Key values of the bifurcation parameter:
+
+        - For $0 < r < 1$: All iterations tend to 0
+        - For $1 < r < 3$: Iterations tend to a single fixed point $x^* = 1 - \frac{1}{r}$
+        - For $r > 3$: Period doubling begins
+        - Near $r \approx 3.57$: Chaotic behavior emerges
+
+        The bifurcations follow a geometric scaling governed by the Feigenbaum constant:
+
+        $$
+        \delta = \lim_{n \to \infty} \frac{r_n - r_{n-1}}{r_{n+1} - r_n} \approx 4.669
+        $$
+
+        where $r_n$ is the parameter value at the $n$-th bifurcation.
+
+        > Reference: Feigenbaum, M. J. (1978). Quantitative universality for a class
+        > of nonlinear transformations. Journal of Statistical Physics, 19(1), 25-52.
 
     Args:
         *x (UniversalArray): Range of parameter values.
@@ -229,6 +282,8 @@ class FeigenbaumDiagram(FractalFunction):
         max_iter (int, optional): Maximum number of iterations. Defaults to 1000.
         n_discard (int, optional): Number of initial iterations to discard.
             Defaults to 100.
+        fractal_dimension (float, optional): Fractal dimension of the set.
+            Defaults to 0.58.
     """
 
     def __init__(
@@ -237,11 +292,12 @@ class FeigenbaumDiagram(FractalFunction):
         x0: float = 0.5,
         max_iter: int = 1000,
         n_discard: int = 100,
+        fractal_dimension: float = 0.58,
     ) -> None:
         """Initialize the Feigenbaum diagram."""
         self.x0 = x0
         self.n_discard = n_discard
-        self.fractal_dimension = 0.538  # Feigenbaum constant-related dimension
+        self.fractal_dimension = fractal_dimension
         super().__init__(*x, max_iter=max_iter)
 
     @property
@@ -281,7 +337,11 @@ class FeigenbaumDiagram(FractalFunction):
 
         # Parameters for identification
         window_size = 10
-        if len(self.r_values) <= window_size * 2:
+        # Get the r values from the first element of each tuple in the result
+        # Fix: Instead of accessing self.r_values, we use self._x[0]
+        r_values = self._x[0]
+
+        if len(r_values) <= window_size * 2:
             return []
 
         # Analyze the bifurcation diagram
@@ -298,6 +358,21 @@ class FeigenbaumDiagram(FractalFunction):
 
             # If the number of values doubles (approximately), it might be a bifurcation
             if abs(len(next_values) - 2 * len(prev_values)) < 0.2 * len(prev_values):
-                bifurcations.append(self.r_values[i])
+                # Fix: Use r_values instead of self.r_values
+                bifurcations.append(r_values[i])
 
         return bifurcations
+
+    def is_in_set(self, point: UniversalArray) -> np.ndarray:
+        """Determine whether a point is in the chaotic region of the bifurcation diagram.
+
+        Args:
+            point (UniversalArray): Point to test, in the form [r, x]
+
+        Returns:
+            np.ndarray: Boolean array where True indicates chaotic behavior
+        """
+        # Define chaotic region approximately as r > 3.57
+        r = point[0]
+        # For numerical stability, return array type with proper shape
+        return np.array(r > 3.57, dtype=bool)

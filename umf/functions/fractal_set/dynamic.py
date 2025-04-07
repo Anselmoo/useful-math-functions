@@ -49,17 +49,42 @@ class LorenzAttractor(DynamicFractalFunction):
         >>> import numpy as np
         >>> import matplotlib.pyplot as plt
         >>> from mpl_toolkits.mplot3d import Axes3D
+        >>> from matplotlib.colors import LinearSegmentedColormap
         >>> from umf.functions.fractal_set.dynamic import LorenzAttractor
         >>> # Generate Lorenz attractor
         >>> x, y, z = np.array([0.0]), np.array([1.0]), np.array([1.05])
         >>> lorenz = LorenzAttractor(x, y, z, max_iter=10000)()
         >>> points = lorenz.result
-
-        >>> # Visualization
-        >>> fig = plt.figure(figsize=(10, 10))
+        >>> 
+        >>> # Visualization with enhanced quality
+        >>> fig = plt.figure(figsize=(12, 10), dpi=300)
         >>> ax = fig.add_subplot(111, projection='3d')
-        >>> _ = ax.plot(points[:, 0], points[:, 1], points[:, 2], 'b-', linewidth=0.5)
-        >>> _ = plt.title("Lorenz Attractor")
+        >>> 
+        >>> # Create a custom colormap for better visualization
+        >>> colors = [(0.0, 0.0, 0.5), (0.0, 0.5, 1.0), (0.7, 0.0, 0.7)]
+        >>> cm = LinearSegmentedColormap.from_list('lorenz_colors', colors, N=256)
+        >>> 
+        >>> # Color points based on their z-coordinate for better depth perception
+        >>> for i in range(len(points) - 1):
+        ...     x = [points[i][0], points[i+1][0]]
+        ...     y = [points[i][1], points[i+1][1]]
+        ...     z = [points[i][2], points[i+1][2]]
+        ...     # Normalize z-coordinate for color mapping
+        ...     z_norm = (points[i][2] - points[:, 2].min()) / (points[:, 2].max() - points[:, 2].min())
+        ...     _ = ax.plot(x, y, z, color=cm(z_norm), linewidth=0.8, alpha=0.8)
+        >>> 
+        >>> # Set viewing angle for best presentation
+        >>> _ = ax.view_init(elev=30, azim=70)
+        >>> _ = ax.set_xlabel('X axis', fontsize=12)
+        >>> _ = ax.set_ylabel('Y axis', fontsize=12)
+        >>> _ = ax.set_zlabel('Z axis', fontsize=12)
+        >>> _ = plt.title("Lorenz Attractor", fontsize=14)
+        >>> # Remove background grid for cleaner look
+        >>> ax.grid(False)
+        >>> ax.xaxis.pane.fill = False
+        >>> ax.yaxis.pane.fill = False
+        >>> ax.zaxis.pane.fill = False
+        >>> plt.tight_layout()
         >>> plt.savefig("LorenzAttractor.png", dpi=300, transparent=True)
 
     Args:
@@ -152,21 +177,41 @@ class CurlicueFractal(DynamicFractalFunction):
     Examples:
         >>> import numpy as np
         >>> import matplotlib.pyplot as plt
+        >>> from matplotlib.colors import LinearSegmentedColormap
         >>> from umf.functions.fractal_set.dynamic import CurlicueFractal
         >>> # Generate Curlicue fractal
-        >>> angle = np.pi * (1 + 5**0.5) / 2  # Golden angle
+        >>> angle = np.pi * (3 - np.sqrt(5))  # Golden angle
         >>> curlicue = CurlicueFractal(
         ...     np.array([0.]),
         ...     np.array([0.]),
         ...     angle=angle,
-        ...     max_iter=1000)()
+        ...     max_iter=2000)()
         >>> points = curlicue.result
-
-        >>> # Visualization
-        >>> _ = plt.figure(figsize=(10, 10))
-        >>> _ = plt.plot(points[:, 0], points[:, 1], 'b-', linewidth=0.5)
+        >>>
+        >>> # Visualization with enhanced quality
+        >>> fig = plt.figure(figsize=(10, 10), dpi=300)
+        >>>
+        >>> # Create a gradient colormap for better visualization
+        >>> colors = [(0.0, 0.4, 0.9), (0.4, 0.0, 0.9), (0.9, 0.0, 0.6)]
+        >>> cm = LinearSegmentedColormap.from_list('curlicue_colors', colors, N=256)
+        >>>
+        >>> # Use a segment-based coloring approach
+        >>> for i in range(len(points) - 1):
+        ...     x = [points[i][0], points[i+1][0]]
+        ...     y = [points[i][1], points[i+1][1]]
+        ...     # Normalize position for color mapping
+        ...     position = i / (len(points) - 2)
+        ...     color = cm(position)
+        ...     _ = plt.plot(x, y, color=color, linewidth=0.7, alpha=0.8)
+        >>>
+        >>> # Set equal aspect ratio and clean up the plot
         >>> _ = plt.axis('equal')
-        >>> _ = plt.title("Curlicue Fractal")
+        >>> _ = plt.axis('off')  # Hide axes for cleaner look
+        >>> _ = plt.title("Curlicue Fractal", fontsize=14)
+        >>>
+        >>> # Add a subtle background gradient
+        >>> plt.gca().set_facecolor('#f8f8ff')
+        >>> plt.tight_layout()
         >>> plt.savefig("CurlicueFractal.png", dpi=300, transparent=True)
 
     Args:
@@ -252,38 +297,101 @@ class PercolationModel(DynamicFractalFunction):
     Examples:
         >>> import numpy as np
         >>> import matplotlib.pyplot as plt
-        >>> from matplotlib.animation import FuncAnimation
+        >>> from matplotlib.colors import LinearSegmentedColormap
+        >>> from mpl_toolkits.mplot3d import Axes3D
         >>> from umf.functions.fractal_set.dynamic import PercolationModel
-        >>> # Generate percolation pattern
-        >>> height, width = np.array([100]), np.array([100])
-        >>> # Note: Use a tuple for input parameters
-        >>> size_tuple = (height, width)
-        >>> model = PercolationModel(*size_tuple, p=0.59, max_iter=1000)
+        >>> # Generate percolation model at critical threshold
+        >>> size_x, size_y = 50, 50
+        >>> percolation = PercolationModel(
+        ...     np.array([size_x]),
+        ...     np.array([size_y]),
+        ...     p=0.592, # Close to critical threshold for 2D square lattice
+        ...     max_iter=100)()
+        >>> grid = percolation.result
+        >>>
+        >>> # Create enhanced 3D visualization
+        >>> fig = plt.figure(figsize=(12, 10), dpi=300)
+        >>> ax = fig.add_subplot(111, projection='3d')
+        >>>
+        >>> # Create custom colormap for better visualization
+        >>> colors = [(0.0, 0.2, 0.5), (0.0, 0.5, 0.8), (0.8, 0.0, 0.2)]
+        >>> cmap = LinearSegmentedColormap.from_list('percolation_colors', colors, N=256)
+        >>>
+        >>> # Find occupied cells and visualize as 3D bars
+        >>> for i in range(size_x):
+        ...     for j in range(size_y):
+        ...         if grid[i, j] > 0:
+        ...             # Height represents cluster connectivity (higher value = more connected)
+        ...             height = 0.2 if grid[i, j] == 1 else grid[i, j] / 5.0
+        ...             # Color based on connectivity
+        ...             color = cmap(grid[i, j] / 5.0 if grid[i, j] > 1 else 0.1)
+        ...             # Draw 3D bar
+        ...             _ = ax.bar3d(i, j, 0, 0.9, 0.9, height, color=color, alpha=0.7,
+        ...                      shade=True)
+        >>>
+        >>> # Add a semi-transparent plane at z=0 to show percolation threshold
+        >>> x = np.arange(0, size_x, 1)
+        >>> y = np.arange(0, size_y, 1)
+        >>> X, Y = np.meshgrid(x, y)
+        >>> Z = np.zeros_like(X)
+        >>> _ = ax.plot_surface(X, Y, Z, color='gray', alpha=0.1)
+        >>>
+        >>> # Set viewing angle for best presentation
+        >>> _ = ax.view_init(elev=35, azim=45)
+        >>> _ = ax.set_xlabel('X axis', fontsize=12)
+        >>> _ = ax.set_ylabel('Y axis', fontsize=12)
+        >>> _ = ax.set_zlabel('Connectivity', fontsize=12)
+        >>> _ = plt.title("Percolation Model at Critical Threshold (p≈0.592)", fontsize=14)
+        >>>
+        >>> # Find and highlight the largest connected cluster
+        >>> from scipy.ndimage import label
+        >>> labeled_array, num_features = label(grid > 0)
+        >>> largest_cluster_id = np.bincount(labeled_array.flatten())[1:].argmax() + 1
+        >>> largest_cluster = labeled_array == largest_cluster_id
+        >>>
+        >>> # Plot the largest cluster with distinct color
+        >>> # Use a gradient colormap for the largest cluster to avoid a single yellow color
+        >>> cluster_colors = [(1.0, 1.0, 0.5), (1.0, 0.8, 0.0), (0.9, 0.3, 0.0)]
+        >>> cluster_cmap = LinearSegmentedColormap.from_list(
+        ...     "cluster_cmap",
+        ...     cluster_colors,
+        ...     N=256
+        ... )
+        >>> for i in range(size_x):
+        ...     for j in range(size_y):
+        ...         if largest_cluster[i, j]:
+        ...             height = grid[i, j] / 5.0 if grid[i, j] > 1 else 0.3
+        ...             # Normalize cluster strength for color mapping
+        ...             norm_val = (grid[i, j] - grid.min()) / (grid.max() - grid.min())
+        ...             norm_val = max(0.0, min(1.0, norm_val))
+        ...             grad_color = cluster_cmap(norm_val)
+        ...             _ = ax.bar3d(
+        ...                 i,
+        ...                 j,
+        ...                 0,
+        ...                 0.9,
+        ...                 0.9,
+        ...                 height,
+        ...                 color=grad_color,
+        ...                 alpha=0.8,
+        ...                 shade=True
+        ...             )
+        >>>
+        >>> # Add text annotation to explain percolation
+        >>> _ = ax.text(size_x/2, -5, 2,
+        ...         "Percolation at critical threshold\nshowing fractal clusters",
+        ...         fontsize=10, color='black')
+        >>>
+        >>> # Remove grid lines for cleaner look
+        >>> ax.grid(False)
+        >>> # Set axis limits
+        >>> _ = ax.set_xlim(0, size_x)
+        >>> _ = ax.set_ylim(0, size_y)
+        >>> _ = ax.set_zlim(0, 2)
+        >>>
+        >>> _ = plt.tight_layout()
+        >>> plt.savefig("PercolationModel3D.png", dpi=300, transparent=True)
 
-        >>> # For static visualization of final state
-        >>> final_grid = model()
-        >>> _ = plt.figure(figsize=(10, 10))
-        >>> im = plt.imshow(final_grid.result, cmap='inferno', interpolation='nearest')
-        >>> _ = plt.colorbar(label='Cluster value')
-        >>> _ = plt.title("Percolation Model (Final State)")
-        >>> plt.savefig("PercolationModel.png", dpi=300, transparent=True)
-
-        >>> # For GIF visualization of the percolation process
-        >>> fig, ax = plt.subplots(figsize=(10, 10))
-        >>> grid = np.zeros((height[0], width[0]), dtype=float)
-        >>> im = ax.imshow(grid, cmap='inferno', interpolation='nearest', animated=True)
-        >>> _ = plt.colorbar(im, label='Cluster value')
-        >>> _ = plt.title("Percolation Model Evolution")
-
-        >>> def update(frame):
-        ...     global grid
-        ...     grid = model.iterate_system(grid)
-        ...     im.set_array(grid)
-        ...     return [im]
-
-        >>> # Create animation (50 frames is usually enough to see the pattern)
-        >>> ani = FuncAnimation(fig, update, frames=150, interval=50, blit=True)
-        >>> ani.save("PercolationModel.gif", writer='pillow', dpi=100)
 
     Args:
         size (UniversalArray): Grid dimensions [height, width]
@@ -379,18 +487,49 @@ class RandomWalkFractal(DynamicFractalFunction):
     Examples:
         >>> import numpy as np
         >>> import matplotlib.pyplot as plt
+        >>> from matplotlib.colors import LinearSegmentedColormap
         >>> from umf.functions.fractal_set.dynamic import RandomWalkFractal
-        >>> # Generate random walk
+        >>> # Generate random walk with more steps for better pattern
         >>> start = np.array([0.]), np.array([0.])
         >>> bounds = np.array([[-10, 10], [-10, 10]])
-        >>> walk = RandomWalkFractal(*start, bounds=bounds, max_iter=10000)()
+        >>> walk = RandomWalkFractal(*start, bounds=bounds, max_iter=20000)()
         >>> points = walk.result
-
-        >>> # Visualization
-        >>> _ = plt.figure(figsize=(10, 10))
-        >>> _ = plt.plot(points[:, 0], points[:, 1], 'b-', linewidth=0.5)
+        >>>
+        >>> # Visualization with enhanced quality
+        >>> fig = plt.figure(figsize=(10, 10), dpi=300)
+        >>>
+        >>> # Create a gradient colormap for better visualization
+        >>> colors = [(0.0, 0.2, 0.5), (0.2, 0.5, 0.8), (0.9, 0.0, 0.2)]
+        >>> cm = LinearSegmentedColormap.from_list('walk_colors', colors, N=256)
+        >>>
+        >>> # Use a segment-based coloring approach with step-based color and alpha
+        >>> segment_size = 100  # Group points for better performance
+        >>> for i in range(0, len(points)-segment_size, segment_size):
+        ...     # Get subset of points for this segment
+        ...     segment = points[i:i+segment_size+1]
+        ...     # Normalize position for color mapping
+        ...     position = i / len(points)
+        ...     color = cm(position)
+        ...     # Alpha increases with step number for depth effect
+        ...     alpha = 0.3 + 0.5 * position
+        ...     _ = plt.plot(segment[:, 0], segment[:, 1], '-',
+        ...                  color=color, linewidth=0.5, alpha=alpha)
+        >>>
+        >>> # Add starting point marker
+        >>> _ = plt.plot(points[0, 0], points[0, 1], 'o',
+        ...              color='green', markersize=6, alpha=0.8)
+        >>> _ = plt.plot(points[-1, 0], points[-1, 1], '*',
+        ...              color='red', markersize=8, alpha=0.8)
+        >>>
+        >>> # Set equal aspect ratio and clean up the plot
         >>> _ = plt.axis('equal')
-        >>> _ = plt.title("Random Walk Fractal")
+        >>> # Add subtle grid
+        >>> _ = plt.grid(True, linestyle='--', alpha=0.2)
+        >>> # Add border lines for the bounding box
+        >>> _ = plt.plot([-10, -10, 10, 10, -10], [-10, 10, 10, -10, -10],
+        ...              'k-', linewidth=1, alpha=0.5)
+        >>> _ = plt.title("Random Walk Fractal", fontsize=14)
+        >>> plt.tight_layout()
         >>> plt.savefig("RandomWalkFractal.png", dpi=300, transparent=True)
 
     Args:

@@ -30,45 +30,71 @@ class KochCurve(GeometricFractalFunction):
     The Koch snowflake is built by repeatedly replacing each line segment with four
     segments that form an equilateral bump.
 
+    Examples:
+        >>> import numpy as np
+        >>> import matplotlib.pyplot as plt
+        >>> from matplotlib.colors import LinearSegmentedColormap
+        >>> from umf.functions.fractal_set.geometric import KochCurve
+        >>> # Generate Koch snowflake
+        >>> # For full snowflake, use three segments forming a triangle
+        >>> x = np.array([0, 0.5, 1.0])
+        >>> y = np.array([0, np.sqrt(0.75), 0])
+        >>> points = np.column_stack((x, y))  # Triangle vertices
+        >>> koch = KochCurve(points, max_iter=4)()
+        >>> curve = koch.result
+        >>>
+        >>> # Visualization with color gradient
+        >>> fig = plt.figure(figsize=(10, 10))
+        >>> # Create colormap for better visualization
+        >>> colors = [(0.0, 0.5, 0.9), (0.2, 0.7, 1.0), (0.5, 0.8, 1.0)]
+        >>> cm = LinearSegmentedColormap.from_list('koch_colors', colors, N=256)
+        >>> # Plot segments with color gradient
+        >>> for i in range(len(curve) - 1):
+        ...     x = [curve[i][0], curve[i+1][0]]
+        ...     y = [curve[i][1], curve[i+1][1]]
+        ...     # Normalize position for color mapping
+        ...     position = i / (len(curve) - 2)
+        ...     color = cm(position)
+        ...     _ = plt.plot(x, y, color=color, linewidth=1.5)
+        >>> _ = plt.axis('equal')
+        >>> _ = plt.axis('off')  # Hide axes for cleaner look
+        >>> _ = plt.title("Koch Snowflake")
+        >>> plt.savefig("KochCurve.png", dpi=300, transparent=True)
+
     Notes:
-        The Koch curve has a fractal dimension of $\log 4 /\log(3) \approx 1.2619$,
-        making in a curve with infinite length but enclosing a finite area. It was
+        The Koch curve has a fractal dimension of:
+
+        $$
+        D = \frac{\log(4)}{\log(3)} \approx 1.2619
+        $$
+
+        making it a curve with infinite length but enclosing a finite area. It was
         one of the earliest fractals described, introduced by Helge von Koch in 1904.
 
         At each iteration, each line segment is divided into four segments of equal
         length, creating an equilateral triangle bump in the middle third.
 
-    Examples:
-        >>> import numpy as np
-        >>> import matplotlib.pyplot as plt
-        >>> from umf.functions.fractal_set.geometric import KochCurve
-        >>> # Generate Koch snowflake
-        >>> points = np.array([[0, 0], [1, 0]])  # Initial line
-        >>> koch = KochCurve(points, max_iter=5)()
-        >>> curve = koch.result
-
-        >>> # Visualization
-        >>> _ = plt.figure(figsize=(10, 10))
-        >>> _ = plt.plot(curve[:, 0], curve[:, 1], 'b-')
-        >>> _ = plt.axis('equal')
-        >>> _ = plt.title("Koch Snowflake")
-        >>> plt.savefig("KochCurve.png", dpi=300, transparent=True)
-
     Args:
         *x (UniversalArray): Initial line segment points
         max_iter (int, optional): Number of iterations. Defaults to 5.
+        fractal_dimension (float, optional): Fractal dimension.
+            Defaults to log(4)/log(3).
     """
 
-    def __init__(self, *x: UniversalArray, max_iter: int = 5) -> None:
+    def __init__(
+        self,
+        *x: UniversalArray,
+        max_iter: int = 5,
+        fractal_dimension: float = np.log(4) / np.log(3),
+    ) -> None:
         """Initialize the Koch curve."""
-        self.fractal_dimension = np.log(4) / np.log(3)  # Exact dimension
-        super().__init__(*x, max_iter=max_iter)
+        super().__init__(*x, max_iter=max_iter, fractal_dimension=fractal_dimension)
 
     def transform_points(self, points: np.ndarray) -> np.ndarray:
         """Apply Koch curve transformation to line segments.
 
         Args:
-            points (np.ndarray): Array of points defining line segments
+            points: Array of points defining line segments
 
         Returns:
             np.ndarray: New set of points after transformation
@@ -76,17 +102,14 @@ class KochCurve(GeometricFractalFunction):
         new_points = []
         for i in range(len(points) - 1):
             p1, p2 = points[i], points[i + 1]
-            # Calculate segment points
             v = p2 - p1
             p3 = p1 + v / 3
             p5 = p1 + 2 * v / 3
-            # Calculate peak point
-            angle = np.pi / 3  # 60 degrees
+            angle = np.pi / 3
             rot = np.array(
                 [[np.cos(angle), -np.sin(angle)], [np.sin(angle), np.cos(angle)]]
             )
             p4 = p3 + np.dot(rot, (p5 - p3))
-
             new_points.extend([p1, p3, p4, p5])
         new_points.append(points[-1])
         return np.array(new_points)
@@ -96,13 +119,11 @@ class KochCurve(GeometricFractalFunction):
         """Generate the Koch curve points.
 
         Returns:
-            np.ndarray: Array of points defining the curve
+            np.ndarray: Array of points representing the Koch curve
         """
         points = np.asarray(self._x).copy()
-
         for _ in range(self.max_iter):
             points = self.transform_points(points)
-
         return points
 
 
@@ -112,31 +133,54 @@ class SierpinskiTriangle(GeometricFractalFunction):
     The Sierpinski triangle is formed by repeatedly removing the central triangle
     from a triangular array.
 
+    Examples:
+        >>> import numpy as np
+        >>> import matplotlib.pyplot as plt
+        >>> from matplotlib.colors import LinearSegmentedColormap
+        >>> from umf.functions.fractal_set.geometric import SierpinskiTriangle
+        >>> # Generate Sierpinski triangle
+        >>> points = (
+        ...     np.array([0, 0]),
+        ...     np.array([1, 0]),
+        ...     np.array([0.5, np.sqrt(0.75)])
+        ... )
+        >>> sierpinski = SierpinskiTriangle(*points, max_iter=7)()
+        >>> triangles = sierpinski.result
+        >>>
+        >>> # Visualization with gradient colors
+        >>> fig = plt.figure(figsize=(10, 10))
+        >>> # Create a custom colormap
+        >>> colors = [(0.8, 0.0, 0.0), (0.5, 0.0, 0.5), (0.0, 0.0, 0.8)]
+        >>> cm = LinearSegmentedColormap.from_list('triangle_colors', colors, N=256)
+        >>> # Plot triangles with color based on size/level
+        >>> for i, triangle in enumerate(triangles):
+        ...     # Color based on triangle area (smaller triangles = later iterations)
+        ...     area = 0.5 * np.abs(np.cross(
+        ...         triangle[1] - triangle[0],
+        ...         triangle[2] - triangle[0]
+        ...     ))
+        ...     # Normalize area for color mapping (log scale for better distribution)
+        ...     norm_area = np.log(area + 1e-10) / np.log(1)
+        ...     color = cm(max(0, min(1, 1 + norm_area)))
+        ...     _ = plt.fill(triangle[:, 0], triangle[:, 1], color=color, alpha=0.8)
+        >>> _ = plt.axis('equal')
+        >>> _ = plt.axis('off')  # Hide axes for cleaner look
+        >>> _ = plt.title("Sierpinski Triangle")
+        >>> plt.savefig("SierpinskiTriangle.png", dpi=300, transparent=True)
+
     Notes:
-        The Sierpinski triangle has a fractal dimension of log(3)/log(2) ≈ 1.585,
+        The Sierpinski triangle has a fractal dimension of:
+
+        $$
+        D = \frac{\log(3)}{\log(2)} \approx 1.585
+        $$
+
         suggesting it has more complexity than a line (dimension 1) but less than
         a filled area (dimension 2). It was described by Wacław Sierpiński in 1915.
 
         The triangle is constructed recursively by removing the central triangle
         from each remaining sub-triangle. Each iteration produces three new
         triangles at half the scale of the original.
-
-    Examples:
-        >>> import numpy as np
-        >>> import matplotlib.pyplot as plt
-        >>> from umf.functions.fractal_set.geometric import SierpinskiTriangle
-        >>> # Generate Sierpinski triangle
-        >>> points = np.array([[0, 0], [1, 0], [0.5, np.sqrt(0.75)]])
-        >>> sierpinski = SierpinskiTriangle(points, max_iter=7)()
-        >>> triangles = sierpinski.result
-
-        >>> # Visualization
-        >>> _ = plt.figure(figsize=(10, 10))
-        >>> for triangle in triangles:
-        ...     _ = plt.fill(triangle[:, 0], triangle[:, 1], 'b', alpha=0.1)
-        >>> _ = plt.axis('equal')
-        >>> _ = plt.title("Sierpinski Triangle")
-        >>> plt.savefig("SierpinskiTriangle.png", dpi=300, transparent=True)
 
     Args:
         *x (UniversalArray): Initial triangle vertices
@@ -148,17 +192,17 @@ class SierpinskiTriangle(GeometricFractalFunction):
         self.fractal_dimension = np.log(3) / np.log(2)  # Exact dimension
         super().__init__(*x, max_iter=max_iter)
 
-    def transform_points(self, triangles: list[np.ndarray]) -> list[np.ndarray]:
+    def transform_points(self, points: list[np.ndarray]) -> list[np.ndarray]:
         """Subdivide triangles according to Sierpinski pattern.
 
         Args:
-            triangles (list[np.ndarray]): List of triangle vertex arrays
+            points: List of triangle vertex arrays
 
         Returns:
             list[np.ndarray]: New set of triangles after subdivision
         """
         new_triangles = []
-        for triangle in triangles:
+        for triangle in points:
             # Get midpoints
             midpoints = [(triangle[i] + triangle[(i + 1) % 3]) / 2 for i in range(3)]
             # Add three corner triangles
@@ -192,10 +236,15 @@ class SierpinskiCarpet(GeometricFractalFunction):
     from a grid of squares.
 
     Notes:
-        The Sierpinski carpet has a fractal dimension of
-        $\log(8)/\log(3) \approx 1.893$, approaching but not reaching dimension 2.
-        It's a two-dimensional analog of the Cantor set, created by recursively
-        removing the central ninth from each remaining square.
+        The Sierpinski carpet has a fractal dimension of:
+
+        $$
+        D = \frac{\log(8)}{\log(3)} \approx 1.893
+        $$
+
+        approaching but not reaching dimension 2. It's a two-dimensional analog
+        of the Cantor set, created by recursively removing the central ninth
+        from each remaining square.
 
         Each iteration subdivides each square into 9 congruent sub-squares and
         removes the central one, resulting in 8 remaining squares per subdivision.
@@ -203,24 +252,39 @@ class SierpinskiCarpet(GeometricFractalFunction):
     Examples:
         >>> import numpy as np
         >>> import matplotlib.pyplot as plt
+        >>> from matplotlib.colors import LinearSegmentedColormap
         >>> from umf.functions.fractal_set.geometric import SierpinskiCarpet
         >>> # Generate Sierpinski carpet
         >>> width = np.array([1.0])
         >>> height = np.array([1.0])
         >>> carpet = SierpinskiCarpet(width, height, max_iter=5)()
         >>> squares = carpet.result
-
-        >>> # Visualization
-        >>> _ = plt.figure(figsize=(10, 10))
-        >>> for square in squares:
-        ...     _ = plt.fill(square[:, 0], square[:, 1], 'b', alpha=0.3)
+        >>>
+        >>> # Visualization with gradient colors
+        >>> fig = plt.figure(figsize=(10, 10))
+        >>> # Create a custom colormap
+        >>> colors = [(0.0, 0.0, 0.6), (0.4, 0.0, 0.8), (0.8, 0.0, 0.8)]
+        >>> cm = LinearSegmentedColormap.from_list('carpet_colors', colors, N=256)
+        >>> # Plot squares with color based on size
+        >>> for i, square in enumerate(squares):
+        ...     # Calculate square size
+        ...     size = np.abs(square[1][0] - square[0][0])
+        ...     # Normalize size for color mapping (log scale)
+        ...     norm_size = np.log(size + 1e-10) / np.log(1)
+        ...     color = cm(max(0, min(1, 1 + norm_size)))
+        ...     # Draw square with properly shaped corners
+        ...     x = [square[0][0], square[1][0], square[1][0], square[0][0]]
+        ...     y = [square[0][1], square[0][1], square[1][1], square[1][1]]
+        ...     _ = plt.fill(x, y, color=color, alpha=0.8)
         >>> _ = plt.axis('equal')
+        >>> _ = plt.axis('off')  # Hide axes for cleaner look
         >>> _ = plt.title("Sierpinski Carpet")
         >>> plt.savefig("SierpinskiCarpet.png", dpi=300, transparent=True)
 
     Args:
         *x (UniversalArray): Size of the initial square [width, height]
         max_iter (int, optional): Number of iterations. Defaults to 5.
+        fractal_dimension (float, optional): Fractal dimension. Defaults to log(8)/log(3).
     """
 
     def __init__(
@@ -232,17 +296,17 @@ class SierpinskiCarpet(GeometricFractalFunction):
         """Initialize the Sierpinski carpet."""
         super().__init__(*x, max_iter=max_iter, fractal_dimension=fractal_dimension)
 
-    def transform_points(self, squares: list[np.ndarray]) -> list[np.ndarray]:
+    def transform_points(self, points: list[np.ndarray]) -> list[np.ndarray]:
         """Subdivide squares according to Sierpinski carpet pattern.
 
         Args:
-            squares (list[np.ndarray]): List of square vertex arrays
+            points: List of square vertex arrays
 
         Returns:
             list[np.ndarray]: New set of squares after subdivision
         """
         new_squares = []
-        for square in squares:
+        for square in points:
             size = np.abs(square[1] - square[0]) / 3
             # Add eight outer squares (skip center square)
             for i, j in itertools.product(range(3), range(3)):
@@ -275,7 +339,12 @@ class MengerSponge(GeometricFractalFunction):
     The Menger sponge is a three-dimensional analog of the Sierpinski carpet.
 
     Notes:
-        The Menger sponge has a fractal dimension of log(20)/log(3) ≈ 2.727,
+        The Menger sponge has a fractal dimension of:
+
+        $$
+        D = \frac{\log(20)}{\log(3)} \approx 2.727
+        $$
+
         making it a complex structure between a surface (dimension 2) and a
         volume (dimension 3). It was first described by Karl Menger in 1926.
 
@@ -287,46 +356,90 @@ class MengerSponge(GeometricFractalFunction):
         >>> import numpy as np
         >>> import matplotlib.pyplot as plt
         >>> from mpl_toolkits.mplot3d import Axes3D
+        >>> from mpl_toolkits.mplot3d.art3d import Poly3DCollection
+        >>> from matplotlib.colors import LinearSegmentedColormap
         >>> from umf.functions.fractal_set.geometric import MengerSponge
         >>> # Generate Menger sponge
-        >>> size = np.array([1.0, 1.0, 1.0])
-        >>> sponge = MengerSponge(size, max_iter=3)()
+        >>> length, width, height = np.array([1.0]), np.array([1.0]), np.array([1.0])
+        >>> sponge = MengerSponge(length, width, height, max_iter=2)()
         >>> cubes = sponge.result
-
-        >>> # Visualization
+        >>>
+        >>> # Visualization with enhanced coloring
         >>> fig = plt.figure(figsize=(10, 10))
         >>> ax = fig.add_subplot(111, projection='3d')
-        >>> for cube in cubes:
-        ...     # Plot cube vertices
-        ...     for i in range(2):
-        ...         for j in range(2):
-        ...             _ = ax.plot3D([cube[0,0], cube[1,0]],
-        ...                      [cube[0,1], cube[1,1]],
-        ...                      [i, i], 'b-', alpha=0.1)
-        >>> _ = plt.title("Menger Sponge")
+        >>> # Create custom colormap for better visualization
+        >>> colors = [(0.1, 0.1, 0.5), (0.3, 0.2, 0.7), (0.8, 0.3, 0.6)]
+        >>> cm = LinearSegmentedColormap.from_list('sponge_colors', colors, N=256)
+        >>> # Draw each cube as a collection of faces
+        >>> for i, cube in enumerate(cubes):
+        ...     # Define the vertices of the cube
+        ...     x0, y0, z0 = cube[0]
+        ...     x1, y1, z1 = cube[1]
+        ...     vertices = np.array([
+        ...         [x0, y0, z0], [x1, y0, z0], [x1, y1, z0], [x0, y1, z0],
+        ...         [x0, y0, z1], [x1, y0, z1], [x1, y1, z1], [x0, y1, z1]
+        ...     ])
+        ...     # Define the faces using indices into the vertices array
+        ...     faces = [
+        ...         [vertices[0], vertices[1], vertices[2], vertices[3]],  # bottom
+        ...         [vertices[4], vertices[5], vertices[6], vertices[7]],  # top
+        ...         [vertices[0], vertices[1], vertices[5], vertices[4]],  # front
+        ...         [vertices[2], vertices[3], vertices[7], vertices[6]],  # back
+        ...         [vertices[0], vertices[3], vertices[7], vertices[4]],  # left
+        ...         [vertices[1], vertices[2], vertices[6], vertices[5]]   # right
+        ...     ]
+        ...     # Choose color based on position and size
+        ...     center = (cube[0] + cube[1]) / 2
+        ...     size = np.linalg.norm(cube[1] - cube[0])
+        ...     # Combine position and size for interesting color effects
+        ...     color_val = (center[0] + center[1] + center[2])/3 + size/2
+        ...     color = cm(min(1.0, max(0.0, color_val)))
+        ...     # Add faces to plot with better styling
+        ...     collection = Poly3DCollection(
+        ...         faces,
+        ...         alpha=0.8,
+        ...         linewidths=0.2,
+        ...         edgecolor='black'
+        ...     )
+        ...     collection.set_facecolor(color)
+        ...     _ = ax.add_collection3d(collection)
+        >>>
+        >>> # Set equal aspect ratio and labels
+        >>> _ = ax.set_box_aspect([1, 1, 1])
+        >>> _ = ax.set_xlabel('X')
+        >>> _ = ax.set_ylabel('Y')
+        >>> _ = ax.set_zlabel('Z')
+        >>> _ = ax.set_title("Menger Sponge")
+        >>> # Set optimal viewing angle
+        >>> _ = ax.view_init(elev=30, azim=45)
         >>> plt.savefig("MengerSponge.png", dpi=300, transparent=True)
 
     Args:
-        *x (UniversalArray): Size of the initial cube [width, height, depth]
+        *x (UniversalArray): Size of the initial cube [length, width, height]
         max_iter (int, optional): Number of iterations. Defaults to 3.
+        fractal_dimension (float, optional): Fractal dimension. Defaults to log(20)/log(3).
     """
 
-    def __init__(self, *x: UniversalArray, max_iter: int = 3) -> None:
+    def __init__(
+        self,
+        *x: UniversalArray,
+        max_iter: int = 3,
+        fractal_dimension: float = np.log(20) / np.log(3),
+    ) -> None:
         """Initialize the Menger sponge."""
-        self.fractal_dimension = np.log(20) / np.log(3)  # Exact dimension
-        super().__init__(*x, max_iter=max_iter)
+        super().__init__(*x, max_iter=max_iter, fractal_dimension=fractal_dimension)
 
-    def transform_points(self, cubes: list[np.ndarray]) -> list[np.ndarray]:
+    def transform_points(self, points: list[np.ndarray]) -> list[np.ndarray]:
         """Subdivide cubes according to Menger sponge pattern.
 
         Args:
-            cubes (list[np.ndarray]): List of cube vertex arrays
+            points: List of cube vertex arrays
 
         Returns:
             list[np.ndarray]: New set of cubes after subdivision
         """
         new_cubes = []
-        for cube in cubes:
+        for cube in points:
             sub_size = np.abs(cube[1] - cube[0]) / 3
             # Check which subcubes to keep
             for i, j, k in itertools.product(range(3), range(3), range(3)):
@@ -345,8 +458,13 @@ class MengerSponge(GeometricFractalFunction):
         Returns:
             list[np.ndarray]: List of cube vertex arrays
         """
+        # Extract dimensions from inputs
+        length = self._x[0][0]
+        width = self._x[1][0]
+        height = self._x[2][0]
+
         # Initial cube
-        cubes = [np.array([[0, 0, 0], self._x])]
+        cubes = [np.array([[0, 0, 0], [length, width, height]])]
 
         for _ in range(self.max_iter):
             cubes = self.transform_points(cubes)
@@ -360,38 +478,68 @@ class PythagorasTree(GeometricFractalFunction):
     The Pythagoras tree is constructed by recursively adding squares and
     right triangles.
 
-    Notes:
-        The Pythagoras tree has an approximate fractal dimension of 2.0 and is
-        constructed by recursively adding squares on the sides of triangles.
-        It was introduced by Albert E. Bosman in 1942.
-
-        The tree grows by placing two smaller squares at angles on top of each
-        preceding square, similar to the geometric representation of the
-        Pythagorean theorem. The scaling factor and angles determine the
-        shape and density of the resulting tree.
-
     Examples:
         >>> import numpy as np
         >>> import matplotlib.pyplot as plt
+        >>> from matplotlib.colors import LinearSegmentedColormap
         >>> from umf.functions.fractal_set.geometric import PythagorasTree
         >>> # Generate Pythagoras tree
-        >>> base = np.array([[0, 0], [1, 0]])
-        >>> tree = PythagorasTree(base, max_iter=10)()
+        >>> base_0, base_1 = np.array([0, 0]), np.array([1, 0])
+        >>> tree = PythagorasTree(base_0, base_1, max_iter=10)()
         >>> squares = tree.result
-
-        >>> # Visualization
-        >>> plt.figure(figsize=(10, 10))
-        >>> for square in squares:
-        ...     plt.fill(square[:, 0], square[:, 1], 'g', alpha=0.1)
-        >>> plt.axis('equal')
-        >>> plt.title("Pythagoras Tree")
+        >>>
+        >>> # Visualization with improved 3D-like effect
+        >>> fig = plt.figure(figsize=(10, 10))
+        >>> ax = plt.gca()
+        >>> # Create custom colormap for tree-like appearance
+        >>> colors = [(0.0, 0.4, 0.0), (0.2, 0.6, 0.0), (0.4, 0.8, 0.0)]
+        >>> cm = LinearSegmentedColormap.from_list('tree_colors', colors, N=256)
+        >>> # Get height range for normalization
+        >>> y_coords = [np.mean(square[:, 1]) for square in squares]
+        >>> y_min, y_max = min(y_coords), max(y_coords)
+        >>> # Plot squares from back to front for proper occlusion
+        >>> sorted_indices = np.argsort(y_coords)
+        >>> for idx in sorted_indices:
+        ...     square = squares[idx]
+        ...     # Normalize height for color mapping
+        ...     y_height = (y_coords[idx] - y_min) / (y_max - y_min) if y_max > y_min else 0
+        ...     # Size-based variation for more natural appearance
+        ...     size = np.linalg.norm(square[1] - square[0])
+        ...     size_factor = np.clip(1.0 - np.log10(size + 1) * 0.2, 0.3, 1.0)
+        ...     # Combine factors for final color
+        ...     color_idx = min(0.99, max(0.0, y_height * 0.8 + size_factor * 0.2))
+        ...     color = cm(color_idx)
+        ...     # Add drop shadow for 3D effect
+        ...     shadow = plt.Polygon(square - np.array([0.01, -0.01]),
+        ...                         color='black', alpha=0.2)
+        ...     _ = ax.add_patch(shadow)
+        ...     # Draw square with depth-based edge thickness
+        ...     _ = plt.fill(square[:, 0], square[:, 1], color=color,
+        ...                 alpha=0.9, edgecolor='#004000',
+        ...                 linewidth=0.8 * size_factor)
+        >>> _ = plt.axis('equal')
+        >>> _ = plt.title("Pythagoras Tree")
+        >>> _ = plt.axis('off')  # Hide axes for cleaner look
+        >>> plt.tight_layout()
         >>> plt.savefig("PythagorasTree.png", dpi=300, transparent=True)
+
+    Notes:
+        The Pythagoras tree has an approximate fractal dimension of:
+
+        $$
+        D \approx 2.0
+        $$
+
+        It was introduced by Albert E. Bosman in 1942. The tree grows by placing
+        two smaller squares at angles on top of each preceding square, similar
+        to the geometric representation of the Pythagorean theorem.
 
     Args:
         *x (UniversalArray): Base line segment points
         max_iter (int, optional): Number of iterations. Defaults to 10.
         angle (float, optional): Angle of branches in radians. Defaults to np.pi/4.
         scale_factor (float, optional): Scaling factor for branches. Defaults to 0.7.
+        fractal_dimension (float, optional): Fractal dimension. Defaults to 2.0.
     """
 
     # Define constants for clarity
@@ -404,24 +552,28 @@ class PythagorasTree(GeometricFractalFunction):
         max_iter: int = 10,
         angle: float = np.pi / 4,
         scale_factor: float = 0.7,
+        fractal_dimension: float = 2.0,
     ) -> None:
         """Initialize the Pythagoras tree."""
         self.angle = angle
-        self.scale_factor = scale_factor
-        self.fractal_dimension = 2.0  # Approximate dimension
-        super().__init__(*x, max_iter=max_iter)
+        super().__init__(
+            *x,
+            max_iter=max_iter,
+            scale_factor=scale_factor,
+            fractal_dimension=fractal_dimension,
+        )
 
-    def transform_points(self, branches: list[np.ndarray]) -> list[np.ndarray]:
+    def transform_points(self, points: list[np.ndarray]) -> list[np.ndarray]:
         """Generate new squares for the Pythagoras tree.
 
         Args:
-            branches (list[np.ndarray]): List of branch endpoint arrays
+            points: List of branch endpoint arrays
 
         Returns:
-            list[np.ndarray]: New set of squares
+            list[np.ndarray]: New set of squares and branches
         """
         new_branches = []
-        for branch in branches:
+        for branch in points:
             # Create square from branch
             v = branch[1] - branch[0]
             perpendicular = np.array([-v[1], v[0]])
@@ -468,11 +620,15 @@ class PythagorasTree(GeometricFractalFunction):
         Returns:
             list[np.ndarray]: List of square vertex arrays
         """
-        branches = [self._x]
+        # Ensure base branches are properly stored as numpy arrays
+        base_branch = np.asarray(self._x)
+        branches = [base_branch]
         squares = []
 
         for _ in range(self.max_iter):
-            new_branches = self.transform_points(branches)
+            # Convert each branch to a numpy array to avoid type issues
+            converted_branches = [np.asarray(b) for b in branches]
+            new_branches = self.transform_points(converted_branches)
             squares.extend([b for b in new_branches if len(b) == self.SQUARE_VERTICES])
             branches = [b for b in new_branches if len(b) == self.BRANCH_POINTS]
 
@@ -485,10 +641,66 @@ class UniformMassCenterTriangle(GeometricFractalFunction):
     This fractal is generated by repeatedly selecting random vertices of a triangle
     and moving towards them by a fixed ratio.
 
+    Examples:
+        >>> import numpy as np
+        >>> import matplotlib.pyplot as plt
+        >>> from matplotlib.colors import LinearSegmentedColormap
+        >>> from umf.functions.fractal_set.geometric import UniformMassCenterTriangle
+        >>> # Generate mass center triangle
+        >>> vertices = (
+        ...     np.array([0, 0]),
+        ...     np.array([1, 0]),
+        ...     np.array([0.5, np.sqrt(0.75)])
+        ... )
+        >>> triangle = UniformMassCenterTriangle(*vertices, max_iter=10000, ratio=0.5)()
+        >>> points = triangle.result
+        >>>
+        >>> # Visualization with enhanced coloring and 3D-like effect
+        >>> fig = plt.figure(figsize=(10, 10), facecolor='black')
+        >>> ax = plt.gca()
+        >>> ax.set_facecolor('black')
+        >>> # Create custom colormap for glowing effect
+        >>> colors = [(0.0, 0.0, 0.3), (0.0, 0.3, 0.7), (0.5, 0.0, 0.8), (0.8, 0.2, 0.0)]
+        >>> cm = LinearSegmentedColormap.from_list('glow_colors', colors, N=256)
+        >>> # Create point clusters for efficiency
+        >>> from scipy.stats import binned_statistic_2d
+        >>> H, xedges, yedges, binnums = binned_statistic_2d(
+        ...     points[:, 0], points[:, 1],
+        ...     values=None, statistic='count', bins=200
+        ... )
+        >>> # Normalize and apply log scaling for better visualization
+        >>> H_log = np.log1p(H)  # log(1+x) to avoid log(0)
+        >>> H_norm = H_log / np.max(H_log)
+        >>> # Plot as a heatmap with custom colormap
+        >>> extent = [xedges[0], xedges[-1], yedges[0], yedges[-1]]
+        >>> im = ax.imshow(
+        ...     H_norm.T,  # Transpose for correct orientation
+        ...     origin='lower',
+        ...     extent=extent,
+        ...     cmap=cm,
+        ...     interpolation='gaussian',
+        ...     aspect='auto'
+        ... )
+        >>> # Add triangle outline
+        >>> vertices_array = np.array([v for v in vertices])
+        >>> vertices_array = np.vstack([vertices_array, vertices_array[0]])  # Close the loop
+        >>> _ = plt.plot(vertices_array[:, 0], vertices_array[:, 1],
+        ...              color='white', alpha=0.5, linewidth=1.0)
+        >>> _ = plt.axis('equal')
+        >>> _ = plt.axis('off')  # Hide axes for cleaner look
+        >>> _ = plt.title("Uniform Mass Center Triangle (Chaos Game)", color='white')
+        >>> plt.tight_layout()
+        >>> plt.savefig("UniformMassCenterTriangle.png", dpi=300, transparent=True)
+
     Notes:
         The uniform mass center triangle, also known as the Sierpinski gasket or
-        chaos game, has a fractal dimension of approximately 1.585. It was
-        popularized by Michael Barnsley in his 1988 book "Fractals Everywhere".
+        chaos game, has a fractal dimension of approximately:
+
+        $$
+        D = \frac{\log(3)}{\log(2)} \approx 1.585
+        $$
+
+        It was popularized by Michael Barnsley in his 1988 book "Fractals Everywhere".
 
         This fractal is created through an iterative process where each new point
         is positioned partway between the previous point and a randomly chosen
@@ -496,26 +708,11 @@ class UniformMassCenterTriangle(GeometricFractalFunction):
         toward the selected vertex, with 0.5 producing the standard Sierpinski
         pattern.
 
-    Examples:
-        >>> import numpy as np
-        >>> import matplotlib.pyplot as plt
-        >>> from umf.functions.fractal_set.geometric import UniformMassCenterTriangle
-        >>> # Generate mass center triangle
-        >>> vertices = np.array([[0, 0], [1, 0], [0.5, np.sqrt(0.75)]])
-        >>> triangle = UniformMassCenterTriangle(vertices, max_iter=10000, ratio=0.5)()
-        >>> points = triangle.result
-
-        >>> # Visualization
-        >>> plt.figure(figsize=(10, 10))
-        >>> plt.plot(points[:, 0], points[:, 1], 'k.', markersize=1)
-        >>> plt.axis('equal')
-        >>> plt.title("Uniform Mass Center Triangle")
-        >>> plt.savefig("UniformMassCenterTriangle.png", dpi=300, transparent=True)
-
     Args:
         *x (UniversalArray): Triangle vertices
         max_iter (int, optional): Number of points to generate. Defaults to 10000.
         ratio (float, optional): Movement ratio towards vertex. Defaults to 0.5.
+        fractal_dimension (float, optional): Approximate fractal dimension. Defaults to log(3)/log(2).
     """
 
     def __init__(
@@ -523,11 +720,11 @@ class UniformMassCenterTriangle(GeometricFractalFunction):
         *x: UniversalArray,
         max_iter: int = 10000,
         ratio: float = 0.5,
+        fractal_dimension: float = np.log(3) / np.log(2),
     ) -> None:
         """Initialize the mass center triangle."""
         self.ratio = ratio
-        self.fractal_dimension = 1.585  # Approximate dimension
-        super().__init__(*x, max_iter=max_iter)
+        super().__init__(*x, max_iter=max_iter, fractal_dimension=fractal_dimension)
 
     @property
     def __eval__(self) -> np.ndarray:
@@ -539,9 +736,10 @@ class UniformMassCenterTriangle(GeometricFractalFunction):
         # Convert input to numpy array if it isn't already
         vertices = np.asarray(self._x)
 
-        # Start at centroid
-        points = [np.mean(vertices, axis=0)]
-        point = points[0]
+        # Start at centroid - explicitly calculate to avoid type issues
+        centroid = np.sum(vertices, axis=0) / len(vertices)
+        points = [centroid]
+        point = centroid
 
         # Create random number generator
         rng = np.random.default_rng()

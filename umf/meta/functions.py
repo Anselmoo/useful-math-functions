@@ -27,11 +27,10 @@ from umf.meta.api import (
     ResultsHyperbolicAPI,
     ResultsPathologicalAPI,
 )
-from umf.types.static_types import UniversalArray
 
 if TYPE_CHECKING:
     from umf.meta.api import MinimaAPI, SummaryStatisticsAPI
-    from umf.types.static_types import UniversalArrayTuple
+    from umf.types.static_types import UniversalArray, UniversalArrayTuple
 
 
 class CoreElements(ABCMeta):

@@ -8,7 +8,6 @@ on:
     types: [created]
 
 jobs:
-
   deploy:
     name: Publish on PyPi
     runs-on: ubuntu-latest
@@ -31,45 +30,45 @@ jobs:
           password: ${{ secrets.TWINE_TOKEN }}
 
   docs:
-      if: ${{ contains(github.event.release.prerelease, false) }}
-      name: Build Documentation from main'
-      needs: deploy
-      runs-on: ubuntu-latest
-      steps:
-        - uses: actions/checkout@v4
-          with:
-            fetch-depth: 0
-        - name: Install uv and dependencies with doc-dependencies
-          uses: astral-sh/setup-uv@v5
-          with:
-            enable-cache: true
-            cache-dependency-glob: uv.lock
-            python-version: "3.10"
-        - name: Install library
-          run: uv sync --all-extras --group docs
-        - name: Set git config
-          run: |
-            git config --local user.email "action@github.com"
-            git config --local user.name "GitHub Action"
-        - name: Fetch tags
-          run: git fetch --tags --prune
-        - name: Determine previous release
-          id: previous_release
-          run: echo "::set-output name=previous_tag::$(git describe --tags $(git rev-list --tags --skip=1 --max-count=1) --abbrev=0)"
-        - name: Determine current release
-          id: current_release
-          run: echo "::set-output name=current_tag::$(git describe --tags --abbrev=0)"
-        - name: Check if minor release
-          id: is_minor_release
-          run: |
-            previous_tag=$(/bin/echo ${{ steps.previous_release.outputs.previous_tag }})
-            current_tag=$(/bin/echo ${{ steps.current_release.outputs.current_tag }})
-            previous_version=$(echo $previous_tag | cut -d '.' -f 1,2)
-            current_version=$(echo $current_tag | cut -d '.' -f 1,2)
-            if [[ "$previous_version" == "$current_version" ]]; then
-              uv run --group docs --all-extras   run mike delete ${{ steps.previous_release.outputs.previous_tag }}
-            fi
-        - name: Deploy documentation develops
-          run: |
-            uv run --group docs --all-extras   run mike deploy --push --update-aliases ${{ github.event.release.tag_name }} latest --message "Release ${{ github.event.release.tag_name }}"
-            uv run --group docs --all-extras   run mike set-default --push latest
+    if: ${{ contains(github.event.release.prerelease, false) }}
+    name: Build Documentation from main'
+    needs: deploy
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Install uv and dependencies with doc-dependencies
+        uses: astral-sh/setup-uv@v5
+        with:
+          enable-cache: true
+          cache-dependency-glob: uv.lock
+          python-version: "3.10"
+      - name: Install library
+        run: uv sync --all-extras --group docs
+      - name: Set git config
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+      - name: Fetch tags
+        run: git fetch --tags --prune
+      - name: Determine previous release
+        id: previous_release
+        run: echo "::set-output name=previous_tag::$(git describe --tags $(git rev-list --tags --skip=1 --max-count=1) --abbrev=0)"
+      - name: Determine current release
+        id: current_release
+        run: echo "::set-output name=current_tag::$(git describe --tags --abbrev=0)"
+      - name: Check if minor release
+        id: is_minor_release
+        run: |
+          previous_tag=$(/bin/echo ${{ steps.previous_release.outputs.previous_tag }})
+          current_tag=$(/bin/echo ${{ steps.current_release.outputs.current_tag }})
+          previous_version=$(echo $previous_tag | cut -d '.' -f 1,2)
+          current_version=$(echo $current_tag | cut -d '.' -f 1,2)
+          if [[ "$previous_version" == "$current_version" ]]; then
+            uv run --group docs --all-extras   run mike delete ${{ steps.previous_release.outputs.previous_tag }}
+          fi
+      - name: Deploy documentation develops
+        run: |
+          uv run --group docs --all-extras   run mike deploy --push --update-aliases ${{ github.event.release.tag_name }} latest --message "Release ${{ github.event.release.tag_name }}"
+          uv run --group docs --all-extras   run mike set-default --push latest

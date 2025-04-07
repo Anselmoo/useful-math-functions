@@ -5,12 +5,11 @@ name: Python package
 
 on:
   push:
-    branches: [ main ]
+    branches: [main]
   pull_request:
-    branches: [ main ]
+    branches: [main]
 
 jobs:
-
   build:
     runs-on: ubuntu-latest
     strategy:
@@ -19,45 +18,45 @@ jobs:
         python-version: ["3.10", "3.11"]
 
     steps:
-    - uses: actions/checkout@v4
-    - name: Set up Python ${{ matrix.python-version }}
-      uses: astral-sh/setup-uv@v5
-      with:
-        enable-cache: true
-        cache-dependency-glob: uv.lock
-        python-version: ${{ matrix.python-version }}
-    - name: Install the project
-      run: uv sync --all-extras --dev
-    - name: Test SpectraFit
-      run: uv run --group dev --all-extras pytest umf/
-    - name: Codecov
-      uses: codecov/codecov-action@v5.4.0
-      with:
-        token: ${{ secrets.CODECOV_TOKEN }}
-        env_vars: OS,PYTHON
+      - uses: actions/checkout@v4
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: astral-sh/setup-uv@v5
+        with:
+          enable-cache: true
+          cache-dependency-glob: uv.lock
+          python-version: ${{ matrix.python-version }}
+      - name: Install the project
+        run: uv sync --all-extras --dev
+      - name: Test SpectraFit
+        run: uv run --group dev --all-extras pytest umf/
+      - name: Codecov
+        uses: codecov/codecov-action@v5.4.0
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          env_vars: OS,PYTHON
 
   docs:
     needs: build
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v4
-      with:
-        fetch-depth: 0
-    - name: Install uv and dependencies with doc-dependencies
-      uses: astral-sh/setup-uv@v5
-      with:
-        enable-cache: true
-        cache-dependency-glob: uv.lock
-        python-version: "3.10"
-    - name: Install the project
-      run: uv sync --all-extras --group docs
-    - name: Set git config
-      run: |
-        git config --local user.email "action@github.com"
-        git config --local user.name "GitHub Action"
-    - name: Build documentation
-      if: ${{ !contains(github.ref, 'refs/heads/main')}}
-      run: uv run --group docs --all-extras  mkdocs build --clean
-    - name: Deploy documentation develops
-      if: contains(github.ref, 'refs/heads/main')
-      run: uv run --group docs --all-extras  mike deploy --push --update-aliases develop
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Install uv and dependencies with doc-dependencies
+        uses: astral-sh/setup-uv@v5
+        with:
+          enable-cache: true
+          cache-dependency-glob: uv.lock
+          python-version: "3.10"
+      - name: Install the project
+        run: uv sync --all-extras --group docs
+      - name: Set git config
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+      - name: Build documentation
+        if: ${{ !contains(github.ref, 'refs/heads/main')}}
+        run: uv run --group docs --all-extras  mkdocs build --clean
+      - name: Deploy documentation develops
+        if: contains(github.ref, 'refs/heads/main')
+        run: uv run --group docs --all-extras  mike deploy --push --update-aliases develop

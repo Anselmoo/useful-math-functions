@@ -1,20 +1,3 @@
-## Koch Curve
-
-<!-- prettier-ignore -->
-::: umf.functions.fractal_set.geometric.KochCurve
-    options:
-        show_bases: false
-        show_source: true
-        show_inherited_members: false
-        allow_inspection: false
-        inheritance_graph: false
-        heading_level: 0
-        members: None
-
-|                    Koch Curve                     |
-| :-----------------------------------------------: |
-| ![KochCurve](../../../extra/images/KochCurve.png) |
-
 ## Sierpinski Triangle
 
 <!-- prettier-ignore -->

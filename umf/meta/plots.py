@@ -75,6 +75,8 @@ class GIFSettings(NamedTuple):
         frames (int, optional): The number of frames in the animation. Defaults to 72.
         interval (int, optional): The delay between frames in milliseconds. Defaults to
              50.
+        transperent (bool, optional): Whether or not to make the background of the GIF
+            transparent. Defaults to False.
     """
 
     dpi: int = 100
@@ -86,6 +88,7 @@ class GIFSettings(NamedTuple):
     azim: int = 5
     frames: int = 72
     interval: int = 50
+    transperent: bool = False
 
 
 class AnimationSettings(NamedTuple):
@@ -97,12 +100,16 @@ class AnimationSettings(NamedTuple):
             to 30.
         dpi (int, optional): The resolution of the output animation in dots per inch.
             Defaults to 100.
+        steps (int, optional): The number of steps in the animation. Defaults to 100.
+        transperent (bool, optional): Whether or not to make the background of the
+            animation transparent. Defaults to False.
     """
 
     frames: int = 40
     interval: int = 30
     dpi: int = 100
     steps: int = 100
+    transperent: bool = False
 
 
 class Plot(ABC):

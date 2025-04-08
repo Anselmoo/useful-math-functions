@@ -11,6 +11,6 @@
         heading_level: 0
         members: None
 
-|                      Isometry Function                       |
-| :----------------------------------------------------------: |
-| ![AngleFunction](../../../extra/images/IsometryFunction.png) |
+|                        Isometry Function                        |
+| :-------------------------------------------------------------: |
+| ![IsometryFunction](../../../extra/images/IsometryFunction.png) |

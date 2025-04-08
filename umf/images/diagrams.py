@@ -74,16 +74,14 @@ class ClassicPlot(Plot):
         ...     fig=plot.plot_return,
         ...     ax_fig=plot.ax_return,
         ...     fname=Path("GoldsteinPriceFunction_zoom.gif"),
-        ...     settings=GIFSettings(rotate=False),
-        ...     savefig_kwargs={"transparent": True},
+        ...     settings=GIFSettings(),
         ... )
         >>> # Now only rotate
         >>> plot.plot_save_gif(
         ...     fig=plot.plot_return,
         ...     ax_fig=plot.ax_return,
         ...     fname=Path("GoldsteinPriceFunction_rotate.gif"),
-        ...     settings=GIFSettings(zoom=False),
-        ...     savefig_kwargs={"transparent": True},
+        ...     settings=GIFSettings(),
         ... )
         >>> # Now only zoom and rotate
         >>> plot.plot_save_gif(
@@ -91,7 +89,6 @@ class ClassicPlot(Plot):
         ...     ax_fig=plot.ax_return,
         ...     fname=Path("GoldsteinPriceFunction_all.gif"),
         ...     settings=GIFSettings(),
-        ...     savefig_kwargs={"transparent": True},
         ... )
         >>> plot.plot_close()
 
@@ -358,7 +355,13 @@ class ClassicPlot(Plot):
             interval=settings.interval,
             fargs=(settings,),
         )
-        anim.save(filename=fname, writer="imagemagick", dpi=settings.dpi, **kwargs)
+        anim.save(
+            filename=fname,
+            writer="imagemagick",
+            dpi=settings.dpi,
+            savefig_kwargs={"transparent": settings.transperent},
+            **kwargs,
+        )
 
     @staticmethod
     def plot_save_animation(
@@ -394,7 +397,9 @@ class ClassicPlot(Plot):
             1
         ]  # Assuming the line plot to update is the second line
 
-        def update(frame: int, settings: GIFSettings) -> list[plt.Artist]:  # noqa: ARG001
+        def update(
+            frame: int, settings: GIFSettings  # noqa: ARG001
+        ) -> list[plt.Artist]:
             # for each frame, update the data stored on each artist.
             x = x_axis_data[:frame]
             y = y_axis_data[:frame]
@@ -413,7 +418,13 @@ class ClassicPlot(Plot):
             interval=settings.interval,
             fargs=(settings,),
         )
-        anim.save(filename=fname, writer="imagemagick", dpi=settings.dpi, **kwargs)
+        anim.save(
+            filename=fname,
+            writer="imagemagick",
+            dpi=settings.dpi,
+            savefig_kwargs={"transparent": settings.transperent},
+            **kwargs,
+        )
 
     @staticmethod
     def plot_close() -> None:

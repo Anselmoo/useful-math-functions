@@ -17,6 +17,20 @@ class MissingXError(Exception):
         super().__init__("Input data '*x' has to be specified.")
 
 
+class NotTupleArrayError(Exception):
+    """Exception for input data that is not a tuple of arrays.
+
+    This exception is raised when input data '*x' is not a tuple of arrays.
+
+    Attributes:
+        None
+    """
+
+    def __init__(self) -> None:
+        """Initialize the exception."""
+        super().__init__("Input data '*x' has to be a tuple of arrays.")
+
+
 class OutOfDimensionError(Exception):
     """Exception for out of dimension input data.
 

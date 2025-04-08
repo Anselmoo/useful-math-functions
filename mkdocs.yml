@@ -214,6 +214,11 @@ nav:
           - Finite Support: modules/functions/distributions/discrete_finite_support.md
           - Infinite Support: modules/functions/distributions/discrete_infinite_support.md
       - Distribution (Discrete): modules/functions/distributions/mixed_discrete_continuous.md
+      - Fractals Sets:
+          - Complex Fractals: modules/functions/fractal_set/complex_fractals.md
+          - Curve Fractals: modules/functions/fractal_set/curve_fractals.md
+          - Dynamic Fractals: modules/functions/fractal_set/dynamic_fractals.md
+          - Geometric Fractals: modules/functions/fractal_set/geometric_fractals.md
       - Hyperbolic:
           - Angle Functions: modules/functions/hyperbolic/angle.md
           - Area Functions: modules/functions/hyperbolic/area.md

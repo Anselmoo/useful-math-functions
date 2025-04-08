@@ -1,7 +1,7 @@
 ## Mandelbrot Set
 
 <!-- prettier-ignore -->
-::: umf.functions.fractal_set.complex_fractals.MandelbrotSet
+::: umf.functions.fractal_set.complex.MandelbrotSet
     options:
         show_bases: false
         show_source: true
@@ -18,7 +18,7 @@
 ## Julia Set
 
 <!-- prettier-ignore -->
-::: umf.functions.fractal_set.complex_fractals.JuliaSet
+::: umf.functions.fractal_set.complex.JuliaSet
     options:
         show_bases: false
         show_source: true
@@ -35,7 +35,7 @@
 ## FeigenbaumDiagram
 
 <!-- prettier-ignore -->
-::: umf.functions.fractal_set.complex_fractals.FeigenbaumDiagram
+::: umf.functions.fractal_set.complex.FeigenbaumDiagram
     options:
         show_bases: false
         show_source: true
@@ -48,5 +48,3 @@
 |                        Feigenbaum Diagram                         |
 | :---------------------------------------------------------------: |
 | ![FeigenbaumDiagram](../../../extra/images/FeigenbaumDiagram.png) |
-
-## LyapunovExponent

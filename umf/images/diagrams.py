@@ -116,6 +116,32 @@ class ClassicPlot(Plot):
         >>> plot.plot_series(label=[r"$\sigma=1$", r"$\sigma=2$", r"$\sigma=3$"])
         >>> ClassicPlot.plot_save(plot.plot_return, Path("ClassicPlot_series.png"))
 
+    Examples:
+        >>> from pathlib import Path
+        >>> import numpy as np
+        >>> from umf.images.diagrams import ClassicPlot
+        >>> from umf.meta.plots import GraphSettings
+        >>> from umf.functions.optimization.special import GoldsteinPriceFunction
+        >>> x = np.linspace(-2, 2, 100)
+        >>> y = np.linspace(-2, 2, 100)
+        >>> X, Y = np.meshgrid(x, y)
+        >>> Z = GoldsteinPriceFunction(X, Y).__eval__
+        >>> plot = ClassicPlot(
+        ...     X,
+        ...     Y,
+        ...     Z,
+        ...     settings=GraphSettings(axis=["x", "y", "z"]),
+        ... )
+        >>> plot.plot_surface()
+        >>> ClassicPlot.plot_save_animation(
+        ...     fig=plot.plot_return,
+        ...     ax_fig=plot.ax_return,
+        ...     fname=Path("GoldsteinPriceFunction_animation.gif"),
+        ...     settings=AnimationSettings(),
+        ...     savefig_kwargs={"transparent": True},
+        ... )
+        >>> plot.plot_close()
+
     Args:
         *x (UniversalArray): Input data, which can be one, two, three, or higher
              dimensional.

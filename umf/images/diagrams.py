@@ -8,6 +8,7 @@ from typing import Any
 import matplotlib.pyplot as plt
 import numpy as np
 import plotly.graph_objects as go
+from matplotlib import gridspec
 
 from matplotlib.animation import FuncAnimation
 
@@ -224,7 +225,6 @@ class ClassicPlot(Plot):
 
     def plot_dashboard(self) -> None:
         """Plot a dashboard."""
-        from matplotlib import gridspec
 
         self.fig = plt.figure(tight_layout=True, figsize=self.size, dpi=self.dpi)
         gs = gridspec.GridSpec(2, 2)

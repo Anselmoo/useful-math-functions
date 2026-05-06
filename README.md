@@ -1,4 +1,5 @@
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.8373435.svg)](https://doi.org/10.5281/zenodo.8373435)
+[![PyPI](https://img.shields.io/pypi/v/useful-math-functions.svg)](https://pypi.org/project/useful-math-functions/)
 
 # useful-math-functions
 
@@ -21,6 +22,9 @@ The package can be installed via pip:
 ```bash
 pip install useful-math-functions
 ```
+
+PyPI:
+[useful-math-functions on PyPI](https://pypi.org/project/useful-math-functions/)
 
 and for Visualizations:
 
@@ -85,8 +89,7 @@ plt.savefig("RosenbrockFunction.png", dpi=300, transparent=True)
 
 ## Documentation
 
-The documentation can be found
-[here](https://anselmoo.github.io/useful-math-functions/).
+The documentation can be found [here](https://zensical.org/).
 
 ## Contributing
 
@@ -96,5 +99,5 @@ discuss what you would like to change.
 ## License
 
 The project is licensed under the
-[MIT](https://github.com/Anselmoo/useful-math-functions/blob/main/LICENSE)
+[MIT](https://github.com/Anselmoo/useful-math-functions/blob/main/LICENSE.md)
 license.

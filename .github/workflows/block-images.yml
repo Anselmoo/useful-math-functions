@@ -1,0 +1,62 @@
+name: Block disallowed images
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+jobs:
+  block-images:
+    name: Block PNG/GIF outside allowlist
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Get changed files
+        id: get_changed
+        run: |
+          set -euo pipefail
+          git fetch origin ${{ github.event.pull_request.base.ref }} --depth=1 || true
+          git diff --name-only origin/${{ github.event.pull_request.base.ref }}...HEAD > changed_files.txt || true
+          echo "changed_files=$(cat changed_files.txt | tr '\n' ' ')" >> $GITHUB_OUTPUT
+
+      - name: Fails if PNG/GIF added outside allowlist
+        run: |
+          set -euo pipefail
+          shopt -s globstar
+          if [ ! -f changed_files.txt ]; then
+            echo "No changed files."
+            exit 0
+          fi
+
+          # Load allowlist from repo or default to docs/**
+          if [ -f .image-allowlist ]; then
+            allowlist_file=.image-allowlist
+          else
+            echo "docs/**" > .tmp_allowlist
+            allowlist_file=.tmp_allowlist
+          fi
+
+          disallowed=()
+          while IFS= read -r f; do
+            case "$f" in
+              *.png|*.PNG|*.gif|*.GIF)
+                allowed=false
+                while IFS= read -r pattern; do
+                  pattern=$(echo "$pattern" | sed 's/#.*//; s/^[ \t]*//; s/[ \t]*$//')
+                  [ -z "$pattern" ] && continue
+                  if [[ "$f" == $pattern ]]; then allowed=true; break; fi
+                done < "$allowlist_file"
+                if ! $allowed; then disallowed+=("$f"); fi
+                ;;
+            esac
+          done < changed_files.txt
+
+          if [ ${#disallowed[@]} -gt 0 ]; then
+            echo "Disallowed image files in PR:"
+            for d in "${disallowed[@]}"; do echo "- $d"; done
+            echo "::error title=Disallowed images::Found disallowed image files (png/gif) in PR. Please remove or add to .image-allowlist."
+            exit 1
+          fi

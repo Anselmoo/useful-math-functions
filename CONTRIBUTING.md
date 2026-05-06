@@ -118,3 +118,25 @@ We appreciate your interest in contributing to `useful-math-functions`! If you
 have any questions or need help getting started, please don't hesitate to reach
 out to us on the
 [Issue Tracker](https://github.com/Anselmoo/useful-math-functions/issues).
+
+## Documentation images and generated artifacts
+
+Please do not commit generated image artifacts (PNG, GIF, JPG, etc.) that are
+produced by tests, notebooks, or local builds. These files can bloat the
+repository and are often unintentional. To keep the repository clean:
+
+- Local hooks & CI: This repository enforces image rules. A pre-commit hook and
+  a GitHub Actions check will block commits and PRs that add PNG/GIF files
+  outside an allowlist. The allowlist is stored in `.image-allowlist` and by
+  default includes `docs/**`.
+- To allow images intentionally: add a glob pattern (one per line) to
+  `.image-allowlist` and explain the reason in your PR description.
+- To remove already-tracked generated images: run `git rm --cached path/to/file`
+  and add the path to `.gitignore`/.image-allowlist as appropriate, then commit
+  and open a PR.
+- Large or ephemeral assets: store them as CI artifacts or use external storage
+  (S3, CDN) rather than committing into the repository.
+
+If you have questions about this policy or need an exception, please open an
+issue or discuss it in your PR. We appreciate your cooperation and
+contributions.

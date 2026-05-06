@@ -14,7 +14,7 @@ contributing or modifying code, please adhere to the following guidelines:
 
 1. Follow
    [Google Python Style Guide](https://google.github.io/styleguide/pyguide.html)
-2. Use type annotations (Python 3.10+):
+2. Use type annotations (Python 3.12+):
 
    ```python
    def function_name(x: float, y: int) -> float:

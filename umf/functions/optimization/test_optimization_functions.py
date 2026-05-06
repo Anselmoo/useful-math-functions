@@ -81,6 +81,6 @@ def test_zirilli_function() -> None:
     """
     x: np.ndarray = np.array([[1], [2]])
     func: ZirilliFunction = ZirilliFunction(*x)
-    result: float = float(func.__eval__)
+    result: float = float(np.sum(func.__eval__))
     expected: float = 1.85
     assert np.all(np.isclose(result, expected, rtol=1e-5, atol=1e-8))

@@ -1,0 +1,5 @@
+# Allowlist for image files (globs). One pattern per line.
+# Default: allow docs/** images
+# Add more patterns if you intentionally want to track images in other paths.
+
+docs/**

@@ -3,10 +3,16 @@ name = "useful-math-functions"
 version = "0.4.0"
 description = "useful-math-functions for Optimization, Benchmarking, Visualizing, and more ..."
 authors = [{ name = "Anselm Hahn", email = "anselm.hahn@gmail.com" }]
-requires-python = ">=3.10"
+requires-python = ">=3.12,<3.15"
+license = "MIT"
 readme = "README.md"
 maintainers = [{ name = "Anselm Hahn", email = "anselm.hahn@gmail.com" }]
-dependencies = ["numpy>=2.0.0,<3", "pydantic>=2.0.0,<3", "scipy>=1.11.2,<2"]
+classifiers = [
+  "Development Status :: 4 - Beta",
+  "Intended Audience :: Developers",
+  "Intended Audience :: Science/Research",
+  "Programming Language :: Python :: 3",
+dependencies = ["numpy>=2.4.4,<3", "pydantic>=2.13.4,<3", "scipy>=1.17.1,<2"]
 
 [project.optional-dependencies]
 matplotlib = ["matplotlib (>=3.10.1,<4.0.0)", "imagemagic (>=0.2.1,<0.3.0)"]

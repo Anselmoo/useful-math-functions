@@ -191,3 +191,8 @@ Icon
 Network Trash Folder
 Temporary Items
 .apdisk
+# Generated image outputs (tests, tmp, notebooks)
+tests/output/
+tmp/
+notebooks/output/
+artifacts/

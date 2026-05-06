@@ -23,7 +23,8 @@ The package can be installed via pip:
 pip install useful-math-functions
 ```
 
-PyPI: https://pypi.org/project/useful-math-functions/
+PyPI:
+[useful-math-functions on PyPI](https://pypi.org/project/useful-math-functions/)
 
 and for Visualizations:
 

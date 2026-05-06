@@ -3,3 +3,5 @@
 # Add more patterns if you intentionally want to track images in other paths.
 
 docs/**
+*.png
+plotly/**

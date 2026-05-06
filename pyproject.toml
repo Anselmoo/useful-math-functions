@@ -10,10 +10,10 @@ dependencies = ["numpy>=2.0.0,<3", "pydantic>=2.0.0,<3", "scipy>=1.11.2,<2"]
 
 [project.optional-dependencies]
 matplotlib = ["matplotlib (>=3.10.1,<4.0.0)", "imagemagic (>=0.2.1,<0.3.0)"]
-plotly = ["plotly (>=6.0.0,<6.1.0)", "kaleido==0.2.1"]
+plotly = ["plotly (>=6.7.0,<6.8.0)", "kaleido==0.2.1"]
 all = [
   "matplotlib (>=3.10.0,<4.0.0)",
-  "plotly (>=6.0.0,<6.1.0)",
+  "plotly (>=6.7.0,<6.8.0)",
   "kaleido==0.2.1",
   "imagemagic (>=0.2.1,<0.3.0)",
 ]

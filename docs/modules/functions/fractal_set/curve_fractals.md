@@ -9,7 +9,6 @@
         allow_inspection: false
         inheritance_graph: false
         heading_level: 0
-        members: None
 
 |                    Cantor Set                     |
 | :-----------------------------------------------: |
@@ -26,7 +25,6 @@
         allow_inspection: false
         inheritance_graph: false
         heading_level: 0
-        members: None
 
 |                     Dragon Curve                      |
 | :---------------------------------------------------: |
@@ -43,7 +41,6 @@
         allow_inspection: false
         inheritance_graph: false
         heading_level: 0
-        members: None
 
 |                     Gosper Curve                      |
 | :---------------------------------------------------: |
@@ -60,7 +57,6 @@
         allow_inspection: false
         inheritance_graph: false
         heading_level: 0
-        members: None
 
 |                      Hilbert Curve                      |
 | :-----------------------------------------------------: |
@@ -77,7 +73,6 @@
         allow_inspection: false
         inheritance_graph: false
         heading_level: 0
-        members: None
 
 |                    Koch Curve                     |
 | :-----------------------------------------------: |
@@ -94,7 +89,6 @@
         allow_inspection: false
         inheritance_graph: false
         heading_level: 0
-        members: None
 
 |                        Space Filling Curve                        |
 | :---------------------------------------------------------------: |

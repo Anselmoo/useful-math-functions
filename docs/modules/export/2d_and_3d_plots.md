@@ -9,7 +9,6 @@
         allow_inspection: false
         inheritance_graph: false
         heading_level: 0
-        members: None
 
 | Types          |                        Matplotlib-type Plots                         |
 | :------------- | :------------------------------------------------------------------: |
@@ -30,7 +29,6 @@
         allow_inspection: false
         inheritance_graph: false
         heading_level: 0
-        members: None
 
 | Types          |                         Plotly-type Plots                          |
 | :------------- | :----------------------------------------------------------------: |

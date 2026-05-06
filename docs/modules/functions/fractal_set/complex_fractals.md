@@ -9,7 +9,6 @@
         allow_inspection: false
         inheritance_graph: false
         heading_level: 0
-        members: None
 
 |                      Mandelbrot Set                       |
 | :-------------------------------------------------------: |
@@ -26,7 +25,6 @@
         allow_inspection: false
         inheritance_graph: false
         heading_level: 0
-        members: None
 
 |                      Julia Set                      |
 | :-------------------------------------------------: |
@@ -43,7 +41,6 @@
         allow_inspection: false
         inheritance_graph: false
         heading_level: 0
-        members: None
 
 |                        Feigenbaum Diagram                         |
 | :---------------------------------------------------------------: |

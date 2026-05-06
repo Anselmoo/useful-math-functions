@@ -9,7 +9,6 @@
         allow_inspection: false
         inheritance_graph: false
         heading_level: 0
-        members: None
 
 |                       Lorenz Attractor                        |
 | :-----------------------------------------------------------: |
@@ -26,7 +25,6 @@
         allow_inspection: false
         inheritance_graph: false
         heading_level: 0
-        members: None
 
 |                       Curlicue Fractal                        |
 | :-----------------------------------------------------------: |
@@ -43,7 +41,6 @@
         allow_inspection: false
         inheritance_graph: false
         heading_level: 0
-        members: None
 
 |                       Percolation Model (3D)                        |
 | :-----------------------------------------------------------------: |
@@ -64,7 +61,6 @@
         allow_inspection: false
         inheritance_graph: false
         heading_level: 0
-        members: None
 
 |                        Random Walk Fractal                        |
 | :---------------------------------------------------------------: |

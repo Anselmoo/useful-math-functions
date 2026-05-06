@@ -9,7 +9,6 @@
         allow_inspection: false
         inheritance_graph: false
         heading_level: 0
-        members: None
 
 |                                                           |
 | :-------------------------------------------------------: |
@@ -26,7 +25,6 @@
         allow_inspection: false
         inheritance_graph: false
         heading_level: 0
-        members: None
 
 |                                                             |
 | :---------------------------------------------------------: |
@@ -43,7 +41,6 @@
         allow_inspection: false
         inheritance_graph: false
         heading_level: 0
-        members: None
 
 |                                                                   |
 | :---------------------------------------------------------------: |
@@ -60,7 +57,6 @@
         allow_inspection: false
         inheritance_graph: false
         heading_level: 0
-        members: None
 
 |                                                                 |
 | :-------------------------------------------------------------: |
@@ -77,7 +73,6 @@
         allow_inspection: false
         inheritance_graph: false
         heading_level: 0
-        members: None
 
 |                                                                 |
 | :-------------------------------------------------------------: |
@@ -94,7 +89,6 @@
         allow_inspection: false
         inheritance_graph: false
         heading_level: 0
-        members: None
 
 |                                                           |
 | :-------------------------------------------------------: |

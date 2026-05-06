@@ -9,7 +9,6 @@
         allow_inspection: false
         inheritance_graph: false
         heading_level: 0
-        members: None
 
 |                   Phase Space Trajectory                    |
 | :---------------------------------------------------------: |
@@ -26,7 +25,6 @@
         allow_inspection: false
         inheritance_graph: false
         heading_level: 0
-        members: None
 
 |                     Phase Space Trajectory                      |
 | :-------------------------------------------------------------: |
@@ -43,7 +41,6 @@
         allow_inspection: false
         inheritance_graph: false
         heading_level: 0
-        members: None
 
 |                    Phase Space Trajectory                     |
 | :-----------------------------------------------------------: |
@@ -60,7 +57,6 @@
         allow_inspection: false
         inheritance_graph: false
         heading_level: 0
-        members: None
 
 |                      Phase Space Trajectory                      |
 | :--------------------------------------------------------------: |
@@ -77,7 +73,6 @@
         allow_inspection: false
         inheritance_graph: false
         heading_level: 0
-        members: None
 
 |                      Phase Space Trajectory                       |
 | :---------------------------------------------------------------: |
@@ -94,7 +89,6 @@
         allow_inspection: false
         inheritance_graph: false
         heading_level: 0
-        members: None
 
 |                 Phase Space Trajectory                  |
 | :-----------------------------------------------------: |

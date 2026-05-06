@@ -9,7 +9,6 @@
         allow_inspection: false
         inheritance_graph: false
         heading_level: 0
-        members: None
 
 |                         Sierpinski Triangle                         |
 | :-----------------------------------------------------------------: |
@@ -26,7 +25,6 @@
         allow_inspection: false
         inheritance_graph: false
         heading_level: 0
-        members: None
 
 |                        Sierpinski Carpet                        |
 | :-------------------------------------------------------------: |
@@ -43,7 +41,6 @@
         allow_inspection: false
         inheritance_graph: false
         heading_level: 0
-        members: None
 
 |                      Menger Sponge                      |
 | :-----------------------------------------------------: |
@@ -60,7 +57,6 @@
         allow_inspection: false
         inheritance_graph: false
         heading_level: 0
-        members: None
 
 |                       Pythagoras Tree                       |
 | :---------------------------------------------------------: |
@@ -77,7 +73,6 @@
         allow_inspection: false
         inheritance_graph: false
         heading_level: 0
-        members: None
 
 |                           Uniform Mass Center Triangle                            |
 | :-------------------------------------------------------------------------------: |

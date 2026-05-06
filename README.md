@@ -89,7 +89,7 @@ plt.savefig("RosenbrockFunction.png", dpi=300, transparent=True)
 
 ## Documentation
 
-The documentation can be found [here](https://zensical.org/).
+The documentation can be found [here](https://anselmoo.github.io/useful-math-functions/).
 
 ## Contributing
 

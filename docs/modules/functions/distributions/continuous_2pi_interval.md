@@ -9,7 +9,6 @@
         allow_inspection: false
         inheritance_graph: false
         heading_level: 0
-        members: None
 
 |                      Probability Density Function                       |
 | :---------------------------------------------------------------------: |
@@ -26,7 +25,6 @@
         allow_inspection: false
         inheritance_graph: false
         heading_level: 0
-        members: None
 
 |                                   Probability Density Function                                    |
 | :-----------------------------------------------------------------------------------------------: |

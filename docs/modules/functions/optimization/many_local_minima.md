@@ -9,7 +9,6 @@
         allow_inspection: false
         inheritance_graph: false
         heading_level: 0
-        members: None
 
 |                                                             |
 | :---------------------------------------------------------: |
@@ -26,7 +25,6 @@
         allow_inspection: false
         inheritance_graph: false
         heading_level: 0
-        members: None
 
 |                                                               |
 | :-----------------------------------------------------------: |
@@ -43,7 +41,6 @@
         allow_inspection: false
         inheritance_graph: false
         heading_level: 0
-        members: None
 
 |                                                                       |
 | :-------------------------------------------------------------------: |
@@ -60,7 +57,6 @@
         allow_inspection: false
         inheritance_graph: false
         heading_level: 0
-        members: None
 
 |                                                                 |
 | :-------------------------------------------------------------: |
@@ -77,7 +73,6 @@
         allow_inspection: false
         inheritance_graph: false
         heading_level: 0
-        members: None
 
 |                                                                   |
 | :---------------------------------------------------------------: |
@@ -94,7 +89,6 @@
         allow_inspection: false
         inheritance_graph: false
         heading_level: 0
-        members: None
 
 |                                                                 |
 | :-------------------------------------------------------------: |
@@ -111,7 +105,6 @@
         allow_inspection: false
         inheritance_graph: false
         heading_level: 0
-        members: None
 
 |                                                                       |
 | :-------------------------------------------------------------------: |
@@ -128,7 +121,6 @@
         allow_inspection: false
         inheritance_graph: false
         heading_level: 0
-        members: None
 
 |                                                                     |
 | :-----------------------------------------------------------------: |
@@ -145,7 +137,6 @@
         allow_inspection: false
         inheritance_graph: false
         heading_level: 0
-        members: None
 
 |                                                         |
 | :-----------------------------------------------------: |
@@ -162,7 +153,6 @@
         allow_inspection: false
         inheritance_graph: false
         heading_level: 0
-        members: None
 
 |                                                               |
 | :-----------------------------------------------------------: |
@@ -179,7 +169,6 @@
         allow_inspection: false
         inheritance_graph: false
         heading_level: 0
-        members: None
 
 |                                                                   |
 | :---------------------------------------------------------------: |
@@ -196,7 +185,6 @@
         allow_inspection: false
         inheritance_graph: false
         heading_level: 0
-        members: None
 |                     |
 | :-----------------: |
 |![SchafferN2Function](../../../extra/images/SchafferN2Function.png)|
@@ -212,7 +200,6 @@
         allow_inspection: false
         inheritance_graph: false
         heading_level: 0
-        members: None
 
 |                                                                     |
 | :-----------------------------------------------------------------: |
@@ -229,7 +216,6 @@
         allow_inspection: false
         inheritance_graph: false
         heading_level: 0
-        members: None
 
 |                                                                 |
 | :-------------------------------------------------------------: |
@@ -246,7 +232,6 @@
         allow_inspection: false
         inheritance_graph: false
         heading_level: 0
-        members: None
 
 |                                                               |
 | :-----------------------------------------------------------: |

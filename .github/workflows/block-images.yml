@@ -25,6 +25,7 @@ jobs:
       - name: Fails if PNG/GIF added outside allowlist
         run: |
           set -euo pipefail
+          shopt -s globstar
           if [ ! -f changed_files.txt ]; then
             echo "No changed files."
             exit 0

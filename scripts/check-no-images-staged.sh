@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 set -euo pipefail
 IFS=$'\n\t'
+# Enable globstar so allowlist patterns with ** match recursively
+shopt -s globstar
 
 # Get staged files (Added, Copied, Modified)
 staged_files=$(git diff --cached --name-only --diff-filter=ACM)

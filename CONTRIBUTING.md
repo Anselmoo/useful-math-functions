@@ -131,11 +131,12 @@ repository and are often unintentional. To keep the repository clean:
   default includes `docs/**`.
 - To allow images intentionally: add a glob pattern (one per line) to
   `.image-allowlist` and explain the reason in your PR description.
-- To remove already-tracked generated images: run
-  `git rm --cached path/to/file` and add the path to `.gitignore`/.image-allowlist
-  as appropriate, then commit and open a PR.
+- To remove already-tracked generated images: run `git rm --cached path/to/file`
+  and add the path to `.gitignore`/.image-allowlist as appropriate, then commit
+  and open a PR.
 - Large or ephemeral assets: store them as CI artifacts or use external storage
   (S3, CDN) rather than committing into the repository.
 
 If you have questions about this policy or need an exception, please open an
-issue or discuss it in your PR. We appreciate your cooperation and contributions.
+issue or discuss it in your PR. We appreciate your cooperation and
+contributions.

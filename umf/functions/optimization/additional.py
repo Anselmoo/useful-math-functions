@@ -1,5 +1,7 @@
 """Additional optimization functions for the useful-math-functions library."""
 
+# ruff: noqa: D105, D107
+
 from __future__ import annotations
 
 from typing import TYPE_CHECKING
@@ -21,6 +23,7 @@ if TYPE_CHECKING:
 __all__: list[str] = [
     "AbsoluteBowlFunction",
     "CosineMixtureFunction",
+    "CosineProductSphereFunction",
     "CrossQuadraticFunction",
     "CubicNormFunction",
     "CubicValleyFunction",
@@ -38,7 +41,6 @@ __all__: list[str] = [
     "SinusoidalRosenbrockFunction",
     "SumAndProductFunction",
     "WeightedL1L2Function",
-    "CosineProductSphereFunction",
 ]
 
 
@@ -350,7 +352,11 @@ class SinusoidalRosenbrockFunction(OptFunction):
     @property
     def __eval__(self) -> UniversalArray:
         x_1, x_2 = self._x
-        return (1 - x_1) ** 2 + 100 * (x_2 - x_1**2) ** 2 + 0.1 * np.sin(np.pi * x_1) ** 2
+        return (
+            (1 - x_1) ** 2
+            + 100 * (x_2 - x_1**2) ** 2
+            + 0.1 * np.sin(np.pi * x_1) ** 2
+        )
 
     @property
     def __minima__(self) -> MinimaAPI:
@@ -430,7 +436,8 @@ class CosineProductSphereFunction(OptFunction):
 
     Notes:
         $$
-        f(\mathbf{x}) = \sum_{i=1}^{n} x_i^2 - \prod_{i=1}^{n}\cos\left(\frac{x_i}{\sqrt{i}}\right) + 1,
+        f(\mathbf{x}) = \sum_{i=1}^{n} x_i^2
+        - \prod_{i=1}^{n}\cos\left(\frac{x_i}{\sqrt{i}}\right) + 1,
         \quad n \geq 3
         $$
     """

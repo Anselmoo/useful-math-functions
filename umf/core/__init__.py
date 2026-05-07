@@ -16,6 +16,7 @@ from umf.functions.distributions.discrete_infinite_support import *  # noqa: F40
 from umf.functions.distributions.mixed_discrete_continuous import *  # noqa: F403
 
 # Optimization functions
+from umf.functions.optimization.additional import *  # noqa: F403
 from umf.functions.optimization.bowl_shaped import *  # noqa: F403
 from umf.functions.optimization.drops_steps import *  # noqa: F403
 from umf.functions.optimization.many_local_minima import *  # noqa: F403

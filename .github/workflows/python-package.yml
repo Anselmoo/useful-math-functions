@@ -57,6 +57,13 @@ jobs:
       - name: Build documentation
         if: ${{ !contains(github.ref, 'refs/heads/main')}}
         run: uv run --group docs --all-extras  mkdocs build --clean
-      - name: Deploy documentation develops
+      - name: Deploy documentation (main)
         if: contains(github.ref, 'refs/heads/main')
-        run: uv run --group docs --all-extras mkdocs build --clean && uv run --group docs --all-extras mike deploy --push develop latest
+        env:
+          GIT_SHORT: ${{ github.sha }}
+        run: |
+          set -e
+          uv run --group docs --all-extras mkdocs build --clean
+          VER="v${GITHUB_RUN_NUMBER}-${GIT_SHORT::7}"
+          echo "Deploying docs as version: $VER"
+          uv run --group docs --all-extras mike deploy "$VER" latest --push

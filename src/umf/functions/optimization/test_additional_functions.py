@@ -60,7 +60,7 @@ def test_two_dimensional_functions_minima(
     """Test all new two-dimensional functions at their minima."""
     function = function_cls(np.array([x_1]), np.array([x_2]))
     result = float(np.sum(function.__eval__))
-    assert np.all(np.isclose(result, 0.0, rtol=1e-6, atol=1e-8))
+    assert result == pytest.approx(0.0, rel=1e-6, abs=1e-8)
 
 
 @pytest.mark.parametrize(
@@ -80,7 +80,7 @@ def test_three_dimensional_functions_minima(
     """Test all new three-dimensional-and-higher functions at their minima."""
     function = function_cls(*(np.array([value]) for value in args))
     result = float(np.sum(function.__eval__))
-    assert np.all(np.isclose(result, 0.0, rtol=1e-6, atol=1e-8))
+    assert result == pytest.approx(0.0, rel=1e-6, abs=1e-8)
 
 
 def test_two_dimensional_function_rejects_wrong_dimension() -> None:

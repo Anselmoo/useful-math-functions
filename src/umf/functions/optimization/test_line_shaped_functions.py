@@ -60,7 +60,7 @@ def test_line_shaped_functions_minima(
     """Test line-shaped functions evaluate to zero at representative minima."""
     function = function_cls(np.array([minimum_x]))
     result = float(np.sum(function.__eval__))
-    assert np.isclose(result, 0.0, rtol=1e-6, atol=1e-8)
+    assert result == pytest.approx(0.0, rel=1e-6, abs=1e-8)
 
 
 def test_line_shaped_rejects_wrong_dimension() -> None:

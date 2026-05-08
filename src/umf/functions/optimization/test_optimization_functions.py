@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import numpy as np
+import pytest
 
 from umf.functions.optimization.bowl_shaped import PermBetaDFunction
 from umf.functions.optimization.bowl_shaped import SumOfDifferentPowersFunction
@@ -23,7 +24,7 @@ def test_perm_beta_d_function() -> None:
     func: PermBetaDFunction = PermBetaDFunction(x)
     result: float = float(np.sum(func.__eval__))
     expected: float = 11.25
-    assert np.all(np.isclose(result, expected, rtol=1e-5, atol=1e-8))
+    assert result == pytest.approx(expected, rel=1e-5, abs=1e-8)
 
 
 def test_trid_function() -> None:
@@ -38,7 +39,7 @@ def test_trid_function() -> None:
     func: TridFunction = TridFunction(x)
     result: float = float(np.sum(func.__eval__))
     expected: float = -9.0
-    assert np.all(np.isclose(result, expected, rtol=1e-5, atol=1e-8))
+    assert result == pytest.approx(expected, rel=1e-5, abs=1e-8)
 
 
 def test_sum_squares_function() -> None:
@@ -53,7 +54,7 @@ def test_sum_squares_function() -> None:
     func: SumSquaresFunction = SumSquaresFunction(x)
     result: float = float(np.sum(func.__eval__))
     expected: float = 14.0
-    assert np.all(np.isclose(result, expected, rtol=1e-5, atol=1e-8))
+    assert result == pytest.approx(expected, rel=1e-5, abs=1e-8)
 
 
 def test_sum_of_different_powers_function() -> None:
@@ -68,7 +69,7 @@ def test_sum_of_different_powers_function() -> None:
     func: SumOfDifferentPowersFunction = SumOfDifferentPowersFunction(x)
     result: float = float(np.sum(func.__eval__))
     expected: float = 14.0
-    assert np.all(np.isclose(result, expected, rtol=1e-5, atol=1e-8))
+    assert result == pytest.approx(expected, rel=1e-5, abs=1e-8)
 
 
 def test_zirilli_function() -> None:
@@ -83,4 +84,4 @@ def test_zirilli_function() -> None:
     func: ZirilliFunction = ZirilliFunction(*x)
     result: float = float(np.sum(func.__eval__))
     expected: float = 1.85
-    assert np.all(np.isclose(result, expected, rtol=1e-5, atol=1e-8))
+    assert result == pytest.approx(expected, rel=1e-5, abs=1e-8)

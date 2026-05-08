@@ -17,14 +17,8 @@ def test_combinations_accuracy() -> None:
     """Test the accuracy of the combinations function."""
     assert combinations(10, 5) == 252
     assert combinations(10, 5) == special.comb(10, 5)
-    assert np.allclose(
-        combinations(np.array([15, 10]), np.array([5, 5])),
-        np.array(
-            [
-                special.comb(15, 5),
-                special.comb(10, 5),
-            ],
-        ),
+    assert combinations(np.array([15, 10]), np.array([5, 5])) == pytest.approx(
+        np.array([special.comb(15, 5), special.comb(10, 5)]), rel=1e-5, abs=1e-8
     )
 
 
@@ -33,7 +27,7 @@ def test_erf_accuracy() -> None:
     x = np.linspace(-5, 5, 100)
     y1 = erf(x)
     y2 = special.erf(x)
-    assert np.allclose(y1, y2, rtol=1e-5, atol=1e-8)
+    assert y1 == pytest.approx(y2, rel=1e-5, abs=1e-8)
 
 
 def test_erfc_accuracy() -> None:
@@ -41,7 +35,7 @@ def test_erfc_accuracy() -> None:
     x = np.linspace(-5, 5, 100)
     y1 = erfc(x)
     y2 = 1 - special.erf(x)
-    assert np.allclose(y1, y2, rtol=1e-5, atol=1e-8)
+    assert y1 == pytest.approx(y2, rel=1e-5, abs=1e-8)
 
 
 @pytest.mark.xfail(
@@ -53,11 +47,4 @@ def test_wofz_accuracy() -> None:
     x = np.linspace(-5, 5, 100)
     y1 = wofz(x)  # Assuming wofz is defined/imported elsewhere
     y2 = special.wofz(x)
-    close = np.isclose(y1, y2, rtol=1e-3, atol=1e-3, equal_nan=True)
-    if not np.all(close):
-        diff_indices = np.where(~close)[0]
-        message = (
-            f"Values differ at indices {diff_indices}."
-            f" y1: {y1[~close]}, y2: {y2[~close]}"
-        )
-        pytest.fail(message)
+    assert y1 == pytest.approx(y2, rel=1e-3, abs=1e-3)

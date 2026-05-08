@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import numpy as np
+import pytest
 
 from scipy import special
 
@@ -32,7 +33,7 @@ def test_von_mises_distribution_pdf() -> None:
     expected_pdf: np.ndarray = np.exp(kappa * np.cos(x - mu)) / (
         2 * np.pi * special.i0(kappa)
     )
-    assert np.allclose(pdf, expected_pdf, rtol=1e-5, atol=1e-8)
+    assert pdf == pytest.approx(expected_pdf, rel=1e-5, abs=1e-8)
 
 
 def test_wrapped_asym_laplace_distribution_pdf() -> None:
@@ -75,7 +76,7 @@ def test_wrapped_asym_laplace_distribution_pdf() -> None:
         )
     )
     expected_pdf: np.ndarray = np.where(x >= mu, part_1, part_2)
-    assert np.allclose(pdf, expected_pdf, rtol=1e-5, atol=1e-8)
+    assert pdf == pytest.approx(expected_pdf, rel=1e-5, abs=1e-8)
 
 
 def test_kumaraswamy_distribution_pdf() -> None:
@@ -93,7 +94,7 @@ def test_kumaraswamy_distribution_pdf() -> None:
     distribution: KumaraswamyDistribution = KumaraswamyDistribution(x, a=a, b=b)
     pdf: np.ndarray = distribution.probability_density_function()
     expected_pdf: np.ndarray = a * b * x ** (a - 1) * (1 - x**a) ** (b - 1)
-    assert np.allclose(pdf, expected_pdf, rtol=1e-5, atol=1e-8)
+    assert pdf == pytest.approx(expected_pdf, rel=1e-5, abs=1e-8)
 
 
 def test_kumaraswamy_distribution_cdf() -> None:
@@ -113,4 +114,4 @@ def test_kumaraswamy_distribution_cdf() -> None:
     )
     cdf: np.ndarray = distribution.cumulative_distribution_function()
     expected_cdf: np.ndarray = 1 - (1 - x**a) ** b
-    assert np.allclose(cdf, expected_cdf, rtol=1e-5, atol=1e-8)
+    assert cdf == pytest.approx(expected_cdf, rel=1e-5, abs=1e-8)

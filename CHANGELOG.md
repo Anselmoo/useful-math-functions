@@ -4,7 +4,7 @@
 
 ### Fixed
 
-- correct mike versioning configuration and theme setup
+- Correct mike versioning configuration and theme setup
 
 ## [0.5.0] - 2026-05-06
 

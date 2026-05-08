@@ -200,3 +200,4 @@ artifacts/
 
 #Images
 ./*.gif
+./*.png

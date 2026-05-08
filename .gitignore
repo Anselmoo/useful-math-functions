@@ -196,3 +196,8 @@ tests/output/
 tmp/
 notebooks/output/
 artifacts/
+
+
+#Images
+./*.gif
+./*.png

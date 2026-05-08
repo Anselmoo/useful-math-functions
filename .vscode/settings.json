@@ -2,7 +2,7 @@
   "editor.fontFamily": "'Cascadia Code', Menlo, Monaco, 'Courier New', monospace",
   "editor.fontLigatures": true,
   "python.analysis.typeCheckingMode": "basic",
-  "python.testing.pytestArgs": ["umf"],
+  "python.testing.pytestArgs": ["src/umf"],
   "python.testing.unittestEnabled": false,
   "python.testing.pytestEnabled": true,
   "python.analysis.addImport.exactMatchOnly": true,
@@ -13,10 +13,10 @@
   "python.analysis.inlayHints.callArgumentNames": "partial",
   "python.analysis.inlayHints.variableTypes": true,
   "python.analysis.inlayHints.pytestParameters": true,
-  "python.autoComplete.extraPaths": ["umf"],
+  "python.autoComplete.extraPaths": ["src/umf"],
   "python.defaultInterpreterPath": "python",
   "python.analysis.importFormat": "absolute",
   "python.analysis.enablePytestExtra": true,
   "python.analysis.enableSyncServer": true,
-  "python.analysis.extraPaths": ["umf"]
+  "python.analysis.extraPaths": ["src/umf"]
 }

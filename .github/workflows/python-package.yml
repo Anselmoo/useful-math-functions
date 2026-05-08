@@ -28,7 +28,7 @@ jobs:
       - name: Install the project
         run: uv sync --all-extras --dev
       - name: Test useful-math-functions
-        run: uv run --group dev --all-extras pytest umf/
+        run: uv run --group dev --all-extras pytest src/umf/
       - name: Codecov
         uses: codecov/codecov-action@v5.4.3
         with:

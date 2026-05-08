@@ -1,6 +1,6 @@
 [project]
 name = "useful-math-functions"
-version = "0.5.0"
+version = "0.6.0"
 description = "useful-math-functions for Optimization, Benchmarking, Visualizing, and more ..."
 authors = [{ name = "Anselm Hahn", email = "anselm.hahn@gmail.com" }]
 requires-python = ">=3.12,<3.15"
@@ -65,6 +65,7 @@ docs = [
   "mike>=2.2.0,<3",
   "mkdocs-table-reader-plugin>=3.1.0",
   "pymdown-extensions>=10.21.2",
+  "zensical>=0.0.40",
 ]
 
 [tool.uv]

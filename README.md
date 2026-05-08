@@ -89,7 +89,8 @@ plt.savefig("RosenbrockFunction.png", dpi=300, transparent=True)
 
 ## Documentation
 
-The documentation can be found [here](https://anselmoo.github.io/useful-math-functions/).
+The [project documentation](https://anselmoo.github.io/useful-math-functions/)
+contains API references and usage examples.
 
 ## Contributing
 

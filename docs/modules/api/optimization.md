@@ -1,6 +1,10 @@
+# Optimization API
+
 ::: umf.functions.optimization.bowl_shaped
 
 ::: umf.functions.optimization.drops_steps
+
+::: umf.functions.optimization.line_shaped
 
 ::: umf.functions.optimization.many_local_minima
 
@@ -9,3 +13,5 @@
 ::: umf.functions.optimization.special
 
 ::: umf.functions.optimization.valley_shaped
+
+::: umf.functions.optimization.additional

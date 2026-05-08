@@ -1,4 +1,6 @@
-<!-- markdownlint-disable-line -->
+# Valley Shaped Functions
+
+<!-- markdownlint-disable MD013 -->
 
 ## Three Hump Camel Function
 
@@ -63,3 +65,51 @@
 |                                                                     |
 | :-----------------------------------------------------------------: |
 | ![RosenbrockFunction](../../../extra/images/RosenbrockFunction.png) |
+
+## Exponential Valley Function
+
+<!-- prettier-ignore -->
+::: umf.functions.optimization.valley_shaped.ExponentialValleyFunction
+    options:
+        show_bases: false
+        show_source: true
+        show_inherited_members: false
+        allow_inspection: false
+        inheritance_graph: false
+        heading_level: 0
+
+|                                                                                   |
+| :-------------------------------------------------------------------------------: |
+| ![ExponentialValleyFunction](../../../extra/images/ExponentialValleyFunction.png) |
+
+## Cubic Valley Function
+
+<!-- prettier-ignore -->
+::: umf.functions.optimization.valley_shaped.CubicValleyFunction
+    options:
+        show_bases: false
+        show_source: true
+        show_inherited_members: false
+        allow_inspection: false
+        inheritance_graph: false
+        heading_level: 0
+
+|                                                                       |
+| :-------------------------------------------------------------------: |
+| ![CubicValleyFunction](../../../extra/images/CubicValleyFunction.png) |
+
+## Sinusoidal Rosenbrock Function
+
+<!-- prettier-ignore -->
+::: umf.functions.optimization.valley_shaped.SinusoidalRosenbrockFunction
+    options:
+        show_bases: false
+        show_source: true
+        show_inherited_members: false
+        allow_inspection: false
+        inheritance_graph: false
+        heading_level: 0
+
+|                                                                                         |
+| :-------------------------------------------------------------------------------------: |
+| ![SinusoidalRosenbrockFunction](../../../extra/images/SinusoidalRosenbrockFunction.png) |

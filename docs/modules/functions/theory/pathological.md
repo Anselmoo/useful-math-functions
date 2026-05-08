@@ -1,3 +1,5 @@
+<!-- markdownlint-disable MD060 -->
+
 ## Weierstrass Function
 
 <!-- prettier-ignore -->
@@ -25,9 +27,10 @@
         allow_inspection: false
         inheritance_graph: false
         heading_level: 0
-|                                                                             |
-| :-------------------------------------------------------------------------: |
-| ![RiemannFunction](../../../extra/images/RiemannFunction.gif)  |
+
+|                                                               |
+| :-----------------------------------------------------------: |
+| ![RiemannFunction](../../../extra/images/RiemannFunction.gif) |
 
 ## Takagi Function
 

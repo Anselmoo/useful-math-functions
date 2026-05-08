@@ -7,7 +7,9 @@ from typing import TYPE_CHECKING
 import numpy as np
 
 from umf.constants.dimensions import __2d__
+from umf.constants.dimensions import __3d__
 from umf.constants.exceptions import OutOfDimensionError
+from umf.constants.exceptions import TooSmallDimensionError
 from umf.meta.api import MinimaAPI
 from umf.meta.functions import OptFunction
 
@@ -17,18 +19,49 @@ if TYPE_CHECKING:
 
 
 __all__: list[str] = [
+    "AbsoluteBowlFunction",
     "BohachevskyFunctionType1",
     "BohachevskyFunctionType2",
     "BohachevskyFunctionType3",
+    "CrossQuadraticFunction",
+    "CubicNormFunction",
+    "EllipticAbsoluteRootFunction",
+    "EllipticParaboloidFunction",
+    "ExponentialNormFunction",
+    "OffsetQuadraticFunction",
     "PermBetaDFunction",
     "PermFunction",
+    "QuarticBowlFunction",
+    "RippleBowlFunction",
     "RotatedHyperEllipseFunction",
+    "RotatedQuadraticFunction",
+    "SaddleSuppressedFunction",
+    "ShiftedHyperSphereFunction",
+    "ShiftedSphere2DFunction",
     "SphereFunction",
+    "SumAndProductFunction",
     "SumOfDifferentPowersFunction",
     "SumSquaresFunction",
     "TridFunction",
+    "WeightedL1L2Function",
     "ZirilliFunction",
 ]
+
+
+def _validate_two_dimensional(*x: UniversalArray, function_name: str) -> None:
+    """Validate the function is called with exactly two dimensions."""
+    if len(x) != __2d__:
+        raise OutOfDimensionError(function_name=function_name, dimension=__2d__)
+
+
+def _validate_three_or_higher(*x: UniversalArray, function_name: str) -> None:
+    """Validate the function is called with at least three dimensions."""
+    if len(x) < __3d__:
+        raise TooSmallDimensionError(
+            function_name=function_name,
+            dimension=__3d__,
+            len_x=len(x),
+        )
 
 
 class PermBetaDFunction(OptFunction):
@@ -751,3 +784,304 @@ class BohachevskyFunctionType3(OptFunction):
             MinimaAPI: Minima of the Bohachevsky function type 3.
         """
         return MinimaAPI(f_x=0, x=(0, 0))
+
+
+class EllipticParaboloidFunction(OptFunction):
+    r"""Elliptic paraboloid function."""
+
+    def __init__(self, *x: UniversalArray) -> None:
+        """Initialize the elliptic paraboloid function."""
+        _validate_two_dimensional(*x, function_name="EllipticParaboloid")
+        super().__init__(*x)
+
+    @property
+    def __eval__(self) -> UniversalArray:
+        """Evaluate the elliptic paraboloid function at x."""
+        x_1, x_2 = self._x
+        return x_1**2 + 2 * x_2**2
+
+    @property
+    def __minima__(self) -> MinimaAPI:
+        """Return the minima of the elliptic paraboloid function."""
+        return MinimaAPI(f_x=0.0, x=(0.0, 0.0))
+
+
+class RotatedQuadraticFunction(OptFunction):
+    r"""Rotated quadratic function."""
+
+    def __init__(self, *x: UniversalArray) -> None:
+        """Initialize the rotated quadratic function."""
+        _validate_two_dimensional(*x, function_name="RotatedQuadratic")
+        super().__init__(*x)
+
+    @property
+    def __eval__(self) -> UniversalArray:
+        """Evaluate the rotated quadratic function at x."""
+        x_1, x_2 = self._x
+        return x_1**2 + x_1 * x_2 + x_2**2
+
+    @property
+    def __minima__(self) -> MinimaAPI:
+        """Return the minima of the rotated quadratic function."""
+        return MinimaAPI(f_x=0.0, x=(0.0, 0.0))
+
+
+class RippleBowlFunction(OptFunction):
+    r"""Ripple bowl function."""
+
+    def __init__(self, *x: UniversalArray) -> None:
+        """Initialize the ripple bowl function."""
+        _validate_two_dimensional(*x, function_name="RippleBowl")
+        super().__init__(*x)
+
+    @property
+    def __eval__(self) -> UniversalArray:
+        """Evaluate the ripple bowl function at x."""
+        x_1, x_2 = self._x
+        return x_1**2 + x_2**2 + 0.1 * np.sin(3 * x_1) ** 2 + 0.1 * np.sin(3 * x_2) ** 2
+
+    @property
+    def __minima__(self) -> MinimaAPI:
+        """Return the minima of the ripple bowl function."""
+        return MinimaAPI(f_x=0.0, x=(0.0, 0.0))
+
+
+class AbsoluteBowlFunction(OptFunction):
+    r"""Absolute bowl function."""
+
+    def __init__(self, *x: UniversalArray) -> None:
+        """Initialize the absolute bowl function."""
+        _validate_two_dimensional(*x, function_name="AbsoluteBowl")
+        super().__init__(*x)
+
+    @property
+    def __eval__(self) -> UniversalArray:
+        """Evaluate the absolute bowl function at x."""
+        x_1, x_2 = self._x
+        return np.abs(x_1) + np.abs(x_2)
+
+    @property
+    def __minima__(self) -> MinimaAPI:
+        """Return the minima of the absolute bowl function."""
+        return MinimaAPI(f_x=0.0, x=(0.0, 0.0))
+
+
+class EllipticAbsoluteRootFunction(OptFunction):
+    r"""Elliptic absolute-root function."""
+
+    def __init__(self, *x: UniversalArray) -> None:
+        """Initialize the elliptic absolute-root function."""
+        _validate_two_dimensional(*x, function_name="EllipticAbsoluteRoot")
+        super().__init__(*x)
+
+    @property
+    def __eval__(self) -> UniversalArray:
+        """Evaluate the elliptic absolute-root function at x."""
+        x_1, x_2 = self._x
+        return np.sqrt(1 + x_1**2) + np.sqrt(1 + x_2**2) - 2
+
+    @property
+    def __minima__(self) -> MinimaAPI:
+        """Return the minima of the elliptic absolute-root function."""
+        return MinimaAPI(f_x=0.0, x=(0.0, 0.0))
+
+
+class ShiftedSphere2DFunction(OptFunction):
+    r"""Shifted 2D sphere function."""
+
+    def __init__(self, *x: UniversalArray) -> None:
+        """Initialize the shifted 2D sphere function."""
+        _validate_two_dimensional(*x, function_name="ShiftedSphere2D")
+        super().__init__(*x)
+
+    @property
+    def __eval__(self) -> UniversalArray:
+        """Evaluate the shifted 2D sphere function at x."""
+        x_1, x_2 = self._x
+        return (x_1 - 2) ** 2 + (x_2 + 1) ** 2
+
+    @property
+    def __minima__(self) -> MinimaAPI:
+        """Return the minima of the shifted 2D sphere function."""
+        return MinimaAPI(f_x=0.0, x=(2.0, -1.0))
+
+
+class QuarticBowlFunction(OptFunction):
+    r"""Quartic bowl function."""
+
+    def __init__(self, *x: UniversalArray) -> None:
+        """Initialize the quartic bowl function."""
+        _validate_two_dimensional(*x, function_name="QuarticBowl")
+        super().__init__(*x)
+
+    @property
+    def __eval__(self) -> UniversalArray:
+        """Evaluate the quartic bowl function at x."""
+        x_1, x_2 = self._x
+        return x_1**4 + x_2**4
+
+    @property
+    def __minima__(self) -> MinimaAPI:
+        """Return the minima of the quartic bowl function."""
+        return MinimaAPI(f_x=0.0, x=(0.0, 0.0))
+
+
+class CrossQuadraticFunction(OptFunction):
+    r"""Cross-quadratic function."""
+
+    def __init__(self, *x: UniversalArray) -> None:
+        """Initialize the cross-quadratic function."""
+        _validate_two_dimensional(*x, function_name="CrossQuadratic")
+        super().__init__(*x)
+
+    @property
+    def __eval__(self) -> UniversalArray:
+        """Evaluate the cross-quadratic function at x."""
+        x_1, x_2 = self._x
+        return (x_1 + x_2) ** 2 + (x_1 - x_2) ** 4
+
+    @property
+    def __minima__(self) -> MinimaAPI:
+        """Return the minima of the cross-quadratic function."""
+        return MinimaAPI(f_x=0.0, x=(0.0, 0.0))
+
+
+class WeightedL1L2Function(OptFunction):
+    r"""Weighted mixed-norm function."""
+
+    def __init__(self, *x: UniversalArray) -> None:
+        """Initialize the weighted mixed-norm function."""
+        _validate_two_dimensional(*x, function_name="WeightedL1L2")
+        super().__init__(*x)
+
+    @property
+    def __eval__(self) -> UniversalArray:
+        """Evaluate the weighted mixed-norm function at x."""
+        x_1, x_2 = self._x
+        return x_1**2 + x_2**2 + np.abs(x_1 + x_2)
+
+    @property
+    def __minima__(self) -> MinimaAPI:
+        """Return the minima of the weighted mixed-norm function."""
+        return MinimaAPI(f_x=0.0, x=(0.0, 0.0))
+
+
+class OffsetQuadraticFunction(OptFunction):
+    r"""Offset quadratic function."""
+
+    def __init__(self, *x: UniversalArray) -> None:
+        """Initialize the offset quadratic function."""
+        _validate_two_dimensional(*x, function_name="OffsetQuadratic")
+        super().__init__(*x)
+
+    @property
+    def __eval__(self) -> UniversalArray:
+        """Evaluate the offset quadratic function at x."""
+        x_1, x_2 = self._x
+        return (x_1 + 1) ** 2 + 3 * (x_2 - 2) ** 2
+
+    @property
+    def __minima__(self) -> MinimaAPI:
+        """Return the minima of the offset quadratic function."""
+        return MinimaAPI(f_x=0.0, x=(-1.0, 2.0))
+
+
+class SaddleSuppressedFunction(OptFunction):
+    r"""Saddle-suppressed function."""
+
+    def __init__(self, *x: UniversalArray) -> None:
+        """Initialize the saddle-suppressed function."""
+        _validate_two_dimensional(*x, function_name="SaddleSuppressed")
+        super().__init__(*x)
+
+    @property
+    def __eval__(self) -> UniversalArray:
+        """Evaluate the saddle-suppressed function at x."""
+        x_1, x_2 = self._x
+        return (x_1**2 - x_2**2) ** 2 + 0.1 * (x_1**2 + x_2**2)
+
+    @property
+    def __minima__(self) -> MinimaAPI:
+        """Return the minima of the saddle-suppressed function."""
+        return MinimaAPI(f_x=0.0, x=(0.0, 0.0))
+
+
+class ShiftedHyperSphereFunction(OptFunction):
+    r"""Shifted hypersphere function."""
+
+    def __init__(self, *x: UniversalArray) -> None:
+        """Initialize the shifted hypersphere function."""
+        _validate_three_or_higher(*x, function_name="ShiftedHyperSphere")
+        super().__init__(*x)
+
+    @property
+    def __eval__(self) -> UniversalArray:
+        """Evaluate the shifted hypersphere function at x."""
+        return np.array(sum((axis - 1) ** 2 for axis in self._x))
+
+    @property
+    def __minima__(self) -> MinimaAPI:
+        """Return the minima of the shifted hypersphere function."""
+        return MinimaAPI(f_x=0.0, x=tuple(1.0 for _ in range(self.dimension)))
+
+
+class ExponentialNormFunction(OptFunction):
+    r"""Exponential norm function."""
+
+    def __init__(self, *x: UniversalArray) -> None:
+        """Initialize the exponential norm function."""
+        _validate_three_or_higher(*x, function_name="ExponentialNorm")
+        super().__init__(*x)
+
+    @property
+    def __eval__(self) -> UniversalArray:
+        """Evaluate the exponential norm function at x."""
+        squared_norm = np.array(sum(axis**2 for axis in self._x))
+        return np.exp(0.5 * squared_norm) - 1
+
+    @property
+    def __minima__(self) -> MinimaAPI:
+        """Return the minima of the exponential norm function."""
+        return MinimaAPI(f_x=0.0, x=tuple(0.0 for _ in range(self.dimension)))
+
+
+class CubicNormFunction(OptFunction):
+    r"""Cubic norm function."""
+
+    def __init__(self, *x: UniversalArray) -> None:
+        """Initialize the cubic norm function."""
+        _validate_three_or_higher(*x, function_name="CubicNorm")
+        super().__init__(*x)
+
+    @property
+    def __eval__(self) -> UniversalArray:
+        """Evaluate the cubic norm function at x."""
+        return np.array(sum(np.abs(axis) ** 3 for axis in self._x))
+
+    @property
+    def __minima__(self) -> MinimaAPI:
+        """Return the minima of the cubic norm function."""
+        return MinimaAPI(f_x=0.0, x=tuple(0.0 for _ in range(self.dimension)))
+
+
+class SumAndProductFunction(OptFunction):
+    r"""Sum-and-product function."""
+
+    def __init__(self, *x: UniversalArray) -> None:
+        """Initialize the sum-and-product function."""
+        _validate_three_or_higher(*x, function_name="SumAndProduct")
+        super().__init__(*x)
+
+    @property
+    def __eval__(self) -> UniversalArray:
+        """Evaluate the sum-and-product function at x."""
+        sum_term = np.array(sum(np.abs(axis) for axis in self._x))
+        product_term = np.ones_like(self._x[0])
+        for axis in self._x:
+            product_term *= np.abs(axis) + 1
+        return sum_term + product_term - 1
+
+    @property
+    def __minima__(self) -> MinimaAPI:
+        """Return the minima of the sum-and-product function."""
+        return MinimaAPI(f_x=0.0, x=tuple(0.0 for _ in range(self.dimension)))

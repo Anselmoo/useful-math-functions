@@ -7,26 +7,29 @@ import pytest
 
 from umf.constants.exceptions import OutOfDimensionError
 from umf.constants.exceptions import TooSmallDimensionError
-from umf.functions.optimization.additional import AbsoluteBowlFunction
-from umf.functions.optimization.additional import CosineMixtureFunction
-from umf.functions.optimization.additional import CosineProductSphereFunction
-from umf.functions.optimization.additional import CrossQuadraticFunction
-from umf.functions.optimization.additional import CubicNormFunction
-from umf.functions.optimization.additional import CubicValleyFunction
-from umf.functions.optimization.additional import EllipticAbsoluteRootFunction
-from umf.functions.optimization.additional import EllipticParaboloidFunction
-from umf.functions.optimization.additional import ExponentialNormFunction
-from umf.functions.optimization.additional import ExponentialValleyFunction
-from umf.functions.optimization.additional import OffsetQuadraticFunction
-from umf.functions.optimization.additional import QuarticBowlFunction
-from umf.functions.optimization.additional import RippleBowlFunction
-from umf.functions.optimization.additional import RotatedQuadraticFunction
-from umf.functions.optimization.additional import SaddleSuppressedFunction
-from umf.functions.optimization.additional import ShiftedHyperSphereFunction
-from umf.functions.optimization.additional import ShiftedSphere2DFunction
-from umf.functions.optimization.additional import SinusoidalRosenbrockFunction
-from umf.functions.optimization.additional import SumAndProductFunction
-from umf.functions.optimization.additional import WeightedL1L2Function
+from umf.functions.optimization.additional import (
+    AbsoluteBowlFunction as LegacyAbsoluteBowlFunction,
+)
+from umf.functions.optimization.bowl_shaped import AbsoluteBowlFunction
+from umf.functions.optimization.bowl_shaped import CrossQuadraticFunction
+from umf.functions.optimization.bowl_shaped import CubicNormFunction
+from umf.functions.optimization.bowl_shaped import EllipticAbsoluteRootFunction
+from umf.functions.optimization.bowl_shaped import EllipticParaboloidFunction
+from umf.functions.optimization.bowl_shaped import ExponentialNormFunction
+from umf.functions.optimization.bowl_shaped import OffsetQuadraticFunction
+from umf.functions.optimization.bowl_shaped import QuarticBowlFunction
+from umf.functions.optimization.bowl_shaped import RippleBowlFunction
+from umf.functions.optimization.bowl_shaped import RotatedQuadraticFunction
+from umf.functions.optimization.bowl_shaped import SaddleSuppressedFunction
+from umf.functions.optimization.bowl_shaped import ShiftedHyperSphereFunction
+from umf.functions.optimization.bowl_shaped import ShiftedSphere2DFunction
+from umf.functions.optimization.bowl_shaped import SumAndProductFunction
+from umf.functions.optimization.bowl_shaped import WeightedL1L2Function
+from umf.functions.optimization.many_local_minima import CosineMixtureFunction
+from umf.functions.optimization.many_local_minima import CosineProductSphereFunction
+from umf.functions.optimization.valley_shaped import CubicValleyFunction
+from umf.functions.optimization.valley_shaped import ExponentialValleyFunction
+from umf.functions.optimization.valley_shaped import SinusoidalRosenbrockFunction
 
 
 @pytest.mark.parametrize(
@@ -90,3 +93,8 @@ def test_three_dimensional_function_rejects_wrong_dimension() -> None:
     """Test 3D+ functions reject inputs with fewer than three dimensions."""
     with pytest.raises(TooSmallDimensionError):
         ShiftedHyperSphereFunction(np.array([0.0]), np.array([0.0]))
+
+
+def test_additional_module_re_exports_semantic_class() -> None:
+    """Test the legacy additional module re-exports semantic classes."""
+    assert LegacyAbsoluteBowlFunction is AbsoluteBowlFunction

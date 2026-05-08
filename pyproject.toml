@@ -71,13 +71,10 @@ docs = [
 default-groups = ["dev", "check", "docs"]
 
 [tool.hatch.build.targets.sdist]
-include = ["./umf"]
+include = ["src/umf"]
 
 [tool.hatch.build.targets.wheel]
-include = ["./umf"]
-
-[tool.hatch.build.targets.wheel.sources]
-"./umf" = "umf"
+packages = ["src/umf"]
 
 [build-system]
 requires = ["hatchling"]
@@ -95,15 +92,15 @@ fix = true
 
 lint.select = ["ALL", "W291"]
 lint.ignore = ["ISC001", "COM812", "N803"] # annotations for self
-src = ["umf"]
+src = ["src/umf"]
 
 [tool.ruff.lint.per-file-ignores]
-"umf/**/test_*.py" = [
+"src/umf/**/test_*.py" = [
   "PLR2004", # magic value comparison
   "S101",    # use of assert detected
   "TCH002",  # third party import (for pytest)
 ]
-"umf/types/__init__.py" = [
+"src/umf/types/__init__.py" = [
   "A005",
 ] # module shadows a Python standard-library module
 
@@ -144,4 +141,4 @@ addopts = [
   "--doctest-modules",
   "--doctest-glob=*.md",
 ]
-testpaths = ["umf"]
+testpaths = ["src/umf"]

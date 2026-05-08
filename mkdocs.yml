@@ -228,6 +228,7 @@ nav:
       - Optimization:
           - Bowl Shaped: modules/functions/optimization/bowl_shaped.md
           - Drops Steps: modules/functions/optimization/drops_steps.md
+          - Line Shaped: modules/functions/optimization/line_shaped.md
           - Many Local Minima: modules/functions/optimization/many_local_minima.md
           - Plate Shaped: modules/functions/optimization/plate_shaped.md
           - Special: modules/functions/optimization/special.md

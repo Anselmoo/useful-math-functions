@@ -8,8 +8,10 @@ import numpy as np
 
 from umf.constants.dimensions import __1d__
 from umf.constants.dimensions import __2d__
+from umf.constants.dimensions import __3d__
 from umf.constants.exceptions import MatchLengthError
 from umf.constants.exceptions import OutOfDimensionError
+from umf.constants.exceptions import TooSmallDimensionError
 from umf.meta.api import MinimaAPI
 from umf.meta.functions import OptFunction
 
@@ -21,6 +23,8 @@ if TYPE_CHECKING:
 __all__ = [
     "AckleyFunction",
     "BukinN6Function",
+    "CosineMixtureFunction",
+    "CosineProductSphereFunction",
     "CrossInTrayFunction",
     "DropWaveFunction",
     "EggHolderFunction",
@@ -36,6 +40,22 @@ __all__ = [
     "SchwefelFunction",
     "ShubertFunction",
 ]
+
+
+def _validate_two_dimensional(*x: UniversalArray, function_name: str) -> None:
+    """Validate the function is called with exactly two dimensions."""
+    if len(x) != __2d__:
+        raise OutOfDimensionError(function_name=function_name, dimension=__2d__)
+
+
+def _validate_three_or_higher(*x: UniversalArray, function_name: str) -> None:
+    """Validate the function is called with at least three dimensions."""
+    if len(x) < __3d__:
+        raise TooSmallDimensionError(
+            function_name=function_name,
+            dimension=__3d__,
+            len_x=len(x),
+        )
 
 
 class AckleyFunction(OptFunction):
@@ -404,7 +424,7 @@ class EggHolderFunction(OptFunction):
 class GramacyLeeFunction(OptFunction):
     r"""Gramacy and Lee function.
 
-    The Gramacy and Lee function is a two-dimensional function with many local minima.
+    The Gramacy and Lee function is a one-dimensional function with many local minima.
 
     Examples:
         >>> import matplotlib.pyplot as plt
@@ -412,9 +432,7 @@ class GramacyLeeFunction(OptFunction):
         >>> from umf.functions.optimization.many_local_minima import GramacyLeeFunction
         >>> x = np.linspace(-1, 2.5, 1000)
         >>> y = GramacyLeeFunction(x).__eval__
-        >>> fig = plt.figure()
-        >>> ax = fig.add_subplot(111, projection="3d")
-        >>> _ = ax.plot(x, y)
+        >>> _ = plt.plot(x, y)
         >>> plt.savefig("GramacyLeeFunction.png", dpi=300, transparent=True)
 
     Notes:
@@ -1197,3 +1215,46 @@ class ShubertFunction(OptFunction):
     def __minima__(self) -> MinimaAPI:
         """Return the minima of the function."""
         return MinimaAPI(f_x=-186.7309, x=(-7.708309818, -0.800371886))
+
+
+class CosineMixtureFunction(OptFunction):
+    r"""Cosine mixture function."""
+
+    def __init__(self, *x: UniversalArray) -> None:
+        """Initialize the cosine mixture function."""
+        _validate_two_dimensional(*x, function_name="CosineMixture")
+        super().__init__(*x)
+
+    @property
+    def __eval__(self) -> UniversalArray:
+        """Evaluate the cosine mixture function at x."""
+        x_1, x_2 = self._x
+        return 0.1 * (x_1**2 + x_2**2) + (1 - np.cos(x_1)) + (1 - np.cos(x_2))
+
+    @property
+    def __minima__(self) -> MinimaAPI:
+        """Return the minima of the cosine mixture function."""
+        return MinimaAPI(f_x=0.0, x=(0.0, 0.0))
+
+
+class CosineProductSphereFunction(OptFunction):
+    r"""Cosine-product sphere function."""
+
+    def __init__(self, *x: UniversalArray) -> None:
+        """Initialize the cosine-product sphere function."""
+        _validate_three_or_higher(*x, function_name="CosineProductSphere")
+        super().__init__(*x)
+
+    @property
+    def __eval__(self) -> UniversalArray:
+        """Evaluate the cosine-product sphere function at x."""
+        indices = np.arange(1, self.dimension + 1)
+        cosine_term = np.ones_like(self._x[0])
+        for index, axis in zip(indices, self._x, strict=True):
+            cosine_term *= np.cos(axis / np.sqrt(index))
+        return np.array(sum(axis**2 for axis in self._x) - cosine_term + 1)
+
+    @property
+    def __minima__(self) -> MinimaAPI:
+        """Return the minima of the cosine-product sphere function."""
+        return MinimaAPI(f_x=0.0, x=tuple(0.0 for _ in range(self.dimension)))

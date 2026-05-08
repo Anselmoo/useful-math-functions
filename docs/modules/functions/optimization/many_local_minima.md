@@ -1,3 +1,7 @@
+# Many Local Minima Functions
+
+<!-- markdownlint-disable MD013 MD058 MD060 -->
+
 ## Ackley Function
 
 <!-- prettier-ignore -->
@@ -236,3 +240,35 @@
 |                                                               |
 | :-----------------------------------------------------------: |
 | ![ShubertFunction](../../../extra/images/ShubertFunction.png) |
+
+## Cosine Mixture Function
+
+<!-- prettier-ignore -->
+::: umf.functions.optimization.many_local_minima.CosineMixtureFunction
+    options:
+        show_bases: false
+        show_source: true
+        show_inherited_members: false
+        allow_inspection: false
+        inheritance_graph: false
+        heading_level: 0
+
+|                                                                           |
+| :-----------------------------------------------------------------------: |
+| ![CosineMixtureFunction](../../../extra/images/CosineMixtureFunction.png) |
+
+## Cosine Product Sphere Function
+
+<!-- prettier-ignore -->
+::: umf.functions.optimization.many_local_minima.CosineProductSphereFunction
+    options:
+        show_bases: false
+        show_source: true
+        show_inherited_members: false
+        allow_inspection: false
+        inheritance_graph: false
+        heading_level: 0
+
+|                                                                                       |
+| :-----------------------------------------------------------------------------------: |
+| ![CosineProductSphereFunction](../../../extra/images/CosineProductSphereFunction.png) |

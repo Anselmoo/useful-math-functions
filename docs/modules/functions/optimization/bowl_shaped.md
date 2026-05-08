@@ -1,3 +1,7 @@
+# Bowl Shaped Functions
+
+<!-- markdownlint-disable MD013 MD059 -->
+
 ## Perm Beta D function
 
 <!-- prettier-ignore -->
@@ -160,3 +164,243 @@
 |                                                                                 |
 | :-----------------------------------------------------------------------------: |
 | ![BohachevskyFunctionType3](../../../extra/images/BohachevskyFunctionType3.png) |
+
+## Elliptic Paraboloid Function
+
+<!-- prettier-ignore -->
+::: umf.functions.optimization.bowl_shaped.EllipticParaboloidFunction
+    options:
+        show_bases: false
+        show_source: true
+        show_inherited_members: false
+        allow_inspection: false
+        inheritance_graph: false
+        heading_level: 0
+
+|                                                                                     |
+| :---------------------------------------------------------------------------------: |
+| ![EllipticParaboloidFunction](../../../extra/images/EllipticParaboloidFunction.png) |
+
+## Rotated Quadratic Function
+
+<!-- prettier-ignore -->
+::: umf.functions.optimization.bowl_shaped.RotatedQuadraticFunction
+    options:
+        show_bases: false
+        show_source: true
+        show_inherited_members: false
+        allow_inspection: false
+        inheritance_graph: false
+        heading_level: 0
+
+|                                                                                 |
+| :-----------------------------------------------------------------------------: |
+| ![RotatedQuadraticFunction](../../../extra/images/RotatedQuadraticFunction.png) |
+
+## Ripple Bowl Function
+
+<!-- prettier-ignore -->
+::: umf.functions.optimization.bowl_shaped.RippleBowlFunction
+    options:
+        show_bases: false
+        show_source: true
+        show_inherited_members: false
+        allow_inspection: false
+        inheritance_graph: false
+        heading_level: 0
+
+|                                                                     |
+| :-----------------------------------------------------------------: |
+| ![RippleBowlFunction](../../../extra/images/RippleBowlFunction.png) |
+
+## Absolute Bowl Function
+
+<!-- prettier-ignore -->
+::: umf.functions.optimization.bowl_shaped.AbsoluteBowlFunction
+    options:
+        show_bases: false
+        show_source: true
+        show_inherited_members: false
+        allow_inspection: false
+        inheritance_graph: false
+        heading_level: 0
+
+|                                                                         |
+| :---------------------------------------------------------------------: |
+| ![AbsoluteBowlFunction](../../../extra/images/AbsoluteBowlFunction.png) |
+
+## Elliptic Absolute Root Function
+
+<!-- prettier-ignore -->
+::: umf.functions.optimization.bowl_shaped.EllipticAbsoluteRootFunction
+    options:
+        show_bases: false
+        show_source: true
+        show_inherited_members: false
+        allow_inspection: false
+        inheritance_graph: false
+        heading_level: 0
+
+|                                                                                         |
+| :-------------------------------------------------------------------------------------: |
+| ![EllipticAbsoluteRootFunction](../../../extra/images/EllipticAbsoluteRootFunction.png) |
+
+## Shifted Sphere 2D Function
+
+<!-- prettier-ignore -->
+::: umf.functions.optimization.bowl_shaped.ShiftedSphere2DFunction
+    options:
+        show_bases: false
+        show_source: true
+        show_inherited_members: false
+        allow_inspection: false
+        inheritance_graph: false
+        heading_level: 0
+
+|                                                                               |
+| :---------------------------------------------------------------------------: |
+| ![ShiftedSphere2DFunction](../../../extra/images/ShiftedSphere2DFunction.png) |
+
+## Quartic Bowl Function
+
+<!-- prettier-ignore -->
+::: umf.functions.optimization.bowl_shaped.QuarticBowlFunction
+    options:
+        show_bases: false
+        show_source: true
+        show_inherited_members: false
+        allow_inspection: false
+        inheritance_graph: false
+        heading_level: 0
+
+|                                                                       |
+| :-------------------------------------------------------------------: |
+| ![QuarticBowlFunction](../../../extra/images/QuarticBowlFunction.png) |
+
+## Cross Quadratic Function
+
+<!-- prettier-ignore -->
+::: umf.functions.optimization.bowl_shaped.CrossQuadraticFunction
+    options:
+        show_bases: false
+        show_source: true
+        show_inherited_members: false
+        allow_inspection: false
+        inheritance_graph: false
+        heading_level: 0
+
+|                                                                             |
+| :-------------------------------------------------------------------------: |
+| ![CrossQuadraticFunction](../../../extra/images/CrossQuadraticFunction.png) |
+
+## Weighted L1 L2 Function
+
+<!-- prettier-ignore -->
+::: umf.functions.optimization.bowl_shaped.WeightedL1L2Function
+    options:
+        show_bases: false
+        show_source: true
+        show_inherited_members: false
+        allow_inspection: false
+        inheritance_graph: false
+        heading_level: 0
+
+|                                                                         |
+| :---------------------------------------------------------------------: |
+| ![WeightedL1L2Function](../../../extra/images/WeightedL1L2Function.png) |
+
+## Offset Quadratic Function
+
+<!-- prettier-ignore -->
+::: umf.functions.optimization.bowl_shaped.OffsetQuadraticFunction
+    options:
+        show_bases: false
+        show_source: true
+        show_inherited_members: false
+        allow_inspection: false
+        inheritance_graph: false
+        heading_level: 0
+
+|                                                                               |
+| :---------------------------------------------------------------------------: |
+| ![OffsetQuadraticFunction](../../../extra/images/OffsetQuadraticFunction.png) |
+
+## Saddle Suppressed Function
+
+<!-- prettier-ignore -->
+::: umf.functions.optimization.bowl_shaped.SaddleSuppressedFunction
+    options:
+        show_bases: false
+        show_source: true
+        show_inherited_members: false
+        allow_inspection: false
+        inheritance_graph: false
+        heading_level: 0
+
+|                                                                                 |
+| :-----------------------------------------------------------------------------: |
+| ![SaddleSuppressedFunction](../../../extra/images/SaddleSuppressedFunction.png) |
+
+## Shifted Hyper Sphere Function
+
+<!-- prettier-ignore -->
+::: umf.functions.optimization.bowl_shaped.ShiftedHyperSphereFunction
+    options:
+        show_bases: false
+        show_source: true
+        show_inherited_members: false
+        allow_inspection: false
+        inheritance_graph: false
+        heading_level: 0
+
+|                                                                                     |
+| :---------------------------------------------------------------------------------: |
+| ![ShiftedHyperSphereFunction](../../../extra/images/ShiftedHyperSphereFunction.png) |
+
+## Exponential Norm Function
+
+<!-- prettier-ignore -->
+::: umf.functions.optimization.bowl_shaped.ExponentialNormFunction
+    options:
+        show_bases: false
+        show_source: true
+        show_inherited_members: false
+        allow_inspection: false
+        inheritance_graph: false
+        heading_level: 0
+
+|                                                                               |
+| :---------------------------------------------------------------------------: |
+| ![ExponentialNormFunction](../../../extra/images/ExponentialNormFunction.png) |
+
+## Cubic Norm Function
+
+<!-- prettier-ignore -->
+::: umf.functions.optimization.bowl_shaped.CubicNormFunction
+    options:
+        show_bases: false
+        show_source: true
+        show_inherited_members: false
+        allow_inspection: false
+        inheritance_graph: false
+        heading_level: 0
+
+|                                                                   |
+| :---------------------------------------------------------------: |
+| ![CubicNormFunction](../../../extra/images/CubicNormFunction.png) |
+
+## Sum And Product Function
+
+<!-- prettier-ignore -->
+::: umf.functions.optimization.bowl_shaped.SumAndProductFunction
+    options:
+        show_bases: false
+        show_source: true
+        show_inherited_members: false
+        allow_inspection: false
+        inheritance_graph: false
+        heading_level: 0
+
+|                                                                           |
+| :-----------------------------------------------------------------------: |
+| ![SumAndProductFunction](../../../extra/images/SumAndProductFunction.png) |

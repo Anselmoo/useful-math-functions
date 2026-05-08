@@ -18,11 +18,20 @@ if TYPE_CHECKING:
 
 
 __all__: list[str] = [
+    "CubicValleyFunction",
     "DixonPriceFunction",
+    "ExponentialValleyFunction",
     "RosenbrockFunction",
+    "SinusoidalRosenbrockFunction",
     "SixHumpCamelFunction",
     "ThreeHumpCamelFunction",
 ]
+
+
+def _validate_two_dimensional(*x: UniversalArray, function_name: str) -> None:
+    """Validate the function is called with exactly two dimensions."""
+    if len(x) != __2d__:
+        raise OutOfDimensionError(function_name=function_name, dimension=__2d__)
 
 
 class ThreeHumpCamelFunction(OptFunction):
@@ -280,3 +289,65 @@ class RosenbrockFunction(OptFunction):
             f_x=0.0,
             x=tuple(np.array([1.0 for _ in range(len(self._x))])),
         )
+
+
+class ExponentialValleyFunction(OptFunction):
+    r"""Exponential valley function."""
+
+    def __init__(self, *x: UniversalArray) -> None:
+        """Initialize the exponential valley function."""
+        _validate_two_dimensional(*x, function_name="ExponentialValley")
+        super().__init__(*x)
+
+    @property
+    def __eval__(self) -> UniversalArray:
+        """Evaluate the exponential valley function at x."""
+        x_1, x_2 = self._x
+        return (x_1 + x_2 - 1) ** 2 + np.expm1((x_1 - x_2) ** 2)
+
+    @property
+    def __minima__(self) -> MinimaAPI:
+        """Return the minima of the exponential valley function."""
+        return MinimaAPI(f_x=0.0, x=(0.5, 0.5))
+
+
+class CubicValleyFunction(OptFunction):
+    r"""Cubic valley function."""
+
+    def __init__(self, *x: UniversalArray) -> None:
+        """Initialize the cubic valley function."""
+        _validate_two_dimensional(*x, function_name="CubicValley")
+        super().__init__(*x)
+
+    @property
+    def __eval__(self) -> UniversalArray:
+        """Evaluate the cubic valley function at x."""
+        x_1, x_2 = self._x
+        return (x_1 - 1) ** 2 + (x_2 - x_1**3) ** 2
+
+    @property
+    def __minima__(self) -> MinimaAPI:
+        """Return the minima of the cubic valley function."""
+        return MinimaAPI(f_x=0.0, x=(1.0, 1.0))
+
+
+class SinusoidalRosenbrockFunction(OptFunction):
+    r"""Sinusoidal Rosenbrock-like function."""
+
+    def __init__(self, *x: UniversalArray) -> None:
+        """Initialize the sinusoidal Rosenbrock function."""
+        _validate_two_dimensional(*x, function_name="SinusoidalRosenbrock")
+        super().__init__(*x)
+
+    @property
+    def __eval__(self) -> UniversalArray:
+        """Evaluate the sinusoidal Rosenbrock function at x."""
+        x_1, x_2 = self._x
+        return (
+            (1 - x_1) ** 2 + 100 * (x_2 - x_1**2) ** 2 + 0.1 * np.sin(np.pi * x_1) ** 2
+        )
+
+    @property
+    def __minima__(self) -> MinimaAPI:
+        """Return the minima of the sinusoidal Rosenbrock function."""
+        return MinimaAPI(f_x=0.0, x=(1.0, 1.0))

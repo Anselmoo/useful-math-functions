@@ -56,14 +56,16 @@ jobs:
           git config --local user.name "GitHub Action"
       - name: Build documentation
         if: ${{ !contains(github.ref, 'refs/heads/main')}}
-        run: uv run --group docs --all-extras  mkdocs build --clean
+        run: uv run --group docs --all-extras zensical build --clean
       - name: Deploy documentation (main)
         if: contains(github.ref, 'refs/heads/main')
         env:
           GIT_SHA: ${{ github.sha }}
         run: |
           set -e
-          uv run --group docs --all-extras mkdocs build --clean
-          VER="v${GITHUB_RUN_NUMBER}-${GIT_SHA:0:7}"
+          uv run --group docs --all-extras zensical build --clean
+          # Derive version from pyproject.toml so docs versions match the package version
+          VERSION=$(python -c "import tomllib,sys; data=tomllib.load(open('pyproject.toml','rb')); v=data.get('project',{}).get('version'); print(v if v else '')")
+          VER="v${VERSION}"
           echo "Deploying docs as version: $VER"
           uv run --group docs --all-extras mike deploy "$VER" latest --push

@@ -54,21 +54,24 @@ jobs:
         run: git fetch --tags --prune
       - name: Determine previous release
         id: previous_release
-        run: echo "::set-output name=previous_tag::$(git describe --tags $(git rev-list --tags --skip=1 --max-count=1) --abbrev=0)"
+        run: echo "previous_tag=$(git describe --tags $(git rev-list --tags --skip=1 --max-count=1) --abbrev=0)" >> "$GITHUB_OUTPUT"
       - name: Determine current release
         id: current_release
-        run: echo "::set-output name=current_tag::$(git describe --tags --abbrev=0)"
+        run: echo "current_tag=$(git describe --tags --abbrev=0)" >> "$GITHUB_OUTPUT"
       - name: Check if minor release
         id: is_minor_release
         run: |
-          previous_tag=$(/bin/echo ${{ steps.previous_release.outputs.previous_tag }})
-          current_tag=$(/bin/echo ${{ steps.current_release.outputs.current_tag }})
-          previous_version=$(echo $previous_tag | cut -d '.' -f 1,2)
-          current_version=$(echo $current_tag | cut -d '.' -f 1,2)
+          previous_tag_raw=$(/bin/echo ${{ steps.previous_release.outputs.previous_tag }})
+          current_tag_raw=$(/bin/echo ${{ steps.current_release.outputs.current_tag }})
+          # Strip leading 'v' or 'V' for numeric comparison, but keep raw values for mike commands
+          previous_tag=$(echo "$previous_tag_raw" | sed -E 's/^[vV]//')
+          current_tag=$(echo "$current_tag_raw" | sed -E 's/^[vV]//')
+          previous_version=$(echo "$previous_tag" | cut -d '.' -f 1,2)
+          current_version=$(echo "$current_tag" | cut -d '.' -f 1,2)
           if [[ "$previous_version" == "$current_version" ]]; then
-            uv run --group docs --all-extras   run mike delete ${{ steps.previous_release.outputs.previous_tag }}
+            uv run --group docs --all-extras mike delete "$previous_tag_raw"
           fi
       - name: Deploy documentation develops
         run: |
-          uv run --group docs --all-extras   run mike deploy --push --update-aliases ${{ github.event.release.tag_name }} latest --message "Release ${{ github.event.release.tag_name }}"
-          uv run --group docs --all-extras   run mike set-default --push latest
+          uv run --group docs --all-extras mike deploy --push --update-aliases ${{ github.event.release.tag_name }} latest --message "Release ${{ github.event.release.tag_name }}"
+          uv run --group docs --all-extras mike set-default --push latest

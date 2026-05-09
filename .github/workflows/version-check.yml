@@ -1,0 +1,46 @@
+name: Version check
+
+on:
+  release:
+    types: [created]
+  pull_request:
+    paths:
+      - "pyproject.toml"
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Read pyproject version
+        id: pyproject_version
+        run: |
+          set -e
+          VERSION=$(python -c "import tomllib,sys; data=tomllib.load(open('pyproject.toml','rb')); v=data.get('project',{}).get('version'); print(v if v else '')")
+          echo "pyproject_version=$VERSION" >> $GITHUB_OUTPUT
+
+      - name: Validate release tag matches pyproject (release)
+        if: ${{ github.event_name == 'release' }}
+        run: |
+          TAG="${{ github.event.release.tag_name }}"
+          TAG_STRIPPED=$(echo "$TAG" | sed -E 's/^[vV]//')
+          PY_VERSION="${{ steps.pyproject_version.outputs.pyproject_version }}"
+          echo "Tag: $TAG (stripped: $TAG_STRIPPED)"
+          echo "pyproject version: $PY_VERSION"
+          if [[ "$TAG_STRIPPED" != "$PY_VERSION" ]]; then
+            echo "Error: release tag ($TAG) does not match pyproject.toml version ($PY_VERSION)"
+            exit 1
+          fi
+
+      - name: Validate pyproject version on PR (semver)
+        if: ${{ github.event_name == 'pull_request' }}
+        run: |
+          PY_VERSION="${{ steps.pyproject_version.outputs.pyproject_version }}"
+          echo "pyproject version: $PY_VERSION"
+          if ! echo "$PY_VERSION" | grep -Eq '^[0-9]+\.[0-9]+\.[0-9]+([.-].+)?$'; then
+            echo "Error: pyproject.toml version ($PY_VERSION) is not semver-compliant (X.Y.Z)"
+            exit 1
+          fi

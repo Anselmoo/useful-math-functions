@@ -198,6 +198,6 @@ notebooks/output/
 artifacts/
 
 
-#Images
-./*.gif
-./*.png
+# Images generated in repo root (do not commit)
+/*.gif
+/*.png

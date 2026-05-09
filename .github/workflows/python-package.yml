@@ -68,4 +68,4 @@ jobs:
           VERSION=$(python -c "import tomllib,sys; data=tomllib.load(open('pyproject.toml','rb')); v=data.get('project',{}).get('version'); print(v if v else '')")
           VER="v${VERSION}"
           echo "Deploying docs as version: $VER"
-          uv run --group docs --all-extras mike deploy "$VER" latest --push
+          uv run --group docs --all-extras mike deploy --update-aliases "$VER" latest --push

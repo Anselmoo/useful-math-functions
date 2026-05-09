@@ -46,10 +46,10 @@ jobs:
           python-version: "3.12"
       - name: Install library
         run: uv sync --all-extras --group docs
-      - name: Ensure docs CLIs are installed in uv environment
-        run: |
-          uv run python -m pip install --upgrade pip
-          uv run python -m pip install zensical mike
+      # - name: Ensure docs CLIs are installed in uv environment
+      #   run: |
+      #     uv run python -m pip install --upgrade pip
+      #     uv run python -m pip install zensical mike
       - name: Set git config
         run: |
           git config --local user.email "action@github.com"

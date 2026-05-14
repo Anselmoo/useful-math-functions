@@ -30,7 +30,7 @@ jobs:
       - name: Test useful-math-functions
         run: uv run --group dev --all-extras pytest src/umf/
       - name: Codecov
-        uses: codecov/codecov-action@v5.4.3
+        uses: codecov/codecov-action@v5.5.4
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
           env_vars: OS,PYTHON

@@ -20,8 +20,8 @@ if TYPE_CHECKING:
 
 
 def _validate_one_dimensional(*x: UniversalArray, function_name: str) -> None:
-    """Validate that exactly one input array is provided."""
-    if len(x) != __1d__:
+    """Validate that exactly one one-dimensional input array is provided."""
+    if len(x) != __1d__ or np.asarray(x[0]).ndim != __1d__:
         raise OutOfDimensionError(function_name=function_name, dimension=__1d__)
 
 
@@ -40,16 +40,71 @@ def _humanize_name(name: str) -> str:
     return " ".join(words) + " Simple Function"
 
 
+def _describe_simple_function(name: str) -> str:
+    """Derive a concise family description for a simple function."""
+    lowered = name.removesuffix("SimpleFunction").lower()
+
+    if "pseudohuber" in lowered:
+        return "a smooth robust-loss benchmark that approximates absolute value"
+    if "logisticmirror" in lowered:
+        return "a softplus-based benchmark with a mirrored linear term"
+    if "sinc" in lowered:
+        return "a trigonometric benchmark built from the normalized sinc function"
+    if any(keyword in lowered for keyword in ("sine", "cosine")):
+        return "an oscillatory trigonometric benchmark function"
+    if any(
+        keyword in lowered
+        for keyword in ("hyperbolic", "tanh", "sech", "sinh", "arsinh", "arctan")
+    ):
+        return "a smooth hyperbolic or inverse-trigonometric benchmark function"
+    if "log" in lowered:
+        return "a smooth logarithmic benchmark function"
+    if any(keyword in lowered for keyword in ("exponential", "gaussian", "damped")):
+        return "a smooth exponential-shaped benchmark function"
+    if "rational" in lowered:
+        return "a bounded rational benchmark function"
+    if "root" in lowered:
+        return "a root-shaped benchmark function"
+    if "absolute" in lowered:
+        return "an even benchmark function built from absolute values"
+    if any(keyword in lowered for keyword in ("mixed", "plus")):
+        return "a composite benchmark function"
+    if any(
+        keyword in lowered
+        for keyword in (
+            "square",
+            "cubic",
+            "quartic",
+            "quintic",
+            "sextic",
+            "septic",
+            "octic",
+            "nonic",
+            "decic",
+            "twelfthpower",
+        )
+    ):
+        return "a polynomial benchmark function"
+    return "a one-dimensional benchmark function"
+
+
+def _example_result(evaluator: Callable[[UniversalArray], UniversalArray]) -> str:
+    """Build a stable example output string for the docstring."""
+    sample_x = np.array([-1.0, 0.0, 1.0])
+    return repr(np.asarray(evaluator(sample_x)))
+
+
 class _SimpleFunctionBase(OptFunction):
     """Base class for generated simple functions."""
 
     _formula: ClassVar[str]
-    evaluator: ClassVar[staticmethod]
+    _description: ClassVar[str]
+    evaluator: ClassVar[Callable[[UniversalArray], UniversalArray]]
 
     def __init__(self, *x: UniversalArray) -> None:
         """Initialize the simple function."""
         _validate_one_dimensional(*x, function_name=self.__class__.__name__)
-        super().__init__(*x)
+        super().__init__(np.asarray(x[0]))
 
     @property
     def __eval__(self) -> UniversalArray:
@@ -69,27 +124,30 @@ def _make_simple_function(
 ) -> type[_SimpleFunctionBase]:
     """Create a simple function class from a name and evaluator."""
     title = _humanize_name(name)
-    doc = f"""{title}.
+    description = _describe_simple_function(name)
+    example_result = _example_result(evaluator)
+    doc = rf"""{title}.
 
-    The {title.lower()} is a one-dimensional mathematical function that maps a
-    one-dimensional input array to a non-negative output curve.
+    The {title} is {description}.
 
     Examples:
         >>> from umf.functions.simple.elementary import {name}
         >>> import numpy as np
-        >>> x = np.array([0.0, 1.0])
-        >>> result = {name}(x)()
-        >>> result.result.shape
-        (2,)
+        >>> x = np.array([-1.0, 0.0, 1.0])
+        >>> {name}(x).__eval__
+        {example_result}
 
         >>> # Visualization Example
         >>> import matplotlib.pyplot as plt
-        >>> x = np.linspace(-5, 5, 1000)
+        >>> x = np.linspace(-3, 3, 1000)
         >>> y = {name}(x).__eval__
         >>> fig = plt.figure()
         >>> ax = fig.add_subplot(111)
         >>> _ = ax.plot(x, y)
-        >>> plt.savefig("{name}.png", dpi=300, transparent=True)
+        >>> _ = ax.set_xlabel("x")
+        >>> _ = ax.set_ylabel("f(x)")
+        >>> fig.savefig("{name}.png", dpi=300, transparent=True)  # doctest: +SKIP
+        >>> plt.close(fig)
 
     Notes:
         The {title.lower()} is defined as:
@@ -97,6 +155,9 @@ def _make_simple_function(
         $$
         f(x) = {formula}
         $$
+
+        It is non-negative and has a representative global minimum at $x = 0$
+        with $f(x) = 0$.
 
     Args:
         *x (UniversalArray): Input data, which has to be one-dimensional.
@@ -109,7 +170,8 @@ def _make_simple_function(
             "__doc__": doc,
             "__module__": __name__,
             "_formula": formula,
-            "evaluator": staticmethod(evaluator),
+            "_description": description,
+            "evaluator": evaluator,
         },
     )
 

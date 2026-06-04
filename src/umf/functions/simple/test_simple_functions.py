@@ -5,6 +5,7 @@ from __future__ import annotations
 import numpy as np
 import pytest
 
+from umf.constants.exceptions import OutOfDimensionError
 from umf.functions.simple import __all__ as simple_function_names
 from umf.functions.simple import elementary as simple_module
 from umf.functions.simple.elementary import LogisticMirrorSimpleFunction
@@ -60,4 +61,13 @@ def test_all_simple_functions_have_png_doctest_examples(name: str) -> None:
     assert "Visualization Example" in doc
     assert "Notes:" in doc
     assert "Args:" in doc
-    assert f'plt.savefig("{name}.png", dpi=300, transparent=True)' in doc
+    assert f'fig.savefig("{name}.png", dpi=300, transparent=True)' in doc
+    assert "# doctest: +SKIP" in doc
+
+
+def test_simple_functions_reject_non_1d_input() -> None:
+    """Ensure the simple function base enforces one-dimensional input."""
+    x = np.array([[0.0, 1.0]])
+
+    with pytest.raises(OutOfDimensionError):
+        SquareSimpleFunction(x)

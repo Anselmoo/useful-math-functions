@@ -225,6 +225,8 @@ nav:
           - Distance Functions: modules/functions/hyperbolic/distance.md
           - Geodesic Functions: modules/functions/hyperbolic/geodesic.md
           - Isometry Functions: modules/functions/hyperbolic/isometry.md
+      - Simple:
+          - Elementary: modules/functions/simple/elementary.md
       - Optimization:
           - Bowl Shaped: modules/functions/optimization/bowl_shaped.md
           - Drops Steps: modules/functions/optimization/drops_steps.md

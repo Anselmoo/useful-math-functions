@@ -14,13 +14,13 @@ repos:
       - id: debug-statements
 
   - repo: https://github.com/DavidAnson/markdownlint-cli2
-    rev: v0.22.1
+    rev: v0.23.2
     hooks:
       - id: markdownlint-cli2
         name: Markdown linting
 
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.15.12
+    rev: v0.16.5
     hooks:
       - id: ruff
         args: [--fix, --exit-non-zero-on-fix]

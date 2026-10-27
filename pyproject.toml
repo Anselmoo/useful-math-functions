@@ -3,7 +3,7 @@ name = "useful-math-functions"
 version = "0.6.0"
 description = "useful-math-functions for Optimization, Benchmarking, Visualizing, and more ..."
 authors = [{ name = "Anselm Hahn", email = "anselm.hahn@gmail.com" }]
-requires-python = ">=3.12,<3.15"
+requires-python = ">=3.15,<3.16"
 license = "MIT"
 readme = "README.md"
 maintainers = [{ name = "Anselm Hahn", email = "anselm.hahn@gmail.com" }]
